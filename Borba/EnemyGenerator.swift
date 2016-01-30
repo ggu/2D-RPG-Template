@@ -12,11 +12,15 @@ class EnemyGenerator {
   static let sharedInstance = EnemyGenerator()
   var enemies: [Enemy] = []
   
+  var difficultyCounter = 1
+  
   private init() {}
   
   func generateEnemies(numEnemies: Int) -> [Enemy] {
+    difficultyCounter += 1
+    
     for _ in 0..<numEnemies {
-      enemies.append(Enemy(texture: AssetManager.sharedInstance.enemyTexture))
+      enemies.append(Enemy(texture: AssetManager.sharedInstance.enemyTexture, difficultyCounter: Double(difficultyCounter)))
     }
     let enemiesList = enemies
     enemies.removeAll()

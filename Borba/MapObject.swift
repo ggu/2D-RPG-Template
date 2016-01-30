@@ -18,11 +18,9 @@ import SpriteKit
 
 class MapObject : GameObject {
   
-  init(map: MapBitMasks)
-  {
+  init(map: MapBitMasks) {
     let mapTexture: SKTexture
-    switch map
-    {
+    switch map {
 //    case MapBitMasks.Main:
 //      println("main map configuration")
     default:
@@ -32,8 +30,7 @@ class MapObject : GameObject {
     setup()
   }
   
-  func setup()
-  {
+  func setup() {
     anchorPoint = CGPointZero
     zPosition = zPositions.map
     physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
@@ -49,7 +46,7 @@ class MapObject : GameObject {
     //lightNode.ambientColor = UIColor.grayColor()
     lightNode.position = CGPointMake(frame.width / 2, frame.height / 2)
     //lightNode.shadowColor = SKColor.grayColor()
-    lightNode.alpha = 0.1
+    lightNode.alpha = 1
     lightNode.categoryBitMask = 1
     lightNode.falloff = 0.01
     lightingBitMask = 1

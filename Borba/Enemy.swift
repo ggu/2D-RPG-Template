@@ -18,14 +18,14 @@ class Enemy : Character
 {
   let expValue: Double
   
-  override init(texture: SKTexture?, color: UIColor, size: CGSize) {
-    expValue = ExpValues.enemy
-    super.init(texture: texture, color: color, size: size)
+  init(texture: SKTexture, difficultyCounter: Double) {
+    expValue = ExpValues.enemy + (difficultyCounter - 1.0)
+    super.init(texture: texture, color: UIColor.whiteColor(), size: texture.size())
     
     setup()
-    movementSpeed = 55
-    health = 100
-    attack = 0.1
+    movementSpeed = 55.0 + Float(difficultyCounter)
+    health = 100.0 + 4.0 * difficultyCounter
+    attack = 0.1 + (difficultyCounter - 1.0) * 0.1
   }
   
   func setup() {

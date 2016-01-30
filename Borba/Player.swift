@@ -39,6 +39,7 @@ class Player : Character
   var level = 1
   var hpRegenRate = 0.02
   var spellDamageModifier = 1.02
+  var cooldownModifier = 1.0
   
   override init(texture: SKTexture?, color: UIColor, size: CGSize) {
     fireballSpell = Spell(spellDamage: 1, spell: Spells.Fireball, spellCost: SpellCosts.fireball)
@@ -68,6 +69,7 @@ class Player : Character
     hpRegenRate += 0.01
     manaRegenRate += 0.02
     spellDamageModifier += 0.02
+    cooldownModifier *= 0.97
     // increase attack and spell damage
   }
   
@@ -139,7 +141,7 @@ class Player : Character
     let spell = SpellNode.useSpell(activeSpell.spellName)
     activeSpellOnCooldown = true
     mana -= activeSpell.cost
-    let action = SKAction.sequence([SKAction.waitForDuration(1.0), SKAction.runBlock({
+    let action = SKAction.sequence([SKAction.waitForDuration(cooldownModifier * 1.0), SKAction.runBlock({
       self.activeSpellOnCooldown = false
     })])
     runAction(action)
