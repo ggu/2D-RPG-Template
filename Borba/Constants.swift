@@ -28,6 +28,10 @@ struct ExpValues {
   static let enemy = 10.0
 }
 
+struct AnimationKeys {
+  static let damage = "dmg"
+}
+
 struct ImageNames
 {
   static let mainMap = "ice"

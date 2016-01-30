@@ -157,6 +157,11 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     updateEnemies()
     if playerEnemyInContact {
       for enemy in enemiesInContact {
+        if !player.hasActions() {
+          let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.5)
+          let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+          player.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
+        }
         player.health -= enemy.attack
         enemy.health -= player.attack
         if enemy.health <= 0 {
@@ -270,11 +275,15 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       if let _ = contact.bodyB.node as? Enemy {
         
         playerEnemyInContact = false
+        let colorize = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+        player.runAction(colorize)
       }
     } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Hero.rawValue {
       if let _ = contact.bodyA.node as? Enemy {
         
         playerEnemyInContact = false
+        let colorize = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+        player.runAction(colorize)
       }
     }
   }
@@ -285,6 +294,8 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
         enemiesInContact.removeAtIndex(index)
         if enemiesInContact.isEmpty {
           playerEnemyInContact = false
+          let colorize = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+          player.runAction(colorize)
         }
       }
     }
