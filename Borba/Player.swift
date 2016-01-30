@@ -24,22 +24,30 @@ import SpriteKit
 
 class Player : Character
 {
-  var spellList : NSMutableArray = [Spell(spellDamage: 1, spell: Spells.Fireball)] // fireball is the main skill for demo
+  var fireballSpell: Spell
+  var spellList: [Spell] = [] // fireball is the main skill for demo
   
-  var activeSpell : Spell?
+  var activeSpell: Spell
   
   var activeSpellOnCooldown = false
   
+  var mana = 100.0
+  var maxMana = 100.0
+  
   override init(texture: SKTexture?, color: UIColor, size: CGSize) {
+    fireballSpell = Spell(spellDamage: 1, spell: Spells.Fireball, spellCost: SpellCosts.fireball)
+    activeSpell = fireballSpell
+    spellList.append(fireballSpell)
     super.init(texture: texture, color: color, size: size)
     
     setup()
   }
-  
+
+
   func setup()
   {
     movementSpeed = 2
-    activeSpell = spellList[0] as? Spell
+    activeSpell = spellList[0]
     
   }
   
@@ -90,8 +98,9 @@ class Player : Character
   
   func handlePlayerSpellCast() -> SKSpriteNode
   {
-    let spell = SpellNode.useSpell((activeSpell?.spellName)!)
+    let spell = SpellNode.useSpell(activeSpell.spellName)
     activeSpellOnCooldown = true
+    mana -= activeSpell.cost
     let action = SKAction.sequence([SKAction.waitForDuration(1.0), SKAction.runBlock({
       self.activeSpellOnCooldown = false
     })])
@@ -107,8 +116,9 @@ class Player : Character
     zRotation = CGFloat(Double(angle) + M_PI);
   }
   
-  required init?(coder aDecoder: NSCoder)
-  {
-    super.init(coder: aDecoder)
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
+  
+  
 }

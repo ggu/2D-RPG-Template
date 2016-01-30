@@ -20,6 +20,10 @@ struct MissileSpeeds
   static let fireball = 200.0
 }
 
+struct SpellCosts {
+  static let fireball = 10.0
+}
+
 struct ImageNames
 {
   static let mainMap = "ice"

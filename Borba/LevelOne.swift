@@ -154,7 +154,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
         let moveAction = SKAction.moveByX(skillJoystick.thumbX * 100, y: skillJoystick.thumbY * 100, duration: getDistance(spellSprite.position, point2: CGPointMake(spellSprite.position.x + skillJoystick.thumbX * 100, spellSprite.position.y + skillJoystick.thumbY * 100)) / MissileSpeeds.fireball)
         let removeAction = SKAction.removeFromParent()
         let completeAction = SKAction.sequence([moveAction, removeAction])
-        
+        hud.updateEnergyFrame(player.mana / player.maxMana)
         spellSprite.runAction(completeAction)
         map.addChild(spellSprite)
       }

@@ -28,10 +28,10 @@ class ResourceBar: SKSpriteNode
     addChild(resourceMeter)
   }
   
-  func setMeterScale()
+  func setMeterScale(scale: Double)
   {
     // should add an animation to this
-    resourceMeter.xScale = 1.0
+    resourceMeter.xScale = CGFloat(scale)
   }
   
   required init?(coder aDecoder: NSCoder)
