@@ -16,8 +16,7 @@ import SpriteKit
 
 class Enemy : Character
 {
-  
-  let expValue: Int
+  let expValue: Double
   
   override init(texture: SKTexture?, color: UIColor, size: CGSize) {
     expValue = ExpValues.enemy
@@ -25,6 +24,8 @@ class Enemy : Character
     
     setup()
     movementSpeed = 50
+    health = 100
+    attack = 1
   }
   
   func setup() {
@@ -32,6 +33,7 @@ class Enemy : Character
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.categoryBitMask = CategoryBitMasks.Enemy.rawValue
     physicsBody?.collisionBitMask = CategoryBitMasks.Hero.rawValue | CategoryBitMasks.Enemy.rawValue
+    physicsBody?.contactTestBitMask = CategoryBitMasks.Hero.rawValue
     physicsBody?.affectedByGravity = false
   }
 

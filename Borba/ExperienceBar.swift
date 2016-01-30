@@ -21,16 +21,17 @@ class ExperienceBar: SKSpriteNode
     let yPos = height - size.height/2 - 16
     position = CGPointMake(160, yPos)
     zPosition = 10
+    experienceMeter.xScale = 0
     
     experienceMeter.anchorPoint = CGPointMake(0, 0)
     experienceMeter.position = CGPointMake(-96, -1)
     addChild(experienceMeter)
   }
   
-  func setMeterScale()
+  func setMeterScale(scale: Double)
   {
     // should add an animation to this
-    experienceMeter.xScale = 1.0
+    experienceMeter.xScale = CGFloat(scale)
   }
   
   required init?(coder aDecoder: NSCoder)

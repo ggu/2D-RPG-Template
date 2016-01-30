@@ -9,11 +9,11 @@
 import SpriteKit
 
 class Spell {
-  var damage : Int = 0
+  var damage = 0.0
   var spellName : Spells
   var cost: Double = 0
   
-  init(spellDamage: Int, spell : Spells, spellCost: Double)
+  init(spellDamage: Double, spell : Spells, spellCost: Double)
   {
     damage = spellDamage
     spellName = spell

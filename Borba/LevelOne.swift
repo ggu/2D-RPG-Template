@@ -25,6 +25,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   let map = MapObject(map: MapBitMasks.Demo)
   let hud: HUD
   var enemies: [Enemy] = []
+  var numEnemies = 5
   
   override init(size: CGSize) {
     hud = HUD(size: size)
@@ -57,7 +58,11 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     setupJoysticks()
     
     
-    let enemies = EnemyGenerator.sharedInstance.generateEnemies(5)
+    loadEnemies(numEnemies)
+  }
+  
+  func loadEnemies(numEnemies: Int) {
+    let enemies = EnemyGenerator.sharedInstance.generateEnemies(numEnemies)
     spawnEnemies(enemies)
   }
   
@@ -171,6 +176,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       player.mana += player.manaRegenRate
     }
     
+    if player.health < player.maxHealth {
+      player.health += player.hpRegenRate
+    }
+    
     player.handleSpriteMovement(movementJoystick.thumbX, vY: movementJoystick.thumbY, angle: movementJoystick.angle)
     if (skillJoystick.thumbX == 0 && skillJoystick.thumbY == 0)
     {
@@ -193,6 +202,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       
     }
     hud.updateEnergyFrame(player.mana / player.maxMana)
+    hud.updateHealthFrame(player.health / player.maxHealth)
   }
   
   // MARK: Physics functions
@@ -204,7 +214,71 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   
   func didBeginContact(contact: SKPhysicsContact)
   {
+    if contact.bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
+      if let enemy = contact.bodyB.node as? Enemy {
+        player.health -= enemy.attack
+        enemy.health -= player.attack
+        if enemy.health <= 0 {
+          enemyDeath(enemy)
+        }
+      }
+    } else if contact.bodyA.categoryBitMask == CategoryBitMasks.Enemy.rawValue {
+      if let enemy = contact.bodyA.node as? Enemy {
+        player.health -= enemy.attack
+        enemy.health -= player.attack
+        
+        if enemy.health <= 0 {
+          enemyDeath(enemy)
+        }
+      }
+    } else if contact.bodyA.categoryBitMask == CategoryBitMasks.Spell.rawValue {
+      contact.bodyA.node?.removeFromParent()
+      if let enemy = contact.bodyB.node as? Enemy {
+        enemy.health -= player.activeSpell.damage
+        if enemy.health <= 0 {
+          enemyDeath(enemy)
+        }
+      }
+    } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Spell.rawValue {
+      contact.bodyB.node?.removeFromParent()
+      if let enemy = contact.bodyA.node as? Enemy {
+        enemy.health -= player.activeSpell.damage
+        if enemy.health <= 0 {
+          enemyDeath(enemy)
+        }
+      }
+    }
+    
+    
+    
+    hud.updateHealthFrame(player.health / player.maxHealth)
+
     print("damaged the enemy")
+  }
+  
+  func enemyDeath(enemy: Enemy) {
+    
+    enemies.removeAtIndex(enemies.indexOf(enemy)!)
+    enemy.removeFromParent()
+    player.exp += enemy.expValue
+    if player.exp > player.expToLevel {
+      player.levelUp()
+      hud.updateHealthFrame(1)
+      hud.updateEnergyFrame(1)
+      hud.updateLevelFrame(String(player.level))
+    }
+    
+    if enemies.isEmpty {
+      let waitAction = SKAction.waitForDuration(4)
+      let spawnAction = SKAction.runBlock({
+        self.numEnemies += 5
+        self.loadEnemies(5)
+      })
+      
+      let sequence = SKAction.sequence([waitAction, spawnAction])
+      runAction(sequence)
+    }
+    hud.updateExperienceFrameFrame(player.exp / player.expToLevel)
   }
   
   func updateCamera()

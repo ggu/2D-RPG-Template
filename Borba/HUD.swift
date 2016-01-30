@@ -40,6 +40,18 @@ class HUD: SKSpriteNode {
   func updateEnergyFrame(manaFraction: Double) {
     energyFrame.setMeterScale(manaFraction)
   }
+  
+  func updateExperienceFrameFrame(expFraction: Double) {
+    experienceFrame.setMeterScale(expFraction)
+  }
+  
+  func updateHealthFrame(healthFraction: Double) {
+    healthFrame.setMeterScale(healthFraction)
+  }
+  
+  func updateLevelFrame(level: String) {
+    levelFrame.setLevel(level)
+  }
 
   required init?(coder aDecoder: NSCoder) {
       fatalError("init(coder:) has not been implemented")

@@ -19,10 +19,11 @@ import SpriteKit
 
 class Character : GameObject
 {
-  var health : Int = 0
-  var attack : Int = 0
-  var defense : Int = 0
-  var movementSpeed : Float = 0
+  var health = 0.0
+  var maxHealth = 0.0
+  var attack = 0.0
+  var defense = 0.0
+  var movementSpeed: Float = 0
   //var items : NSMutableDictionary
   
   override init(texture: SKTexture?, color: UIColor, size: CGSize)

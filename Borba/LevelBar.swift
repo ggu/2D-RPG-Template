@@ -29,9 +29,10 @@ class LevelBar: SKSpriteNode
     addChild(levelLabel)
   }
   
-  func setLevel()
+  func setLevel(level: String)
   {
     // should add an animation to this
+    levelLabel.text = level
     
   }
   

@@ -25,7 +25,7 @@ struct SpellCosts {
 }
 
 struct ExpValues {
-  static let enemy = 10
+  static let enemy = 10.0
 }
 
 struct ImageNames
@@ -38,6 +38,7 @@ enum CategoryBitMasks: UInt32
   case Hero = 1
   case Enemy = 2
   case Map = 4
+  case Spell = 8
 }
 
 enum MapBitMasks: UInt32
