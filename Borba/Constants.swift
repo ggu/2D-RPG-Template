@@ -17,7 +17,7 @@ enum Spells
 
 struct MissileSpeeds
 {
-  static let fireball = 200
+  static let fireball = 200.0
 }
 
 struct ImageNames

@@ -24,6 +24,7 @@
 		765921BD1B79515F00673BC1 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765921BC1B79515F00673BC1 /* AssetManager.swift */; };
 		766FDAC41C5CBB7500D23F17 /* ice@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 766FDAC31C5CBB7500D23F17 /* ice@2x.jpg */; };
 		766FDAC71C5CD8FF00D23F17 /* SpellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766FDAC61C5CD8FF00D23F17 /* SpellNode.swift */; };
+		766FE1A61C5CF28C00D23F17 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766FE1A51C5CF28C00D23F17 /* HUD.swift */; };
 		76A3A76B1B72B006003F4F73 /* Spell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A3A76A1B72B006003F4F73 /* Spell.swift */; };
 		76A8204A1B6EBBA70074CEDC /* ResourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A820491B6EBBA70074CEDC /* ResourceBar.swift */; };
 		76AEE01E1B228EEC003A276A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AEE01D1B228EEC003A276A /* AppDelegate.swift */; };
@@ -68,6 +69,7 @@
 		765921BC1B79515F00673BC1 /* AssetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		766FDAC31C5CBB7500D23F17 /* ice@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ice@2x.jpg"; sourceTree = "<group>"; };
 		766FDAC61C5CD8FF00D23F17 /* SpellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpellNode.swift; sourceTree = "<group>"; };
+		766FE1A51C5CF28C00D23F17 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		76A3A76A1B72B006003F4F73 /* Spell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spell.swift; sourceTree = "<group>"; };
 		76A820491B6EBBA70074CEDC /* ResourceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBar.swift; sourceTree = "<group>"; };
 		76AEE0181B228EEC003A276A /* Borba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Borba.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -221,6 +223,7 @@
 		76AEE0431B229242003A276A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				766FE1A51C5CF28C00D23F17 /* HUD.swift */,
 				76AEE0411B22923D003A276A /* SKButton.swift */,
 				76AEE0461B229321003A276A /* SKButtonContents.swift */,
 				76B815021B6DB2BB007A0398 /* SKJoystick.swift */,
@@ -377,6 +380,7 @@
 				76AEE01E1B228EEC003A276A /* AppDelegate.swift in Sources */,
 				76B815031B6DB2BB007A0398 /* SKJoystick.swift in Sources */,
 				76AEE0421B22923D003A276A /* SKButton.swift in Sources */,
+				766FE1A61C5CF28C00D23F17 /* HUD.swift in Sources */,
 				7657F33D1B643F2400AAFAA1 /* Enemy.swift in Sources */,
 				7657F3391B643EDF00AAFAA1 /* Character.swift in Sources */,
 				7657F3371B643E5800AAFAA1 /* GameObject.swift in Sources */,

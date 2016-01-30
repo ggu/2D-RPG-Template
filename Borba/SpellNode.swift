@@ -27,6 +27,7 @@ class SpellNode: GameObject {
 
     if let myParticlePath = NSBundle.mainBundle().pathForResource("Fire", ofType: "sks") {
       let fireParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
+      fireParticles.particlePositionRange = CGVectorMake(20, 5)
       fireParticles.zPosition = zPositions.mapObjects
       fireParticles.position = CGPointMake(0, 0)
       sprite.addChild(fireParticles)

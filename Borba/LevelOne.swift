@@ -23,8 +23,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   let skillJoystick = SKJoystick(color: UIColor.redColor(), size: CGSizeMake(100, 100))
   //let map = MapObject(map: MapBitMasks.Demo)
   let map = MapObject(map: MapBitMasks.Demo)
+  let hud: HUD
   
   override init(size: CGSize) {
+    hud = HUD(size: size)
     super.init(size: size)
   }
   
@@ -56,18 +58,8 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   
   func setupHUD()
   {
-    // move this to a class that takes care of the nodes on the UI z index
-    let healthFrame = ResourceBar(width: width!, height: height!, xPosition: 160, color: UIColor.greenColor())
-    addChild(healthFrame)
-    
-    let energyFrame = ResourceBar(width: width!, height: height!, xPosition: 400, color: UIColor.blueColor())
-    addChild(energyFrame)
-    
-    let experienceFrame = ExperienceBar(width: width!, height: height!)
-    addChild(experienceFrame)
-    
-    let levelFrame = LevelBar(width: width!, height: height!)
-    addChild(levelFrame)
+    hud.zPosition = zPositions.UIObjects
+    addChild(hud)
   }
   
   func setupMap()
@@ -159,7 +151,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       if player.canUseSpell() {
         let spellSprite = player.handlePlayerSpellCast()
         spellSprite.position = player.position
-        let moveAction = SKAction.moveByX(skillJoystick.thumbX * 100, y: skillJoystick.thumbY * 100, duration: getDistance(spellSprite.position, point2: CGPointMake(spellSprite.position.x + skillJoystick.thumbX * 100, spellSprite.position.y + skillJoystick.thumbY * 100))/200)
+        let moveAction = SKAction.moveByX(skillJoystick.thumbX * 100, y: skillJoystick.thumbY * 100, duration: getDistance(spellSprite.position, point2: CGPointMake(spellSprite.position.x + skillJoystick.thumbX * 100, spellSprite.position.y + skillJoystick.thumbY * 100)) / MissileSpeeds.fireball)
         let removeAction = SKAction.removeFromParent()
         let completeAction = SKAction.sequence([moveAction, removeAction])
         
