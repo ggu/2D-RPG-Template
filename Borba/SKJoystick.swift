@@ -14,16 +14,25 @@ class SKJoystick: SKSpriteNode
   var angle: CGFloat = 0
   var thumbX: CGFloat = 0
   var thumbY: CGFloat = 0
-  var thumbStick = SKSpriteNode(color: UIColor.grayColor(), size: CGSizeMake(40, 40))
+  var thumbStick = SKShapeNode(circleOfRadius: 20)
+  var backdrop: SKShapeNode
   
-  convenience init(color: UIColor, size: CGSize)
+  override init(texture: SKTexture?, color: UIColor, size: CGSize)
   {
-    self.init(texture: nil, color: color, size: size)
+    backdrop = SKShapeNode(circleOfRadius: size.width / 2)
+    super.init(texture: nil, color: UIColor.clearColor(), size: size)
+    addChild(backdrop)
     setup()
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
   }
   
   func setup()
   {
+    thumbStick.strokeColor = UIColor.grayColor()
+    thumbStick.fillColor = UIColor.grayColor()
     userInteractionEnabled = true
     alpha = 0.6
     zPosition = zPositions.joystick

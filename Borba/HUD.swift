@@ -16,8 +16,8 @@ class HUD: SKSpriteNode {
   let levelFrame: LevelBar
   
   init(size: CGSize) {
-    healthFrame = ResourceBar(width: size.width, height: size.height, xPosition: 160, color: UIColor.greenColor())
-    energyFrame = ResourceBar(width: size.width, height: size.height, xPosition: 400, color: UIColor.blueColor())
+    healthFrame = ResourceBar(width: size.width, height: size.height, xPosition: 160, color: UIColor(red: 0.164, green: 0.592, blue: 0.286, alpha: 1))
+    energyFrame = ResourceBar(width: size.width, height: size.height, xPosition: 400, color: UIColor(red: 0.353, green: 0.659, blue: 0.812, alpha: 1))
     experienceFrame = ExperienceBar(width: size.width, height: size.height)
     levelFrame = LevelBar(width: size.width, height: size.height)
     

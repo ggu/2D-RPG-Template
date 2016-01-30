@@ -12,7 +12,7 @@ class LevelBar: SKSpriteNode
 {
   var levelLabel = SKLabelNode(text: "1")
   init(width: CGFloat, height: CGFloat) {
-    super.init(texture: nil, color: UIColor.blackColor(), size: CGSizeMake(40, 16))
+    super.init(texture: nil, color: UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1), size: CGSizeMake(40, 16))
     setup(width, height: height)
   }
   
@@ -24,7 +24,7 @@ class LevelBar: SKSpriteNode
     
     levelLabel.fontSize = 12
     levelLabel.fontName = "AmericanTypewriter"
-    levelLabel.fontColor = UIColor.whiteColor()
+    levelLabel.fontColor = UIColor.blackColor()
     levelLabel.position = CGPointMake(levelLabel.position.x, -4)
     addChild(levelLabel)
   }

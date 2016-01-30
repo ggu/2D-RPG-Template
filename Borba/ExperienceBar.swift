@@ -12,7 +12,7 @@ class ExperienceBar: SKSpriteNode
 {
   var experienceMeter: SKSpriteNode = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: CGSizeMake(192, 4))
   init(width: CGFloat, height: CGFloat) {
-    super.init(texture: nil, color: UIColor.blackColor(), size: CGSizeMake(200, 6))
+    super.init(texture: nil, color: UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1), size: CGSizeMake(200, 6))
     setup(width, height: height)
   }
   

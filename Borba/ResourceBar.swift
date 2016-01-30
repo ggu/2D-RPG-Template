@@ -12,7 +12,7 @@ class ResourceBar: SKSpriteNode
 {
   var resourceMeter: SKSpriteNode = SKSpriteNode(texture: nil, color: UIColor.greenColor(), size: CGSizeMake(192, 14))
   init(width: CGFloat, height: CGFloat, xPosition: CGFloat, color: UIColor) {
-    super.init(texture: nil, color: UIColor.blackColor(), size: CGSizeMake(200, 16))
+    super.init(texture: nil, color: UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1), size: CGSizeMake(200, 16))
     setup(width, height: height, xPosition: xPosition, color: color)
   }
   
