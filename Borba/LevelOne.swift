@@ -26,6 +26,8 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   let hud: HUD
   var enemies: [Enemy] = []
   var numEnemies = 5
+  var playerEnemyInContact = false
+  var enemiesInContact: [Enemy] = []
   
   override init(size: CGSize) {
     hud = HUD(size: size)
@@ -99,23 +101,16 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     print("\(width) and \(height)")
   }
   
-  func setupPlayer()
-  {
-    
-    
-    
-    // MARK: TO DO above needs to be put in player class
+  func setupPlayer() {
     map.addChild(player)
   }
   
-  func setupCamera()
-  {
+  func setupCamera() {
     cameraNode.name = "camera"
     map.addChild(cameraNode)
   }
   
-  func setupJoysticks()
-  {
+  func setupJoysticks() {
     movementJoystick.position = CGPointMake(100, 100)
     addChild(movementJoystick)
     
@@ -134,7 +129,6 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
           self.enemies.append(enemy)
           self.map.addChild(enemy)
         }
-        
       })
       let waitAction = SKAction.waitForDuration(Double(getRandomNumber(100) / 50))
       let spawnMoreAction = SKAction.runBlock({
@@ -161,7 +155,15 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   {
     updatePlayer()
     updateEnemies()
-    
+    if playerEnemyInContact {
+      for enemy in enemiesInContact {
+        player.health -= enemy.attack
+        enemy.health -= player.attack
+        if enemy.health <= 0 {
+          enemyDeath(enemy)
+        }
+      }
+    }
   }
   
   func updateEnemies() {
@@ -200,8 +202,6 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
         spellSprite.runAction(completeAction)
         map.addChild(spellSprite)
       }
-      //map.addChild(player.activeSpell!)
-      
     }
     hud.updateEnergyFrame(player.mana / player.maxMana)
     hud.updateHealthFrame(player.health / player.maxHealth)
@@ -223,20 +223,28 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
         if enemy.health <= 0 {
           enemyDeath(enemy)
         }
+        if !enemiesInContact.contains(enemy) {
+          enemiesInContact.append(enemy)
+        }
+        playerEnemyInContact = true
+
       }
     } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Hero.rawValue {
       if let enemy = contact.bodyA.node as? Enemy {
         player.health -= enemy.attack
         enemy.health -= player.attack
-        
         if enemy.health <= 0 {
           enemyDeath(enemy)
         }
+        if !enemiesInContact.contains(enemy) {
+          enemiesInContact.append(enemy)
+        }
+        playerEnemyInContact = true
       }
     } else if contact.bodyA.categoryBitMask == CategoryBitMasks.Spell.rawValue {
       contact.bodyA.node?.removeFromParent()
       if let enemy = contact.bodyB.node as? Enemy {
-        enemy.health -= player.activeSpell.damage
+        enemy.health -= player.activeSpell.damage * player.spellDamageModifier
         if enemy.health <= 0 {
           enemyDeath(enemy)
         }
@@ -244,21 +252,42 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Spell.rawValue {
       contact.bodyB.node?.removeFromParent()
       if let enemy = contact.bodyA.node as? Enemy {
-        enemy.health -= player.activeSpell.damage
+        enemy.health -= player.activeSpell.damage * player.spellDamageModifier
         if enemy.health <= 0 {
           enemyDeath(enemy)
         }
       }
     }
     
-    
-    
     hud.updateHealthFrame(player.health / player.maxHealth)
 
     print("damaged the enemy")
   }
   
+  func didEndContact(contact: SKPhysicsContact) {
+    // var for tracking while enemy and player are in contact. each frame of update they damage each other. reduce attack modifiers by a factor of 50-60.
+    if contact.bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
+      if let _ = contact.bodyB.node as? Enemy {
+        
+        playerEnemyInContact = false
+      }
+    } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Hero.rawValue {
+      if let _ = contact.bodyA.node as? Enemy {
+        
+        playerEnemyInContact = false
+      }
+    }
+  }
+  
   func enemyDeath(enemy: Enemy) {
+    if enemiesInContact.contains(enemy) {
+      if let index = enemiesInContact.indexOf(enemy) {
+        enemiesInContact.removeAtIndex(index)
+        if enemiesInContact.isEmpty {
+          playerEnemyInContact = false
+        }
+      }
+    }
     
     enemies.removeAtIndex(enemies.indexOf(enemy)!)
     enemy.removeFromParent()

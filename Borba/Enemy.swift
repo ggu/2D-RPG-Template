@@ -23,9 +23,9 @@ class Enemy : Character
     super.init(texture: texture, color: color, size: size)
     
     setup()
-    movementSpeed = 50
+    movementSpeed = 55
     health = 100
-    attack = 5
+    attack = 0.1
   }
   
   func setup() {

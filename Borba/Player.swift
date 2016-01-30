@@ -38,6 +38,7 @@ class Player : Character
   var expToLevel = 100.0
   var level = 1
   var hpRegenRate = 0.02
+  var spellDamageModifier = 1.02
   
   override init(texture: SKTexture?, color: UIColor, size: CGSize) {
     fireballSpell = Spell(spellDamage: 1, spell: Spells.Fireball, spellCost: SpellCosts.fireball)
@@ -46,7 +47,7 @@ class Player : Character
     super.init(texture: texture, color: color, size: size)
     health = 100
     maxHealth = 100
-    attack = 50
+    attack = 0.8
     
     setup()
   }
@@ -55,12 +56,14 @@ class Player : Character
     level += 1
     exp = 0
     expToLevel += 20
+    attack += 0.1
     maxHealth += 5
     maxMana += 5
     health = maxHealth
     mana = maxMana
     hpRegenRate += 0.01
     manaRegenRate += 0.02
+    spellDamageModifier += 0.02
     // increase attack and spell damage
   }
   
