@@ -152,11 +152,19 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     {
       player.changeDirection(movementJoystick.angle)
     } else
+      
     {
       player.changeDirection(skillJoystick.angle)
-      // skillJoystick.angle
+      //print(skillJoystick.angle)
       if player.canUseSpell() {
-        //addChild(player.handlePlayerSpellCast())
+        let spellSprite = player.handlePlayerSpellCast()
+        spellSprite.position = player.position
+        let moveAction = SKAction.moveByX(skillJoystick.thumbX * 100, y: skillJoystick.thumbY * 100, duration: getDistance(spellSprite.position, point2: CGPointMake(spellSprite.position.x + skillJoystick.thumbX * 100, spellSprite.position.y + skillJoystick.thumbY * 100))/200)
+        let removeAction = SKAction.removeFromParent()
+        let completeAction = SKAction.sequence([moveAction, removeAction])
+        
+        spellSprite.runAction(completeAction)
+        map.addChild(spellSprite)
       }
       //map.addChild(player.activeSpell!)
       
@@ -236,5 +244,9 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   func getRandomNumber(upperLimit: CGFloat) -> CGFloat
   {
     return CGFloat(arc4random_uniform(UInt32(upperLimit + 1)))
+  }
+  
+  func getDistance(point1: CGPoint, point2: CGPoint) -> Double {
+    return Double(sqrt(pow((point1.x - point2.x), 2) + pow((point1.y - point2.y), 2)))
   }
 }
