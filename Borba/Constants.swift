@@ -9,15 +9,10 @@
 import Foundation
 import CoreGraphics
 
-enum TestEnum
+enum Spells
 {
-  case hey, hello, okay
-}
-
-enum Spells: UInt32
-{
-  case Fireball = 1
-  case Frostbolt = 2
+  case Fireball
+  case Frostbolt
 }
 
 struct MissileSpeeds
@@ -27,7 +22,7 @@ struct MissileSpeeds
 
 struct ImageNames
 {
-  static let mainMap = "ice.jpg"
+  static let mainMap = "ice"
 }
 
 enum CategoryBitMasks: UInt32

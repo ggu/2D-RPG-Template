@@ -17,12 +17,16 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   // MARK: Properties
   var width: CGFloat?
   var height: CGFloat?
-  var player: Player?
+  var player = Player(texture: AssetManager.sharedInstance.heroTexture)
   let cameraNode = SKNode()
   let movementJoystick = SKJoystick(color: UIColor.redColor(), size: CGSizeMake(100, 100))
   let skillJoystick = SKJoystick(color: UIColor.redColor(), size: CGSizeMake(100, 100))
+  //let map = MapObject(map: MapBitMasks.Demo)
   let map = MapObject(map: MapBitMasks.Demo)
   
+  override init(size: CGSize) {
+    super.init(size: size)
+  }
   
   // MARK: Setup functions
   override func didMoveToView(view: SKView)
@@ -39,8 +43,6 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     
     setupProperties()
     
-    //setupBackgroud()
-    
     setupMap()
     
     setupHUD()
@@ -54,6 +56,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   
   func setupHUD()
   {
+    // move this to a class that takes care of the nodes on the UI z index
     let healthFrame = ResourceBar(width: width!, height: height!, xPosition: 160, color: UIColor.greenColor())
     addChild(healthFrame)
     
@@ -87,12 +90,6 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     }
   }
   
-  func setupBackgroud()
-  {
-    // maybe this should call on an independet GameMap object that contains all of the sprites that belong on the map
-    backgroundColor = UIColor.greenColor()
-  }
-
   func setupProperties()
   {
     width = scene!.size.width
@@ -102,18 +99,18 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   
   func setupPlayer()
   {
-    player = Player(texture: AssetManager.sharedInstance.heroTexture)
-    player!.position = CGPointMake(300, 160)
-    player!.zPosition = zPositions.mapObjects;
-    player!.physicsBody = SKPhysicsBody(rectangleOfSize: player!.size)
-    player!.physicsBody?.affectedByGravity = false
-    player!.physicsBody?.collisionBitMask = CategoryBitMasks.Map.rawValue
-    player!.lightingBitMask = 1
-    player!.shadowCastBitMask = 1
-    player!.shadowedBitMask = 1
+    
+    player.position = CGPointMake(300, 160)
+    player.zPosition = zPositions.mapObjects;
+    player.physicsBody = SKPhysicsBody(rectangleOfSize: player.size)
+    player.physicsBody?.affectedByGravity = false
+    player.physicsBody?.collisionBitMask = CategoryBitMasks.Map.rawValue
+    player.lightingBitMask = 1
+    player.shadowCastBitMask = 1
+    player.shadowedBitMask = 1
     
     // MARK: TO DO above needs to be put in player class
-    map.addChild(player!)
+    map.addChild(player)
   }
   
   func setupCamera()
@@ -134,10 +131,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   // MARK: Touch functions
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
   {
-    for touch in (touches ) {
-      let location = touch.locationInNode(self)
-      
-    }
+//    for touch in (touches ) {
+//      let location = touch.locationInNode(self)
+//      
+//    }
   }
   
   // MARK: Update functions
@@ -150,16 +147,19 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   
   func updatePlayer()
   {
-    player?.handleSpriteMovement(movementJoystick.thumbX, vY: movementJoystick.thumbY, angle: movementJoystick.angle)
+    player.handleSpriteMovement(movementJoystick.thumbX, vY: movementJoystick.thumbY, angle: movementJoystick.angle)
     if (skillJoystick.thumbX == 0 && skillJoystick.thumbY == 0)
     {
-      player?.changeDirection(movementJoystick.angle)
+      player.changeDirection(movementJoystick.angle)
     } else
     {
-      player?.changeDirection(skillJoystick.angle)
-      player?.handlePlayerSpellCast(skillJoystick.angle)
-      //map.addChild(player!.activeSpell!)
-
+      player.changeDirection(skillJoystick.angle)
+      // skillJoystick.angle
+      if player.canUseSpell() {
+        //addChild(player.handlePlayerSpellCast())
+      }
+      //map.addChild(player.activeSpell!)
+      
     }
   }
   
@@ -180,13 +180,13 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     let yBoundary = map.size.height/2 - frame.size.height/2;
     let xBoundary = map.size.width/2 - frame.size.width/2;
     
-    if (player!.position.x > frame.size.width/2 && player!.position.x < (map.size.width - frame.size.width/2))
+    if (player.position.x > frame.size.width/2 && player.position.x < (map.size.width - frame.size.width/2))
     {
-      self.cameraNode.position = CGPointMake(player!.position.x - frame.size.width/2, cameraNode.position.y);
+      self.cameraNode.position = CGPointMake(player.position.x - frame.size.width/2, cameraNode.position.y);
     }
-    if (player!.position.y > frame.size.height/2 && player!.position.y < (map.size.height - frame.size.height/2))
+    if (player.position.y > frame.size.height/2 && player.position.y < (map.size.height - frame.size.height/2))
     {
-      self.cameraNode.position = CGPointMake(cameraNode.position.x, player!.position.y - frame.size.height/2);
+      self.cameraNode.position = CGPointMake(cameraNode.position.x, player.position.y - frame.size.height/2);
     }
     
     centerOnNode(cameraNode)
@@ -194,10 +194,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     if (((cameraNode.position.y < -1 * yBoundary) || (cameraNode.position.y > yBoundary)) ||
       ((cameraNode.position.x < -1 * xBoundary) || (cameraNode.position.x > xBoundary)))
     {
-      //player!.hidden = YES
+      //player.hidden = YES
     } else if (((!(self.cameraNode.position.y < -1*yBoundary) || (!(self.cameraNode.position.y > yBoundary))) && ((!(self.cameraNode.position.x < -1*xBoundary)) || (self.cameraNode.position.x > xBoundary))))
     {
-      //player!.hidden = YES
+      //player.hidden = YES
     }
   }
   
@@ -223,9 +223,13 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     case ButtonType.MainMenuSettings:
       print("tapped settings button")
       // segue into settings page
-    default:
-      print("tapped untagged button")
+      //    default:
+      //      print("tapped untagged button")
     }
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   // MARK: Helpers

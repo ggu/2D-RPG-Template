@@ -16,8 +16,8 @@ Any map object has:
 */
 import SpriteKit
 
-class MapObject : GameObject
-{
+class MapObject : GameObject {
+  
   init(map: MapBitMasks)
   {
     let mapTexture: SKTexture
@@ -26,7 +26,7 @@ class MapObject : GameObject
 //    case MapBitMasks.Main:
 //      println("main map configuration")
     default:
-      mapTexture = SKTexture(imageNamed: ImageNames.mainMap)
+      mapTexture = AssetManager.sharedInstance.mapTexture
     }
     super.init(texture: mapTexture, color: UIColor.clearColor(), size: mapTexture.size())
     setup()

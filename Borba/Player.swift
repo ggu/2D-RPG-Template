@@ -12,7 +12,7 @@ Any player has:
 - current experience
 - experience required to level up
 - level
-- 
+-
 
 - inventory**
 
@@ -27,7 +27,9 @@ class Player : Character
   var spellList : NSMutableArray = [Spell(spellDamage: 1, spell: Spells.Fireball)] // fireball is the main skill for demo
   
   var activeSpell : Spell?
-    
+  
+  var activeSpellOnCooldown = false
+  
   override init(texture: SKTexture?, color: UIColor, size: CGSize) {
     super.init(texture: texture, color: color, size: size)
     
@@ -82,15 +84,25 @@ class Player : Character
     
   }
   
-  func handlePlayerSpellCast(angle: CGFloat)
+  func canUseSpell() -> Bool {
+    return !activeSpellOnCooldown
+  }
+  
+  func handlePlayerSpellCast() -> SKSpriteNode
   {
-//    activeSpell?.useSpell(angle)
+    let spell = SpellNode.useSpell((activeSpell?.spellName)!)
+    activeSpellOnCooldown = true
+    let action = SKAction.sequence([SKAction.waitForDuration(1.0), SKAction.runBlock({
+      self.activeSpellOnCooldown = false
+    })])
+    runAction(action)
+    return spell
   }
   
   func changeDirection(angle: CGFloat)
   {
-//    let rotateAction = SKAction.rotateToAngle(CGFloat(Double(angle) + M_PI), duration: 0.05)
-//    runAction(rotateAction)
+    //    let rotateAction = SKAction.rotateToAngle(CGFloat(Double(angle) + M_PI), duration: 0.05)
+    //    runAction(rotateAction)
     //zRotation = angle;
     zRotation = CGFloat(Double(angle) + M_PI);
   }

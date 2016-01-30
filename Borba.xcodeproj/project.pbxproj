@@ -24,6 +24,7 @@
 		765921BD1B79515F00673BC1 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765921BC1B79515F00673BC1 /* AssetManager.swift */; };
 		766FDAC41C5CBB7500D23F17 /* ice@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 766FDAC31C5CBB7500D23F17 /* ice@2x.jpg */; };
 		766FDAC71C5CD8FF00D23F17 /* SpellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766FDAC61C5CD8FF00D23F17 /* SpellNode.swift */; };
+		766FE1A41C5CE28100D23F17 /* ice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 766FE1A31C5CE28100D23F17 /* ice@2x.png */; };
 		76A3A76B1B72B006003F4F73 /* Spell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A3A76A1B72B006003F4F73 /* Spell.swift */; };
 		76A8204A1B6EBBA70074CEDC /* ResourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A820491B6EBBA70074CEDC /* ResourceBar.swift */; };
 		76AEE01E1B228EEC003A276A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AEE01D1B228EEC003A276A /* AppDelegate.swift */; };
@@ -68,6 +69,7 @@
 		765921BC1B79515F00673BC1 /* AssetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		766FDAC31C5CBB7500D23F17 /* ice@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ice@2x.jpg"; sourceTree = "<group>"; };
 		766FDAC61C5CD8FF00D23F17 /* SpellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpellNode.swift; sourceTree = "<group>"; };
+		766FE1A31C5CE28100D23F17 /* ice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ice@2x.png"; sourceTree = "<group>"; };
 		76A3A76A1B72B006003F4F73 /* Spell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spell.swift; sourceTree = "<group>"; };
 		76A820491B6EBBA70074CEDC /* ResourceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBar.swift; sourceTree = "<group>"; };
 		76AEE0181B228EEC003A276A /* Borba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Borba.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +155,13 @@
 			name = "data objects";
 			sourceTree = "<group>";
 		};
+		766FDAC81C5CE09F00D23F17 /* Atlas.atlas */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Atlas.atlas;
+			sourceTree = "<group>";
+		};
 		76AEE00F1B228EEC003A276A = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +192,7 @@
 				76AEE0441B229299003A276A /* Constants.swift */,
 				766FDAC51C5CD8A600D23F17 /* data objects */,
 				7657F3351B643E4700AAFAA1 /* objects */,
+				766FDAC81C5CE09F00D23F17 /* Atlas.atlas */,
 				76B815051B6DB3C5007A0398 /* assets */,
 				76AEE0431B229242003A276A /* UI */,
 				76AEE0251B228EEC003A276A /* Main.storyboard */,
@@ -241,6 +251,7 @@
 		76B815051B6DB3C5007A0398 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				766FE1A31C5CE28100D23F17 /* ice@2x.png */,
 				766FDAC31C5CBB7500D23F17 /* ice@2x.jpg */,
 				765921BA1B79513F00673BC1 /* enemy@2x.png */,
 				765921B81B79512F00673BC1 /* hero@2x.png */,
@@ -334,6 +345,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				766FE1A41C5CE28100D23F17 /* ice@2x.png in Resources */,
 				76AEE02C1B228EEC003A276A /* LaunchScreen.xib in Resources */,
 				765921B61B794F7300673BC1 /* Rain.sks in Resources */,
 				765921B31B794F5700673BC1 /* spark.png in Resources */,

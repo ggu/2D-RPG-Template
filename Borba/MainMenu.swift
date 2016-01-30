@@ -20,11 +20,11 @@ class MainMenu: SKScene, SKButtonDelegate
   
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
   {
-    for touch in (touches )
-    {
-      let location = touch.locationInNode(self)
-      
-    }
+//    for touch in (touches )
+//    {
+//      //let location = touch.locationInNode(self)
+//      
+//    }
   }
   
   override func update(currentTime: CFTimeInterval)
@@ -104,8 +104,6 @@ class MainMenu: SKScene, SKButtonDelegate
     case ButtonType.MainMenuSettings:
       print("tapped settings button")
       // segue into settings page
-    default:
-      print("tapped untagged button")
     }
     
   }
