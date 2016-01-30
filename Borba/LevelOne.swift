@@ -139,6 +139,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   
   func updatePlayer()
   {
+    if player.mana < player.maxMana {
+      player.mana += player.manaRegenRate
+    }
+    
     player.handleSpriteMovement(movementJoystick.thumbX, vY: movementJoystick.thumbY, angle: movementJoystick.angle)
     if (skillJoystick.thumbX == 0 && skillJoystick.thumbY == 0)
     {
@@ -154,13 +158,13 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
         let moveAction = SKAction.moveByX(skillJoystick.thumbX * 100, y: skillJoystick.thumbY * 100, duration: getDistance(spellSprite.position, point2: CGPointMake(spellSprite.position.x + skillJoystick.thumbX * 100, spellSprite.position.y + skillJoystick.thumbY * 100)) / MissileSpeeds.fireball)
         let removeAction = SKAction.removeFromParent()
         let completeAction = SKAction.sequence([moveAction, removeAction])
-        hud.updateEnergyFrame(player.mana / player.maxMana)
         spellSprite.runAction(completeAction)
         map.addChild(spellSprite)
       }
       //map.addChild(player.activeSpell!)
       
     }
+    hud.updateEnergyFrame(player.mana / player.maxMana)
   }
   
   // MARK: Physics functions

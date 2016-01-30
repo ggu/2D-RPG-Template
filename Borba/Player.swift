@@ -33,6 +33,7 @@ class Player : Character
   
   var mana = 100.0
   var maxMana = 100.0
+  var manaRegenRate = 0.05
   
   override init(texture: SKTexture?, color: UIColor, size: CGSize) {
     fireballSpell = Spell(spellDamage: 1, spell: Spells.Fireball, spellCost: SpellCosts.fireball)
@@ -93,7 +94,7 @@ class Player : Character
   }
   
   func canUseSpell() -> Bool {
-    return !activeSpellOnCooldown
+    return !activeSpellOnCooldown && mana > activeSpell.cost
   }
   
   func handlePlayerSpellCast() -> SKSpriteNode
