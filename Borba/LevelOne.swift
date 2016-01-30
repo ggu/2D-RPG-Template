@@ -32,6 +32,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   
   func setup()
   {
+    view?.multipleTouchEnabled = true
     print("round one - map one - wave one - start")
     
     physicsWorld.contactDelegate = self
