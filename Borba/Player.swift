@@ -24,7 +24,7 @@ import SpriteKit
 
 class Player : Character
 {
-  var spellList : NSMutableArray = [Spell(spellDamage: 1, spell: Spells.Fireball, texture: nil)] // fireball is the main skill for demo
+  var spellList : NSMutableArray = [Spell(spellDamage: 1, spell: Spells.Fireball)] // fireball is the main skill for demo
   
   var activeSpell : Spell?
     
@@ -84,13 +84,15 @@ class Player : Character
   
   func handlePlayerSpellCast(angle: CGFloat)
   {
-    activeSpell?.useSpell(angle)
+//    activeSpell?.useSpell(angle)
   }
   
   func changeDirection(angle: CGFloat)
   {
-    zRotation = CGFloat(Double(angle) + M_PI);
+//    let rotateAction = SKAction.rotateToAngle(CGFloat(Double(angle) + M_PI), duration: 0.05)
+//    runAction(rotateAction)
     //zRotation = angle;
+    zRotation = CGFloat(Double(angle) + M_PI);
   }
   
   required init?(coder aDecoder: NSCoder)
