@@ -43,9 +43,12 @@ class Enemy : Character
   }
   
   func handleSpriteMovement(destinationPos: CGPoint) {
+    let radians = atan2(destinationPos.y - position.y, destinationPos.x - position.x) + CGFloat(M_PI/2)
     let distance = getDistance(position, point2: destinationPos)
     let action = SKAction.moveTo(destinationPos, duration: distance / Double(movementSpeed))
     runAction(action)
+    
+    zRotation = radians
   }
   
 //  func handleSpriteMovement(destinationPos: CGPoint, offX: CGFloat, offY: CGFloat) {
