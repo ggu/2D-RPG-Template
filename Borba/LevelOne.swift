@@ -261,6 +261,11 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       contact.bodyA.node?.removeFromParent()
       if let enemy = contact.bodyB.node as? Enemy {
         enemy.health -= player.activeSpell.damage * player.spellDamageModifier
+        if (enemy.actionForKey(AnimationKeys.damage) == nil) {
+          let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.5)
+          let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+          enemy.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
+        }
         if enemy.health <= 0 {
           enemyDeath(enemy)
         }
@@ -269,6 +274,11 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       contact.bodyB.node?.removeFromParent()
       if let enemy = contact.bodyA.node as? Enemy {
         enemy.health -= player.activeSpell.damage * player.spellDamageModifier
+        if (enemy.actionForKey(AnimationKeys.damage) == nil) {
+          let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.5)
+          let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+          enemy.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
+        }
         if enemy.health <= 0 {
           enemyDeath(enemy)
         }

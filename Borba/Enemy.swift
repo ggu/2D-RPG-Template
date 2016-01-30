@@ -24,7 +24,7 @@ class Enemy : Character
     
     setup()
     movementSpeed = 55.0 + Float(difficultyCounter)
-    health = 100.0 + 4.0 * difficultyCounter
+    health = 80 + 4.0 * difficultyCounter
     attack = 0.1 + (difficultyCounter - 1.0) * 0.1
   }
   

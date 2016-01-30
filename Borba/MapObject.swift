@@ -53,6 +53,8 @@ class MapObject : GameObject {
     lightNode.zPosition = zPositions.map
     
     addChild(lightNode)
+    
+  
   }
   
   required init?(coder aDecoder: NSCoder) {
