@@ -47,6 +47,7 @@ class SpellNode: GameObject {
     //let action = SKAction.moveByX(<#deltaX: CGFloat#>, y: <#CGFloat#>, duration: <#NSTimeInterval#>)
     sprite.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
     sprite.physicsBody?.categoryBitMask = CategoryBitMasks.Spell.rawValue
+    sprite.physicsBody?.collisionBitMask = 0
     sprite.physicsBody?.contactTestBitMask = CategoryBitMasks.Enemy.rawValue
     sprite.physicsBody?.affectedByGravity = false
     sprite.physicsBody?.dynamic = false

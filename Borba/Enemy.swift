@@ -25,7 +25,7 @@ class Enemy : Character
     setup()
     movementSpeed = 50
     health = 100
-    attack = 1
+    attack = 5
   }
   
   func setup() {

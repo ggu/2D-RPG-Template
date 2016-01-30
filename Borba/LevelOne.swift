@@ -128,11 +128,13 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       let spawnAction = SKAction.runBlock({
         let xpos = getRandomNumber(self.map.size.width)
         let ypos = getRandomNumber(self.map.size.height)
-        let enemy = enemies.popLast()
-        enemy!.zPosition = zPositions.mapObjects
-        enemy!.position = CGPointMake(xpos, ypos)
-        self.enemies.append(enemy!)
-        self.map.addChild(enemy!)
+        if let enemy = enemies.popLast() {
+          enemy.zPosition = zPositions.mapObjects
+          enemy.position = CGPointMake(xpos, ypos)
+          self.enemies.append(enemy)
+          self.map.addChild(enemy)
+        }
+        
       })
       let waitAction = SKAction.waitForDuration(Double(getRandomNumber(100) / 50))
       let spawnMoreAction = SKAction.runBlock({
@@ -222,7 +224,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
           enemyDeath(enemy)
         }
       }
-    } else if contact.bodyA.categoryBitMask == CategoryBitMasks.Enemy.rawValue {
+    } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Hero.rawValue {
       if let enemy = contact.bodyA.node as? Enemy {
         player.health -= enemy.attack
         enemy.health -= player.attack
@@ -261,7 +263,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     enemies.removeAtIndex(enemies.indexOf(enemy)!)
     enemy.removeFromParent()
     player.exp += enemy.expValue
-    if player.exp > player.expToLevel {
+    if player.exp >= player.expToLevel {
       player.levelUp()
       hud.updateHealthFrame(1)
       hud.updateEnergyFrame(1)
@@ -272,7 +274,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       let waitAction = SKAction.waitForDuration(4)
       let spawnAction = SKAction.runBlock({
         self.numEnemies += 5
-        self.loadEnemies(5)
+        self.loadEnemies(self.numEnemies)
       })
       
       let sequence = SKAction.sequence([waitAction, spawnAction])

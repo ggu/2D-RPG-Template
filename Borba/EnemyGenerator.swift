@@ -18,7 +18,8 @@ class EnemyGenerator {
     for _ in 0..<numEnemies {
       enemies.append(Enemy(texture: AssetManager.sharedInstance.enemyTexture))
     }
-    
-    return enemies
+    let enemiesList = enemies
+    enemies.removeAll()
+    return enemiesList
   }
 }
