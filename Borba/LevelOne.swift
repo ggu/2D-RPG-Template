@@ -289,7 +289,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       }
     }
     
-    enemies.removeAtIndex(enemies.indexOf(enemy)!)
+    if let index = enemies.indexOf(enemy) {
+      enemies.removeAtIndex(index)
+    }
+    
     enemy.removeFromParent()
     player.exp += enemy.expValue
     if player.exp >= player.expToLevel {

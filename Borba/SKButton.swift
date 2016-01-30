@@ -50,6 +50,11 @@ class SKButton : SKSpriteNode
   
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
   {
-    delegate!.buttonTapped(buttonType!)
+    if let theDelegate = delegate {
+      if let type = buttonType {
+        theDelegate.buttonTapped(type)
+      }
+    }
+    
   }
 }

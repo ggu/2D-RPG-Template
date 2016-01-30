@@ -35,6 +35,7 @@ class Enemy : Character
     physicsBody?.collisionBitMask = CategoryBitMasks.Hero.rawValue | CategoryBitMasks.Enemy.rawValue
     physicsBody?.contactTestBitMask = CategoryBitMasks.Hero.rawValue
     physicsBody?.affectedByGravity = false
+    physicsBody?.restitution = 1
   }
 
   required init?(coder aDecoder: NSCoder) {

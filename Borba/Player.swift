@@ -54,8 +54,8 @@ class Player : Character
 
   func levelUp() {
     level += 1
-    exp = 0
-    expToLevel += 20
+    exp -= expToLevel
+    expToLevel *= 1.2
     attack += 0.1
     maxHealth += 5
     maxMana += 5
