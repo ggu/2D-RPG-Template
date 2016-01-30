@@ -12,5 +12,5 @@ class AssetManager {
   static let sharedInstance = AssetManager()
   
   let heroTexture = SKTexture(imageNamed: "hero.png")
-  let mapTexture = SKTexture(imageNamed: "ice")
+  let mapTexture = SKTexture(imageNamed: "ice.jpg")
 }
