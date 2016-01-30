@@ -45,7 +45,7 @@ class Player : Character
     activeSpell = fireballSpell
     spellList.append(fireballSpell)
     super.init(texture: texture, color: color, size: size)
-    health = 100
+    health = 2
     maxHealth = 100
     attack = 0.8
     

@@ -162,10 +162,21 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
           let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
           player.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
         }
+        
+        if (enemy.actionForKey(AnimationKeys.damage) == nil) {
+          let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.5)
+          let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+          enemy.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
+        }
+        
         player.health -= enemy.attack
         enemy.health -= player.attack
         if enemy.health <= 0 {
           enemyDeath(enemy)
+        }
+        
+        if player.health <= 0 {
+          playerDeath()
         }
       }
     }
@@ -262,6 +273,11 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
           enemyDeath(enemy)
         }
       }
+      
+    }
+    
+    if player.health <= 0 {
+      playerDeath()
     }
     
     hud.updateHealthFrame(player.health / player.maxHealth)
@@ -338,6 +354,13 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       runAction(sequence)
     }
     hud.updateExperienceFrameFrame(player.exp / player.expToLevel)
+  }
+  
+  func playerDeath() {
+    let scene = MainMenu(size: view!.bounds.size)
+    
+    scene.scaleMode = .ResizeFill
+    view!.presentScene(scene, transition: SKTransition.crossFadeWithDuration(1.0))
   }
   
   func updateCamera()
