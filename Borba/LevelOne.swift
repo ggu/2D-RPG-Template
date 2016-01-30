@@ -296,6 +296,20 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     enemy.removeFromParent()
     player.exp += enemy.expValue
     if player.exp >= player.expToLevel {
+      if let myParticlePath = NSBundle.mainBundle().pathForResource("LevelUp", ofType: "sks") {
+        let fireParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
+        fireParticles.zPosition = zPositions.mapObjects
+        fireParticles.position = player.position
+        map.addChild(fireParticles)
+        
+        let waitAction = SKAction.waitForDuration(1)
+        let stopAction = SKAction.runBlock({
+          fireParticles.particleBirthRate = 0
+        })
+        let wait2Action = SKAction.waitForDuration(3)
+        let removeAction = SKAction.removeFromParent()
+        fireParticles.runAction(SKAction.sequence([waitAction, stopAction, wait2Action, removeAction]))
+      }
       player.levelUp()
       hud.updateHealthFrame(1)
       hud.updateEnergyFrame(1)

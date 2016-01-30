@@ -53,6 +53,10 @@ class Player : Character
   }
 
   func levelUp() {
+    
+    let whitenAction = SKAction.colorizeWithColor(UIColor.greenColor(), colorBlendFactor: 1, duration: 0.5)
+    let returnAction = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+    runAction(SKAction.sequence([whitenAction, returnAction]))
     level += 1
     exp -= expToLevel
     expToLevel *= 1.2

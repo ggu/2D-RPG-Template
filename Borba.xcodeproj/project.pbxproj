@@ -26,6 +26,8 @@
 		766FDAC71C5CD8FF00D23F17 /* SpellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766FDAC61C5CD8FF00D23F17 /* SpellNode.swift */; };
 		766FE1A61C5CF28C00D23F17 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766FE1A51C5CF28C00D23F17 /* HUD.swift */; };
 		766FE1AA1C5D0E5400D23F17 /* EnemyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766FE1A91C5D0E5400D23F17 /* EnemyGenerator.swift */; };
+		766FE1AD1C5D55AA00D23F17 /* LevelUp.sks in Resources */ = {isa = PBXBuildFile; fileRef = 766FE1AB1C5D55AA00D23F17 /* LevelUp.sks */; };
+		766FE1AE1C5D55AA00D23F17 /* bokeh.png in Resources */ = {isa = PBXBuildFile; fileRef = 766FE1AC1C5D55AA00D23F17 /* bokeh.png */; };
 		76A3A76B1B72B006003F4F73 /* Spell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A3A76A1B72B006003F4F73 /* Spell.swift */; };
 		76A8204A1B6EBBA70074CEDC /* ResourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A820491B6EBBA70074CEDC /* ResourceBar.swift */; };
 		76AEE01E1B228EEC003A276A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AEE01D1B228EEC003A276A /* AppDelegate.swift */; };
@@ -72,6 +74,8 @@
 		766FDAC61C5CD8FF00D23F17 /* SpellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpellNode.swift; sourceTree = "<group>"; };
 		766FE1A51C5CF28C00D23F17 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		766FE1A91C5D0E5400D23F17 /* EnemyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyGenerator.swift; sourceTree = "<group>"; };
+		766FE1AB1C5D55AA00D23F17 /* LevelUp.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelUp.sks; sourceTree = "<group>"; };
+		766FE1AC1C5D55AA00D23F17 /* bokeh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bokeh.png; sourceTree = "<group>"; };
 		76A3A76A1B72B006003F4F73 /* Spell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spell.swift; sourceTree = "<group>"; };
 		76A820491B6EBBA70074CEDC /* ResourceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBar.swift; sourceTree = "<group>"; };
 		76AEE0181B228EEC003A276A /* Borba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Borba.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -252,6 +256,8 @@
 				765921B81B79512F00673BC1 /* hero@2x.png */,
 				765921B01B794F5700673BC1 /* Fire.sks */,
 				765921B41B794F7300673BC1 /* Rain.sks */,
+				766FE1AB1C5D55AA00D23F17 /* LevelUp.sks */,
+				766FE1AC1C5D55AA00D23F17 /* bokeh.png */,
 				765921B11B794F5700673BC1 /* spark.png */,
 			);
 			name = assets;
@@ -343,12 +349,14 @@
 				76AEE02C1B228EEC003A276A /* LaunchScreen.xib in Resources */,
 				765921B61B794F7300673BC1 /* Rain.sks in Resources */,
 				765921B31B794F5700673BC1 /* spark.png in Resources */,
+				766FE1AD1C5D55AA00D23F17 /* LevelUp.sks in Resources */,
 				765921B21B794F5700673BC1 /* Fire.sks in Resources */,
 				76AEE0291B228EEC003A276A /* Images.xcassets in Resources */,
 				76AEE0271B228EEC003A276A /* Main.storyboard in Resources */,
 				765921BB1B79513F00673BC1 /* enemy@2x.png in Resources */,
 				766FDAC41C5CBB7500D23F17 /* ice@2x.jpg in Resources */,
 				765921B91B79512F00673BC1 /* hero@2x.png in Resources */,
+				766FE1AE1C5D55AA00D23F17 /* bokeh.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
