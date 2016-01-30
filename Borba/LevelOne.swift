@@ -24,6 +24,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   //let map = MapObject(map: MapBitMasks.Demo)
   let map = MapObject(map: MapBitMasks.Demo)
   let hud: HUD
+  var enemies: [Enemy] = []
   
   override init(size: CGSize) {
     hud = HUD(size: size)
@@ -54,6 +55,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     setupCamera()
     
     setupJoysticks()
+    
+    
+    let enemies = EnemyGenerator.sharedInstance.generateEnemies(5)
+    spawnEnemies(enemies)
   }
   
   func setupHUD()
@@ -92,14 +97,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   func setupPlayer()
   {
     
-    player.position = CGPointMake(300, 160)
-    player.zPosition = zPositions.mapObjects;
-    player.physicsBody = SKPhysicsBody(rectangleOfSize: player.size)
-    player.physicsBody?.affectedByGravity = false
-    player.physicsBody?.collisionBitMask = CategoryBitMasks.Map.rawValue
-    player.lightingBitMask = 1
-    player.shadowCastBitMask = 1
-    player.shadowedBitMask = 1
+    
     
     // MARK: TO DO above needs to be put in player class
     map.addChild(player)
@@ -120,6 +118,27 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     addChild(skillJoystick)
   }
   
+  func spawnEnemies(var enemies: [Enemy]) {
+    if enemies.count >= 1 {
+      let spawnAction = SKAction.runBlock({
+        let xpos = getRandomNumber(self.map.size.width)
+        let ypos = getRandomNumber(self.map.size.height)
+        let enemy = enemies.popLast()
+        enemy!.zPosition = zPositions.mapObjects
+        enemy!.position = CGPointMake(xpos, ypos)
+        self.enemies.append(enemy!)
+        self.map.addChild(enemy!)
+      })
+      let waitAction = SKAction.waitForDuration(Double(getRandomNumber(100) / 50))
+      let spawnMoreAction = SKAction.runBlock({
+        self.spawnEnemies(enemies)
+      })
+      
+      let sequence = SKAction.sequence([spawnAction, waitAction, spawnMoreAction])
+      runAction(sequence)
+    }
+  }
+  
   // MARK: Touch functions
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
   {
@@ -134,7 +153,16 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   override func update(currentTime: CFTimeInterval)
   {
     updatePlayer()
+    updateEnemies()
     
+  }
+  
+  func updateEnemies() {
+    // call spritemovement method for each enemy
+    for enemy in enemies {
+      //enemy.runAction(SKAction.moveTo(player.position, duration: 2))
+      enemy.handleSpriteMovement(player.position)
+    }
   }
   
   func updatePlayer()
@@ -237,12 +265,4 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   }
   
   // MARK: Helpers
-  func getRandomNumber(upperLimit: CGFloat) -> CGFloat
-  {
-    return CGFloat(arc4random_uniform(UInt32(upperLimit + 1)))
-  }
-  
-  func getDistance(point1: CGPoint, point2: CGPoint) -> Double {
-    return Double(sqrt(pow((point1.x - point2.x), 2) + pow((point1.y - point2.y), 2)))
-  }
 }

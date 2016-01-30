@@ -50,6 +50,16 @@ class Player : Character
     movementSpeed = 2
     activeSpell = spellList[0]
     
+    position = CGPointMake(300, 160)
+    zPosition = zPositions.mapObjects;
+    physicsBody = SKPhysicsBody(rectangleOfSize: size)
+    physicsBody?.affectedByGravity = false
+    physicsBody?.categoryBitMask = CategoryBitMasks.Hero.rawValue
+    physicsBody?.collisionBitMask = CategoryBitMasks.Map.rawValue
+    lightingBitMask = 1
+    shadowCastBitMask = 1
+    shadowedBitMask = 1
+    
   }
   
   func handleSpriteMovement(vX: CGFloat, vY: CGFloat, angle: CGFloat)

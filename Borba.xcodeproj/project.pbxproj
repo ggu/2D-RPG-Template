@@ -25,6 +25,7 @@
 		766FDAC41C5CBB7500D23F17 /* ice@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 766FDAC31C5CBB7500D23F17 /* ice@2x.jpg */; };
 		766FDAC71C5CD8FF00D23F17 /* SpellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766FDAC61C5CD8FF00D23F17 /* SpellNode.swift */; };
 		766FE1A61C5CF28C00D23F17 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766FE1A51C5CF28C00D23F17 /* HUD.swift */; };
+		766FE1AA1C5D0E5400D23F17 /* EnemyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766FE1A91C5D0E5400D23F17 /* EnemyGenerator.swift */; };
 		76A3A76B1B72B006003F4F73 /* Spell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A3A76A1B72B006003F4F73 /* Spell.swift */; };
 		76A8204A1B6EBBA70074CEDC /* ResourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A820491B6EBBA70074CEDC /* ResourceBar.swift */; };
 		76AEE01E1B228EEC003A276A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AEE01D1B228EEC003A276A /* AppDelegate.swift */; };
@@ -70,6 +71,7 @@
 		766FDAC31C5CBB7500D23F17 /* ice@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ice@2x.jpg"; sourceTree = "<group>"; };
 		766FDAC61C5CD8FF00D23F17 /* SpellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpellNode.swift; sourceTree = "<group>"; };
 		766FE1A51C5CF28C00D23F17 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		766FE1A91C5D0E5400D23F17 /* EnemyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyGenerator.swift; sourceTree = "<group>"; };
 		76A3A76A1B72B006003F4F73 /* Spell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spell.swift; sourceTree = "<group>"; };
 		76A820491B6EBBA70074CEDC /* ResourceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBar.swift; sourceTree = "<group>"; };
 		76AEE0181B228EEC003A276A /* Borba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Borba.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +132,7 @@
 				7657F3361B643E5800AAFAA1 /* GameObject.swift */,
 				7657F33E1B643F3100AAFAA1 /* Obstacle.swift */,
 				766FDAC61C5CD8FF00D23F17 /* SpellNode.swift */,
+				766FE1A91C5D0E5400D23F17 /* EnemyGenerator.swift */,
 				7657F3441B6443D800AAFAA1 /* characters */,
 				76B815041B6DB2BF007A0398 /* misc */,
 				765921BC1B79515F00673BC1 /* AssetManager.swift */,
@@ -365,6 +368,7 @@
 			files = (
 				7657F33B1B643F0800AAFAA1 /* Player.swift in Sources */,
 				76AEE0451B229299003A276A /* Constants.swift in Sources */,
+				766FE1AA1C5D0E5400D23F17 /* EnemyGenerator.swift in Sources */,
 				76AEE0471B229321003A276A /* SKButtonContents.swift in Sources */,
 				766FDAC71C5CD8FF00D23F17 /* SpellNode.swift in Sources */,
 				7602E40E1B6ED2EB0009BFA9 /* ExperienceBar.swift in Sources */,

@@ -24,6 +24,10 @@ struct SpellCosts {
   static let fireball = 10.0
 }
 
+struct ExpValues {
+  static let enemy = 10
+}
+
 struct ImageNames
 {
   static let mainMap = "ice"
@@ -71,3 +75,16 @@ struct thumbstickValues {
   static let maxAbsX: CGFloat = 70
   static let maxAbsY: CGFloat = 70
 }
+
+// MARK: - Inline functions
+
+func getRandomNumber(upperLimit: CGFloat) -> CGFloat
+{
+  return CGFloat(arc4random_uniform(UInt32(upperLimit + 1)))
+}
+
+func getDistance(point1: CGPoint, point2: CGPoint) -> Double {
+  return Double(sqrt(pow((point1.x - point2.x), 2) + pow((point1.y - point2.y), 2)))
+}
+
+
