@@ -13,15 +13,18 @@ enum Spells
 {
   case Fireball
   case Frostbolt
+  case Lightning
 }
 
 struct MissileSpeeds
 {
   static let fireball = 200.0
+  static let lightning = 400.0
 }
 
 struct SpellCosts {
-  static let fireball = 10.0
+  static let fireball = 8.0
+  static let lightning = 6.0
 }
 
 struct ExpValues {
@@ -65,7 +68,6 @@ enum ButtonType: UInt32 // need to make MainMenu a type of ButtonType
   case MainMenuSettings = 2
 }
 
-
 struct zPositions
 {
   static let map: CGFloat = 1
@@ -82,6 +84,10 @@ struct thumbstickValues {
 }
 
 // MARK: - Inline functions
+
+func getRadiansBetweenTwoPoints(firstPoint: CGPoint, secondPoint: CGPoint) -> Double {
+  return Double(atan2(secondPoint.y - firstPoint.y, secondPoint.x - firstPoint.x)) + M_PI/2
+}
 
 func getRandomNumber(upperLimit: CGFloat) -> CGFloat
 {

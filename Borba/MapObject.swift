@@ -43,7 +43,7 @@ class MapObject : GameObject {
     let lightNode = SKLightNode()
     lightNode.enabled = true
     lightNode.lightColor = SKColor.whiteColor()
-    //lightNode.ambientColor = UIColor.grayColor()
+    lightNode.ambientColor = UIColor.grayColor()
     lightNode.position = CGPointMake(frame.width / 2, frame.height / 2)
     //lightNode.shadowColor = SKColor.grayColor()
     lightNode.alpha = 1
@@ -53,8 +53,6 @@ class MapObject : GameObject {
     lightNode.zPosition = zPositions.map
     
     addChild(lightNode)
-    
-  
   }
   
   required init?(coder aDecoder: NSCoder) {

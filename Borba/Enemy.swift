@@ -17,6 +17,7 @@ import SpriteKit
 class Enemy : Character
 {
   let expValue: Double
+  var inContactWithPlayer = false
   
   init(texture: SKTexture, difficultyCounter: Double) {
     expValue = ExpValues.enemy + (difficultyCounter - 1.0)
@@ -25,7 +26,7 @@ class Enemy : Character
     setup()
     movementSpeed = 55.0 + Float(difficultyCounter)
     health = 80 + 4.0 * difficultyCounter
-    attack = 0.08 + (difficultyCounter - 1.0) * 0.1
+    attack = 0.05 + (difficultyCounter - 1.0) * 0.02
   }
   
   func setup() {
@@ -35,7 +36,9 @@ class Enemy : Character
     physicsBody?.collisionBitMask = CategoryBitMasks.Hero.rawValue | CategoryBitMasks.Enemy.rawValue
     physicsBody?.contactTestBitMask = CategoryBitMasks.Hero.rawValue
     physicsBody?.affectedByGravity = false
-    physicsBody?.restitution = 1
+    physicsBody?.mass = 1000
+    //physicsBody?.dynamic = false
+    //physicsBody?.restitution = 1
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -43,11 +46,13 @@ class Enemy : Character
   }
   
   func handleSpriteMovement(destinationPos: CGPoint) {
-    let radians = atan2(destinationPos.y - position.y, destinationPos.x - position.x) + CGFloat(M_PI/2)
-    let distance = getDistance(position, point2: destinationPos)
-    let action = SKAction.moveTo(destinationPos, duration: distance / Double(movementSpeed))
-    runAction(action)
+    if !inContactWithPlayer {
+      let distance = getDistance(position, point2: destinationPos)
+      let action = SKAction.moveTo(destinationPos, duration: distance / Double(movementSpeed))
+      runAction(action)
+    }
     
+    let radians = CGFloat(getRadiansBetweenTwoPoints(position, secondPoint: destinationPos))
     zRotation = radians
   }
   

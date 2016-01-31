@@ -18,7 +18,24 @@ class SpellNode: GameObject {
       return fireBallSpell()
     case Spells.Frostbolt:
       return frostBallSpell()
+    case Spells.Lightning:
+      return lightningSpell()
     }
+  }
+  
+  class func lightningSpell() -> SKSpriteNode {
+    let sprite = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(10, 10))
+    
+    if let myParticlePath = NSBundle.mainBundle().pathForResource("Lightning", ofType: "sks") {
+      let lightningParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
+      lightningParticles.particlePositionRange = CGVectorMake(20, 5)
+      lightningParticles.zPosition = zPositions.mapObjects
+      lightningParticles.position = CGPointMake(0, 0)
+      //lightningParticles.pa
+      sprite.addChild(lightningParticles)
+    }
+    
+    return sprite
   }
   
   class func fireBallSpell() -> SKSpriteNode
@@ -44,7 +61,6 @@ class SpellNode: GameObject {
       
       //sprite.addChild(lightNode)
     }
-    //let action = SKAction.moveByX(<#deltaX: CGFloat#>, y: <#CGFloat#>, duration: <#NSTimeInterval#>)
     sprite.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(sprite.size.width*2, sprite.size.height*2))
     sprite.physicsBody?.categoryBitMask = CategoryBitMasks.Spell.rawValue
     sprite.physicsBody?.collisionBitMask = 0

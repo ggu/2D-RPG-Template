@@ -118,6 +118,135 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     addChild(skillJoystick)
   }
   
+  // MARK: Touch functions
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
+  {
+//    for touch in (touches ) {
+//      let location = touch.locationInNode(self)
+//      
+//    }
+  }
+  
+  // MARK: - Update
+  
+  override func update(currentTime: CFTimeInterval)
+  {
+    updatePlayerState()
+    updateEnemies()
+    
+    updatePlayerEnemyConditions()
+  }
+  
+  // MARK: - Physics functions
+  
+  override func didSimulatePhysics() {
+    updateCamera()
+  }
+  
+  func didBeginContact(contact: SKPhysicsContact) {
+    // define node names up here
+    let bodyA = contact.bodyA
+    let bodyB = contact.bodyB
+    handleGameObjectContact(bodyA, bodyB: bodyB)
+    
+    // this shouldnt be here anymore
+    if player.health <= 0 {
+      playerDeath()
+    }
+    
+    hud.updateHealthFrame(player.health / player.maxHealth)
+    print("damaged the enemy")
+  }
+  
+  func didEndContact(contact: SKPhysicsContact) {
+    if contact.bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
+      if let _ = contact.bodyB.node as? Enemy {
+        if !enemiesAreInContact() {
+          playerEnemyInContact = false
+        }
+      }
+    } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Hero.rawValue {
+      if let _ = contact.bodyA.node as? Enemy {
+        if !enemiesAreInContact() {
+          playerEnemyInContact = false
+        }
+      }
+    }
+  }
+  
+  func handleGameObjectContact(bodyA: SKPhysicsBody, bodyB: SKPhysicsBody) {
+    if bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
+      if let enemy = bodyB.node as? Enemy {
+        handlePlayerAndEnemyContact(enemy)
+      }
+    } else if bodyB.categoryBitMask == CategoryBitMasks.Hero.rawValue {
+      if let enemy = bodyA.node as? Enemy {
+        handlePlayerAndEnemyContact(enemy)
+      }
+    } else if bodyA.categoryBitMask == CategoryBitMasks.Spell.rawValue {
+      bodyA.node?.removeFromParent()
+      if let enemy = bodyB.node as? Enemy {
+        handlePlayerAndSpellContact(enemy)
+      }
+    } else if bodyB.categoryBitMask == CategoryBitMasks.Spell.rawValue {
+      bodyB.node?.removeFromParent()
+      if let enemy = bodyA.node as? Enemy {
+        handlePlayerAndSpellContact(enemy)
+      }
+    }
+  }
+  
+  // UI buttons
+  func buttonTapped(type: ButtonType)
+  {
+    /* this should contain the first layer of buttons available on the screen (e.g. 'Menu', 'Attack'), which all lead to separate views that are managed independently of this function */
+    switch type
+    {
+    case ButtonType.MainMenuPlay:
+      print("tapped play button")
+      // segue into main level
+    case ButtonType.MainMenuSettings:
+      print("tapped settings button")
+      // segue into settings page
+      //    default:
+      //      print("tapped untagged button")
+    }
+  }
+  
+  // MARK: - Player and Enemy High Level Logic
+  
+  func updateEnemies() {
+    for enemy in enemies {
+      enemy.handleSpriteMovement(player.position)
+    }
+  }
+  
+  func updatePlayerState() {
+    regenPlayerResources()
+    
+    player.handleSpriteMovement(movementJoystick.thumbX, vY: movementJoystick.thumbY, angle: movementJoystick.angle)
+    if (skillJoystick.thumbX == 0 && skillJoystick.thumbY == 0) {
+      player.changeDirection(movementJoystick.angle)
+    } else {
+      player.changeDirection(skillJoystick.angle)
+      if player.canUseSpell() {
+        useSpell()
+      }
+    }
+    hud.updateEnergyFrame(player.mana / player.maxMana)
+    hud.updateHealthFrame(player.health / player.maxHealth)
+  }
+  
+  func updatePlayerEnemyConditions() {
+    if playerEnemyInContact {
+      for enemy in enemiesInContact {
+        colorizeDamagePlayer()
+        colorizeDamageEnemy(enemy)
+        damagePlayerAndEnemy(enemy)
+      }
+    }
+  }
+  
   func spawnEnemies(var enemies: [Enemy]) {
     if enemies.count >= 1 {
       let spawnAction = SKAction.runBlock({
@@ -140,179 +269,26 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     }
   }
   
-  // MARK: Touch functions
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
-  {
-//    for touch in (touches ) {
-//      let location = touch.locationInNode(self)
-//      
-//    }
-  }
-  
-  // MARK: Update functions
-  
-  override func update(currentTime: CFTimeInterval)
-  {
-    updatePlayer()
-    updateEnemies()
-    if playerEnemyInContact {
-      for enemy in enemiesInContact {
-        if !player.hasActions() {
-          let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.5)
-          let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-          player.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
-        }
-        
-        if (enemy.actionForKey(AnimationKeys.damage) == nil) {
-          let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.5)
-          let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-          enemy.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
-        }
-        
-        player.health -= enemy.attack
-        enemy.health -= player.attack
-        if enemy.health <= 0 {
-          enemyDeath(enemy)
-        }
-        
-        if player.health <= 0 {
-          playerDeath()
-        }
-      }
-    }
-  }
-  
-  func updateEnemies() {
-    // call spritemovement method for each enemy
-    for enemy in enemies {
-      //enemy.runAction(SKAction.moveTo(player.position, duration: 2))
-      enemy.handleSpriteMovement(player.position)
-    }
-  }
-  
-  func updatePlayer()
-  {
-    if player.mana < player.maxMana {
-      player.mana += player.manaRegenRate
+  func handlePlayerAndSpellContact(enemy: Enemy) {
+    enemy.health -= player.activeSpell.damage * player.spellDamageModifier
+    if (enemy.actionForKey(AnimationKeys.damage) == nil) {
+      colorizeDamageEnemy(enemy)
     }
     
-    if player.health < player.maxHealth {
-      player.health += player.hpRegenRate
-    }
-    
-    player.handleSpriteMovement(movementJoystick.thumbX, vY: movementJoystick.thumbY, angle: movementJoystick.angle)
-    if (skillJoystick.thumbX == 0 && skillJoystick.thumbY == 0)
-    {
-      player.changeDirection(movementJoystick.angle)
-    } else
-      
-    {
-      player.changeDirection(skillJoystick.angle)
-      //print(skillJoystick.angle)
-      if player.canUseSpell() {
-        let spellSprite = player.handlePlayerSpellCast()
-        spellSprite.position = player.position
-        let moveAction = SKAction.moveByX(skillJoystick.thumbX * 100, y: skillJoystick.thumbY * 100, duration: getDistance(spellSprite.position, point2: CGPointMake(spellSprite.position.x + skillJoystick.thumbX * 100, spellSprite.position.y + skillJoystick.thumbY * 100)) / MissileSpeeds.fireball)
-        let removeAction = SKAction.removeFromParent()
-        let completeAction = SKAction.sequence([moveAction, removeAction])
-        spellSprite.runAction(completeAction)
-        map.addChild(spellSprite)
-      }
-    }
-    hud.updateEnergyFrame(player.mana / player.maxMana)
-    hud.updateHealthFrame(player.health / player.maxHealth)
+    checkForEnemyDeath(enemy)
   }
   
-  // MARK: Physics functions
   
-  override func didSimulatePhysics()
-  {
-    updateCamera()
+  func putEnemyInContact(enemy: Enemy) {
+    if !enemiesInContact.contains(enemy) {
+      enemiesInContact.append(enemy)
+    }
+    enemy.inContactWithPlayer = true
+    playerEnemyInContact = true
   }
   
-  func didBeginContact(contact: SKPhysicsContact)
-  {
-    if contact.bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
-      if let enemy = contact.bodyB.node as? Enemy {
-        player.health -= enemy.attack
-        enemy.health -= player.attack
-        if enemy.health <= 0 {
-          enemyDeath(enemy)
-        }
-        if !enemiesInContact.contains(enemy) {
-          enemiesInContact.append(enemy)
-        }
-        playerEnemyInContact = true
-
-      }
-    } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Hero.rawValue {
-      if let enemy = contact.bodyA.node as? Enemy {
-        player.health -= enemy.attack
-        enemy.health -= player.attack
-        if enemy.health <= 0 {
-          enemyDeath(enemy)
-        }
-        if !enemiesInContact.contains(enemy) {
-          enemiesInContact.append(enemy)
-        }
-        playerEnemyInContact = true
-      }
-    } else if contact.bodyA.categoryBitMask == CategoryBitMasks.Spell.rawValue {
-      contact.bodyA.node?.removeFromParent()
-      if let enemy = contact.bodyB.node as? Enemy {
-        enemy.health -= player.activeSpell.damage * player.spellDamageModifier
-        if (enemy.actionForKey(AnimationKeys.damage) == nil) {
-          let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.5)
-          let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-          enemy.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
-        }
-        if enemy.health <= 0 {
-          enemyDeath(enemy)
-        }
-      }
-    } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Spell.rawValue {
-      contact.bodyB.node?.removeFromParent()
-      if let enemy = contact.bodyA.node as? Enemy {
-        enemy.health -= player.activeSpell.damage * player.spellDamageModifier
-        if (enemy.actionForKey(AnimationKeys.damage) == nil) {
-          let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.5)
-          let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-          enemy.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
-        }
-        if enemy.health <= 0 {
-          enemyDeath(enemy)
-        }
-      }
-      
-    }
-    
-    if player.health <= 0 {
-      playerDeath()
-    }
-    
-    hud.updateHealthFrame(player.health / player.maxHealth)
-
-    print("damaged the enemy")
-  }
   
-  func didEndContact(contact: SKPhysicsContact) {
-    // var for tracking while enemy and player are in contact. each frame of update they damage each other. reduce attack modifiers by a factor of 50-60.
-    if contact.bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
-      if let _ = contact.bodyB.node as? Enemy {
-        
-        playerEnemyInContact = false
-        let colorize = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-        player.runAction(colorize)
-      }
-    } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Hero.rawValue {
-      if let _ = contact.bodyA.node as? Enemy {
-        
-        playerEnemyInContact = false
-        let colorize = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-        player.runAction(colorize)
-      }
-    }
-  }
+  // MARK: - Player and Enemy Death Helpers
   
   func enemyDeath(enemy: Enemy) {
     if enemiesInContact.contains(enemy) {
@@ -373,11 +349,130 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     view!.presentScene(scene, transition: SKTransition.crossFadeWithDuration(1.0))
   }
   
-  func updateCamera()
-  {
-    let yBoundary = map.size.height/2 - frame.size.height/2;
-    let xBoundary = map.size.width/2 - frame.size.width/2;
+  // MARK: - Spells
+  
+  func useSpell() {
+    let spellSprite = player.handlePlayerSpellCast()
+    spellSprite.position = player.position
     
+    switch player.activeSpell.spellName {
+    case .Lightning:
+      useLightning(spellSprite)
+    case .Fireball:
+      useFireball(spellSprite)
+    case .Frostbolt:
+      useFrostbolt(spellSprite)
+    }
+    map.addChild(spellSprite)
+  }
+  
+  func useLightning(lightning: SKSpriteNode) {
+    print("lightning")
+  }
+  
+  func useFrostbolt(frostbolt: SKSpriteNode) {
+    print("use frostbolt")
+  }
+  
+  func useFireball(fireball: SKSpriteNode) {
+    let moveAction = SKAction.moveByX(skillJoystick.thumbX * 100, y: skillJoystick.thumbY * 100, duration: getDistance(fireball.position, point2: CGPointMake(fireball.position.x + skillJoystick.thumbX * 100, fireball.position.y + skillJoystick.thumbY * 100)) / MissileSpeeds.fireball)
+    let removeAction = SKAction.removeFromParent()
+    let completeAction = SKAction.sequence([moveAction, removeAction])
+    fireball.runAction(completeAction)
+  }
+  
+  // MARK: - Low level calculations/helpers
+  
+  func regenPlayerResources() {
+    regenMana()
+    regenHealth()
+  }
+  
+  func regenMana() {
+    if player.mana < player.maxMana {
+      player.mana += player.manaRegenRate
+    }
+  }
+  
+  func regenHealth() {
+    if player.health < player.maxHealth {
+      player.health += player.hpRegenRate
+    }
+  }
+  
+  func enemiesAreInContact() -> Bool {
+    return !enemiesInContact.isEmpty
+  }
+  
+  func handlePlayerAndEnemyContact(enemy: Enemy) {
+    damagePlayerAndEnemy(enemy)
+    putEnemyInContact(enemy)
+  }
+  
+  // MARK: Player and Enemy damage
+  
+  func damagePlayerAndEnemy(enemy: Enemy) {
+    damagePlayer(enemy.attack)
+    damageEnemy(enemy, damage: player.attack)
+  }
+  
+  func damagePlayer(damage: Double) {
+    player.health -= damage
+    checkForPlayerDeath()
+  }
+  
+  func damageEnemy(enemy: Enemy, damage: Double) {
+    enemy.health -= damage
+    
+    if isEnemyDead(enemy) {
+      enemyDeath(enemy)
+    }
+  }
+  
+  //MARK: Player and Enemy Death
+  
+  func checkForPlayerDeath() {
+    if isPlayerDead() {
+      playerDeath()
+    }
+  }
+  
+  func checkForEnemyDeath(enemy: Enemy) {
+    if isEnemyDead(enemy) {
+      enemyDeath(enemy)
+    }
+  }
+  
+  func isEnemyDead(enemy: Enemy) -> Bool {
+    return enemy.health <= 0
+  }
+  
+  func isPlayerDead() -> Bool {
+    return player.health <= 0
+  }
+  
+
+  
+  // MARK: - Player and Enemy Visuals
+  
+  func colorizeDamagePlayer() {
+    if !player.hasActions() {
+      let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.5)
+      let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+      player.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
+    }
+  }
+  
+  func colorizeDamageEnemy(enemy: Enemy) {
+    if (enemy.actionForKey(AnimationKeys.damage) == nil) {
+      let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 1, duration: 0.5)
+      let colorizeBack = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+      enemy.runAction(SKAction.sequence([colorize, colorizeBack]), withKey: AnimationKeys.damage)
+    }
+  }
+  
+  // MARK: - Camera
+  func updateCamera() {
     if (player.position.x > frame.size.width/2 && player.position.x < (map.size.width - frame.size.width/2))
     {
       self.cameraNode.position = CGPointMake(player.position.x - frame.size.width/2, cameraNode.position.y);
@@ -388,15 +483,6 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     }
     
     centerOnNode(cameraNode)
-    
-    if (((cameraNode.position.y < -1 * yBoundary) || (cameraNode.position.y > yBoundary)) ||
-      ((cameraNode.position.x < -1 * xBoundary) || (cameraNode.position.x > xBoundary)))
-    {
-      //player.hidden = YES
-    } else if (((!(self.cameraNode.position.y < -1*yBoundary) || (!(self.cameraNode.position.y > yBoundary))) && ((!(self.cameraNode.position.x < -1*xBoundary)) || (self.cameraNode.position.x > xBoundary))))
-    {
-      //player.hidden = YES
-    }
   }
   
   func centerOnNode(node: SKNode)
@@ -409,26 +495,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     node.parent?.position = CGPointMake(xPos, yPos);
   }
   
-  // MARK: Actions
-  func buttonTapped(type: ButtonType)
-  {
-    /* this should contain the first level of buttons available on the screen (e.g. 'Menu', 'Attack'), which all lead to separate views that are managed independently of this function */
-    switch type
-    {
-    case ButtonType.MainMenuPlay:
-      print("tapped play button")
-      // segue into main level
-    case ButtonType.MainMenuSettings:
-      print("tapped settings button")
-      // segue into settings page
-      //    default:
-      //      print("tapped untagged button")
-    }
-  }
-  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  // MARK: Helpers
 }

@@ -24,7 +24,7 @@ import SpriteKit
 
 class Player : Character
 {
-  var fireballSpell: Spell
+//  var fireballSpell: Spell
   var spellList: [Spell] = [] // fireball is the main skill for demo
   
   var activeSpell: Spell
@@ -42,9 +42,10 @@ class Player : Character
   var cooldownModifier = 1.0
   
   override init(texture: SKTexture?, color: UIColor, size: CGSize) {
-    fireballSpell = Spell(spellDamage: 1, spell: Spells.Fireball, spellCost: SpellCosts.fireball)
-    activeSpell = fireballSpell
-    spellList.append(fireballSpell)
+    //let fireballSpell = Spell(spellDamage: 1, spell: Spells.Fireball, spellCost: SpellCosts.fireball)
+    let lightningSpell = Spell(spellDamage: 1, spell: Spells.Lightning, spellCost: SpellCosts.lightning)
+    activeSpell = lightningSpell
+    spellList.append(lightningSpell)
     super.init(texture: texture, color: color, size: size)
     health = 100
     maxHealth = 100
@@ -83,8 +84,10 @@ class Player : Character
     zPosition = zPositions.mapObjects;
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.affectedByGravity = false
+    physicsBody?.mass = 1
+    //physicsBody?.dynamic = false
     physicsBody?.categoryBitMask = CategoryBitMasks.Hero.rawValue
-    physicsBody?.collisionBitMask = CategoryBitMasks.Map.rawValue
+    physicsBody?.collisionBitMask = CategoryBitMasks.Map.rawValue | CategoryBitMasks.Enemy.rawValue
     lightingBitMask = 1
     shadowCastBitMask = 1
     shadowedBitMask = 1

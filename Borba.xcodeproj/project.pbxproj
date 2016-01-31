@@ -28,6 +28,8 @@
 		766FE1AA1C5D0E5400D23F17 /* EnemyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766FE1A91C5D0E5400D23F17 /* EnemyGenerator.swift */; };
 		766FE1AD1C5D55AA00D23F17 /* LevelUp.sks in Resources */ = {isa = PBXBuildFile; fileRef = 766FE1AB1C5D55AA00D23F17 /* LevelUp.sks */; };
 		766FE1AE1C5D55AA00D23F17 /* bokeh.png in Resources */ = {isa = PBXBuildFile; fileRef = 766FE1AC1C5D55AA00D23F17 /* bokeh.png */; };
+		766FE1B11C5D732400D23F17 /* Lightning.sks in Resources */ = {isa = PBXBuildFile; fileRef = 766FE1AF1C5D732400D23F17 /* Lightning.sks */; };
+		766FE1B21C5D732400D23F17 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 766FE1B01C5D732400D23F17 /* spark.png */; };
 		76A3A76B1B72B006003F4F73 /* Spell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A3A76A1B72B006003F4F73 /* Spell.swift */; };
 		76A8204A1B6EBBA70074CEDC /* ResourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A820491B6EBBA70074CEDC /* ResourceBar.swift */; };
 		76AEE01E1B228EEC003A276A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AEE01D1B228EEC003A276A /* AppDelegate.swift */; };
@@ -76,6 +78,8 @@
 		766FE1A91C5D0E5400D23F17 /* EnemyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyGenerator.swift; sourceTree = "<group>"; };
 		766FE1AB1C5D55AA00D23F17 /* LevelUp.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelUp.sks; sourceTree = "<group>"; };
 		766FE1AC1C5D55AA00D23F17 /* bokeh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bokeh.png; sourceTree = "<group>"; };
+		766FE1AF1C5D732400D23F17 /* Lightning.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Lightning.sks; sourceTree = "<group>"; };
+		766FE1B01C5D732400D23F17 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		76A3A76A1B72B006003F4F73 /* Spell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spell.swift; sourceTree = "<group>"; };
 		76A820491B6EBBA70074CEDC /* ResourceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBar.swift; sourceTree = "<group>"; };
 		76AEE0181B228EEC003A276A /* Borba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Borba.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,6 +261,8 @@
 				765921B01B794F5700673BC1 /* Fire.sks */,
 				765921B41B794F7300673BC1 /* Rain.sks */,
 				766FE1AB1C5D55AA00D23F17 /* LevelUp.sks */,
+				766FE1AF1C5D732400D23F17 /* Lightning.sks */,
+				766FE1B01C5D732400D23F17 /* spark.png */,
 				766FE1AC1C5D55AA00D23F17 /* bokeh.png */,
 				765921B11B794F5700673BC1 /* spark.png */,
 			);
@@ -346,10 +352,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				766FE1B11C5D732400D23F17 /* Lightning.sks in Resources */,
 				76AEE02C1B228EEC003A276A /* LaunchScreen.xib in Resources */,
 				765921B61B794F7300673BC1 /* Rain.sks in Resources */,
 				765921B31B794F5700673BC1 /* spark.png in Resources */,
 				766FE1AD1C5D55AA00D23F17 /* LevelUp.sks in Resources */,
+				766FE1B21C5D732400D23F17 /* spark.png in Resources */,
 				765921B21B794F5700673BC1 /* Fire.sks in Resources */,
 				76AEE0291B228EEC003A276A /* Images.xcassets in Resources */,
 				76AEE0271B228EEC003A276A /* Main.storyboard in Resources */,
