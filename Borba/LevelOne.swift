@@ -12,7 +12,7 @@
 
 import SpriteKit
 class LevelOne: SKScene, SKPhysicsContactDelegate
-{ // rename to .. ? Level? as LevelOne sounds hardcoded, everything should be procedural
+{ // rename to .. ? Level? as LevelOne sounds hardcoded, should be procedural
   
   // MARK: Properties
   var width: CGFloat?
@@ -35,13 +35,11 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   }
   
   // MARK: Setup functions
-  override func didMoveToView(view: SKView)
-  {
+  override func didMoveToView(view: SKView) {
     setup()
   }
   
-  func setup()
-  {
+  func setup() {
     view?.multipleTouchEnabled = true
     print("round one - map one - wave one - start")
     
@@ -68,14 +66,12 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     spawnEnemies(enemies)
   }
   
-  func setupHUD()
-  {
+  func setupHUD() {
     hud.zPosition = zPositions.UIObjects
     addChild(hud)
   }
   
-  func setupMap()
-  {
+  func setupMap() {
     self.addChild(map)
     
     if let myParticlePath = NSBundle.mainBundle().pathForResource("Rain", ofType: "sks") {
@@ -94,8 +90,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     }
   }
   
-  func setupProperties()
-  {
+  func setupProperties() {
     width = scene!.size.width
     height = scene!.size.height
     print("\(width) and \(height)")
@@ -375,7 +370,12 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   }
   
   func useFireball(fireball: SKSpriteNode) {
-    let moveAction = SKAction.moveByX(skillJoystick.thumbX * 100, y: skillJoystick.thumbY * 100, duration: getDistance(fireball.position, point2: CGPointMake(fireball.position.x + skillJoystick.thumbX * 100, fireball.position.y + skillJoystick.thumbY * 100)) / MissileSpeeds.fireball)
+    let dx = skillJoystick.thumbX * 100
+    let dy = skillJoystick.thumbY * 100
+    let arbitraryPointFaraway = CGPointMake(fireball.position.x + skillJoystick.thumbX * 100, fireball.position.y + skillJoystick.thumbY * 100)
+    let duration = getDistance(fireball.position, point2: arbitraryPointFaraway) / MissileSpeeds.fireball
+    
+    let moveAction = SKAction.moveByX(dx, y: dy, duration: duration)
     let removeAction = SKAction.removeFromParent()
     let completeAction = SKAction.sequence([moveAction, removeAction])
     fireball.runAction(completeAction)
