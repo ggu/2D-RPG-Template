@@ -11,7 +11,7 @@
 */
 
 import SpriteKit
-class LevelOne: SKScene, SKPhysicsContactDelegate
+class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate
 { // rename to .. ? Level? as LevelOne sounds hardcoded, should be procedural
   
   // MARK: Properties
@@ -28,9 +28,13 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   var numEnemies = 5
   var playerEnemyInContact = false
   var enemiesInContact: [Enemy] = []
+  let killCountLabel = SKLabelNode(text: "Kill Count: 0")
+  var enemiesKilled = 0
+  var skillBar : SkillBar
   
   override init(size: CGSize) {
     hud = HUD(size: size)
+    skillBar = SkillBar(color: UIColor.blueColor(), size: CGSizeMake(30, 100))
     super.init(size: size)
   }
   
@@ -53,13 +57,20 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     
     setupPlayer()
     
+    runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed("music.mp3", waitForCompletion: true)))
+    
     setupCamera()
     
     setupJoysticks()
     
+    setupKillCountLabel()
+    
+    setupSkillBar()
     
     loadEnemies(numEnemies)
   }
+  
+  
   
   func loadEnemies(numEnemies: Int) {
     let enemies = EnemyGenerator.sharedInstance.generateEnemies(numEnemies)
@@ -124,8 +135,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   
   // MARK: - Update
   
-  override func update(currentTime: CFTimeInterval)
-  {
+  override func update(currentTime: CFTimeInterval) {
     updatePlayerState()
     updateEnemies()
     
@@ -139,15 +149,9 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   }
   
   func didBeginContact(contact: SKPhysicsContact) {
-    // define node names up here
     let bodyA = contact.bodyA
     let bodyB = contact.bodyB
     handleGameObjectContact(bodyA, bodyB: bodyB)
-    
-    // this shouldnt be here anymore
-    if player.health <= 0 {
-      playerDeath()
-    }
     
     hud.updateHealthFrame(player.health / player.maxHealth)
     print("damaged the enemy")
@@ -155,13 +159,17 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   
   func didEndContact(contact: SKPhysicsContact) {
     if contact.bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
-      if let _ = contact.bodyB.node as? Enemy {
+      if let enemy = contact.bodyB.node as? Enemy {
+        enemy.inContactWithPlayer = false
         if !enemiesAreInContact() {
           playerEnemyInContact = false
         }
       }
     } else if contact.bodyB.categoryBitMask == CategoryBitMasks.Hero.rawValue {
-      if let _ = contact.bodyA.node as? Enemy {
+      if let enemy = contact.bodyA.node as? Enemy {
+        enemy.inContactWithPlayer = false
+        removeEnemyFromEnemiesInContact(enemy)
+        
         if !enemiesAreInContact() {
           playerEnemyInContact = false
         }
@@ -185,6 +193,14 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
       }
     } else if bodyB.categoryBitMask == CategoryBitMasks.Spell.rawValue {
       bodyB.node?.removeFromParent()
+      if let enemy = bodyA.node as? Enemy {
+        handlePlayerAndSpellContact(enemy)
+      }
+    } else if bodyA.categoryBitMask == CategoryBitMasks.PenetratingSpell.rawValue {
+      if let enemy = bodyB.node as? Enemy {
+        handlePlayerAndSpellContact(enemy)
+      }
+    } else if bodyB.categoryBitMask == CategoryBitMasks.PenetratingSpell.rawValue {
       if let enemy = bodyA.node as? Enemy {
         handlePlayerAndSpellContact(enemy)
       }
@@ -273,6 +289,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     checkForEnemyDeath(enemy)
   }
   
+  func handlePlayerAndEnemyContact(enemy: Enemy) {
+    damagePlayerAndEnemy(enemy)
+    putEnemyInContact(enemy)
+  }
   
   func putEnemyInContact(enemy: Enemy) {
     if !enemiesInContact.contains(enemy) {
@@ -285,7 +305,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   
   // MARK: - Player and Enemy Death Helpers
   
-  func enemyDeath(enemy: Enemy) {
+  func removeEnemyFromEnemiesInContact(enemy: Enemy) {
     if enemiesInContact.contains(enemy) {
       if let index = enemiesInContact.indexOf(enemy) {
         enemiesInContact.removeAtIndex(index)
@@ -296,6 +316,33 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
         }
       }
     }
+  }
+  
+  func animateDeath(position: CGPoint) {
+    if let myParticlePath = NSBundle.mainBundle().pathForResource("Death", ofType: "sks") {
+      let fireParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
+      fireParticles.zPosition = zPositions.mapObjects
+      fireParticles.position = position
+      map.addChild(fireParticles)
+      
+      let waitAction = SKAction.waitForDuration(1)
+      let stopAction = SKAction.runBlock({
+        fireParticles.particleBirthRate = 0
+      })
+      let wait2Action = SKAction.waitForDuration(3)
+      let removeAction = SKAction.removeFromParent()
+      fireParticles.runAction(SKAction.sequence([waitAction, stopAction, wait2Action, removeAction]))
+    }
+  }
+  
+  func enemyDeath(enemy: Enemy) {
+    runAction(SKAction.playSoundFileNamed(SoundFiles.zombieDeath, waitForCompletion: false))
+
+    enemiesKilled += 1
+    killCountLabel.text = "Kill Count: " + String(enemiesKilled)
+    animateDeath(enemy.position)
+    
+    removeEnemyFromEnemiesInContact(enemy)
     
     if let index = enemies.indexOf(enemy) {
       enemies.removeAtIndex(index)
@@ -362,11 +409,27 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   }
   
   func useLightning(lightning: SKSpriteNode) {
-    print("lightning")
+    let dx = skillJoystick.thumbX * 100
+    let dy = skillJoystick.thumbY * 100
+    let arbitraryPointFaraway = CGPointMake(lightning.position.x + skillJoystick.thumbX * 100, lightning.position.y + skillJoystick.thumbY * 100)
+    let duration = getDistance(lightning.position, point2: arbitraryPointFaraway) / MissileSpeeds.lightning
+    
+    let moveAction = SKAction.moveByX(dx, y: dy, duration: duration)
+    let removeAction = SKAction.removeFromParent()
+    let completeAction = SKAction.sequence([moveAction, removeAction])
+    lightning.runAction(completeAction)
   }
   
   func useFrostbolt(frostbolt: SKSpriteNode) {
-    print("use frostbolt")
+    let dx = skillJoystick.thumbX * 100
+    let dy = skillJoystick.thumbY * 100
+    let arbitraryPointFaraway = CGPointMake(frostbolt.position.x + skillJoystick.thumbX * 100, frostbolt.position.y + skillJoystick.thumbY * 100)
+    let duration = getDistance(frostbolt.position, point2: arbitraryPointFaraway) / MissileSpeeds.frostbolt
+    
+    let moveAction = SKAction.moveByX(dx, y: dy, duration: duration)
+    let removeAction = SKAction.removeFromParent()
+    let completeAction = SKAction.sequence([moveAction, removeAction])
+    frostbolt.runAction(completeAction)
   }
   
   func useFireball(fireball: SKSpriteNode) {
@@ -404,11 +467,6 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     return !enemiesInContact.isEmpty
   }
   
-  func handlePlayerAndEnemyContact(enemy: Enemy) {
-    damagePlayerAndEnemy(enemy)
-    putEnemyInContact(enemy)
-  }
-  
   // MARK: Player and Enemy damage
   
   func damagePlayerAndEnemy(enemy: Enemy) {
@@ -417,11 +475,22 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
   }
   
   func damagePlayer(damage: Double) {
+//    if player.actionForKey(AnimationKeys.damagePlayerSound) == nil {
+//      let action = SKAction.playSoundFileNamed(SoundFiles.playerDamage, waitForCompletion: false)
+//      player.runAction(action, withKey: AnimationKeys.damagePlayerSound)
+//    }
+
     player.health -= damage
     checkForPlayerDeath()
   }
   
   func damageEnemy(enemy: Enemy, damage: Double) {
+//    let soundAction = enemy.actionForKey(AnimationKeys.damageEnemySound)
+//    if (soundAction == nil) {
+//      let action = SKAction.playSoundFileNamed(SoundFiles.zombieSpawn, waitForCompletion: true)
+//      enemy.runAction(action, withKey: AnimationKeys.damageEnemySound)
+//    }
+
     enemy.health -= damage
     
     if isEnemyDead(enemy) {
@@ -451,9 +520,31 @@ class LevelOne: SKScene, SKPhysicsContactDelegate
     return player.health <= 0
   }
   
-
+  // MARK: Delegate
+  
+  func skillButtonTouched(skillName: Spells) {
+    player.setActiveSkill(skillName)
+  }
   
   // MARK: - Player and Enemy Visuals
+  
+  
+  func setupSkillBar() {
+    //skillBar.skills = player.spellList
+    skillBar.position = CGPointMake(width! - 20, height! - 70)
+    skillBar.zPosition = zPositions.UIObjects
+    skillBar.delegate = self
+    addChild(skillBar)
+  }
+  
+  func setupKillCountLabel() {
+    killCountLabel.fontSize = 16
+    killCountLabel.fontName = "Copperplate"
+    killCountLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+    killCountLabel.position = CGPointMake(width!/2, height! - 40)
+    killCountLabel.zPosition = zPositions.UIObjects
+    addChild(killCountLabel)
+  }
   
   func colorizeDamagePlayer() {
     if !player.hasActions() {

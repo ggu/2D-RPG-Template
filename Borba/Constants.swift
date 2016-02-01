@@ -16,14 +16,32 @@ enum Spells
   case Lightning
 }
 
+enum SoundFiles {
+  static let fireball = "FlameSpell.mp3"
+  static let frostbolt = "IceSpell.mp3"
+  static let lightning = "LightningSpell.mp3"
+  static let playerDamage = "DamageToPlayer.mp3"
+  static let zombieSpawn = "ZombieSpawn.mp3"
+  static let zombieDeath = "DamageToZombie.mp3"
+  
+}
+
+enum SpellStrings {
+  static let Fireball = "fireball"
+  static let Frostbolt = "frostbolt"
+  static let LightningBolt = "lightning"
+}
+
 struct MissileSpeeds
 {
   static let fireball = 200.0
-  static let lightning = 400.0
+  static let frostbolt = 150.0
+  static let lightning = 200.0
 }
 
 struct SpellCosts {
   static let fireball = 8.0
+  static let frostbolt = 8.0
   static let lightning = 6.0
 }
 
@@ -33,6 +51,9 @@ struct ExpValues {
 
 struct AnimationKeys {
   static let damage = "dmg"
+  static let move = "move"
+  static let damageEnemySound = "enemydamagesound"
+  static let damagePlayerSound = "playerdamagesound"
 }
 
 struct ImageNames
@@ -46,6 +67,7 @@ enum CategoryBitMasks: UInt32
   case Enemy = 2
   case Map = 4
   case Spell = 8
+  case PenetratingSpell = 16
 }
 
 enum MapBitMasks: UInt32

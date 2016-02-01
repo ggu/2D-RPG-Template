@@ -34,7 +34,7 @@ class Enemy : Character {
     physicsBody?.collisionBitMask = CategoryBitMasks.Hero.rawValue | CategoryBitMasks.Enemy.rawValue
     physicsBody?.contactTestBitMask = CategoryBitMasks.Hero.rawValue
     physicsBody?.affectedByGravity = false
-    physicsBody?.mass = 1000
+    physicsBody?.mass = 100
     //physicsBody?.dynamic = false
     //physicsBody?.restitution = 1
   }
@@ -44,6 +44,9 @@ class Enemy : Character {
       let distance = getDistance(position, point2: destinationPos)
       let action = SKAction.moveTo(destinationPos, duration: distance / Double(movementSpeed))
       runAction(action)
+    } else {
+      removeAllActions()
+      runAction(SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5))
     }
     
     let radians = CGFloat(getRadiansBetweenTwoPoints(position, secondPoint: destinationPos))

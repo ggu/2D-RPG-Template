@@ -22,10 +22,9 @@ Any player has:
 
 import SpriteKit
 
-class Player : Character
-{
+class Player : Character {
 //  var fireballSpell: Spell
-  var spellList: [Spell] = [] // fireball is the main skill for demo
+  var spellList = [String: Spell]() // fireball is the main skill for demo
   
   var activeSpell: Spell
   
@@ -37,48 +36,67 @@ class Player : Character
   var exp = 0.0
   var expToLevel = 100.0
   var level = 1
-  var hpRegenRate = 0.02
-  var spellDamageModifier = 1.02
+  var hpRegenRate = 0.01
+  var spellDamageModifier = 1.01
   var cooldownModifier = 1.0
   
   override init(texture: SKTexture?, color: UIColor, size: CGSize) {
-    //let fireballSpell = Spell(spellDamage: 1, spell: Spells.Fireball, spellCost: SpellCosts.fireball)
-    let lightningSpell = Spell(spellDamage: 1, spell: Spells.Lightning, spellCost: SpellCosts.lightning)
+    let fireballSpell = Spell(spellDamage: 50, spell: Spells.Fireball, spellCost: SpellCosts.fireball)
+    let frostboltSpell = Spell(spellDamage: 45, spell: Spells.Frostbolt, spellCost: SpellCosts.frostbolt)
+    let lightningSpell = Spell(spellDamage: 30, spell: Spells.Lightning, spellCost: SpellCosts.lightning)
+    
     activeSpell = lightningSpell
-    spellList.append(lightningSpell)
+    spellList[SpellStrings.Fireball] = fireballSpell
+    spellList[SpellStrings.Frostbolt] = frostboltSpell
+    spellList[SpellStrings.LightningBolt] = lightningSpell
+    
     super.init(texture: texture, color: color, size: size)
     health = 100
     maxHealth = 100
-    attack = 0.8
+    attack = 0.4
     
     setup()
   }
 
   func levelUp() {
-    
     let whitenAction = SKAction.colorizeWithColor(UIColor.greenColor(), colorBlendFactor: 1, duration: 0.5)
     let returnAction = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
     runAction(SKAction.sequence([whitenAction, returnAction]))
     level += 1
     exp -= expToLevel
     expToLevel *= 1.2
-    attack += 0.1
+    attack += 0.05
     maxHealth += 5
     maxMana += 5
     health = maxHealth
     mana = maxMana
     hpRegenRate += 0.01
     manaRegenRate += 0.02
-    spellDamageModifier += 0.02
+    spellDamageModifier += 0.01
     cooldownModifier *= 0.97
     // increase attack and spell damage
   }
   
+  func setActiveSkill(spell: Spells) {
+    switch spell {
+    case .Fireball:
+      if let spellVar = spellList[SpellStrings.Fireball] {
+        activeSpell = spellVar
+      }
+    case .Frostbolt:
+      if let spellVar = spellList[SpellStrings.Frostbolt] {
+        activeSpell = spellVar
+      }
+    case .Lightning:
+      if let spellVar = spellList[SpellStrings.LightningBolt] {
+        activeSpell = spellVar
+      }
+    }
+  }
 
-  func setup()
-  {
+  func setup() {
     movementSpeed = 2
-    activeSpell = spellList[0]
+    activeSpell = spellList[SpellStrings.Fireball]!
     
     position = CGPointMake(300, 160)
     zPosition = zPositions.mapObjects;
@@ -94,8 +112,7 @@ class Player : Character
     
   }
   
-  func handleSpriteMovement(vX: CGFloat, vY: CGFloat, angle: CGFloat)
-  {
+  func handleSpriteMovement(vX: CGFloat, vY: CGFloat, angle: CGFloat) {
     var xPoint: CGFloat
     var yPoint: CGFloat
     
@@ -139,9 +156,8 @@ class Player : Character
     return !activeSpellOnCooldown && mana > activeSpell.cost
   }
   
-  func handlePlayerSpellCast() -> SKSpriteNode
-  {
-    let spell = SpellNode.useSpell(activeSpell.spellName)
+  func handlePlayerSpellCast() -> SKSpriteNode {
+    let spell = SpellNode.useSpell(activeSpell.spellName, angle: zRotation)
     activeSpellOnCooldown = true
     mana -= activeSpell.cost
     let action = SKAction.sequence([SKAction.waitForDuration(cooldownModifier * 1.0), SKAction.runBlock({
@@ -151,8 +167,7 @@ class Player : Character
     return spell
   }
   
-  func changeDirection(angle: CGFloat)
-  {
+  func changeDirection(angle: CGFloat) {
     //    let rotateAction = SKAction.rotateToAngle(CGFloat(Double(angle) + M_PI), duration: 0.05)
     //    runAction(rotateAction)
     //zRotation = angle;
@@ -162,6 +177,4 @@ class Player : Character
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  
 }

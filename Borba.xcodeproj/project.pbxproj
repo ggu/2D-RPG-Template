@@ -10,6 +10,25 @@
 		7602E40E1B6ED2EB0009BFA9 /* ExperienceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7602E40D1B6ED2EB0009BFA9 /* ExperienceBar.swift */; };
 		7602E4101B6ED5DD0009BFA9 /* LevelBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7602E40F1B6ED5DD0009BFA9 /* LevelBar.swift */; };
 		76225FA41B23CCDC00D36B3D /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76225FA31B23CCDC00D36B3D /* GameController.swift */; };
+		763D7F0B1C5EADA000443C7C /* Death.sks in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F0A1C5EADA000443C7C /* Death.sks */; };
+		763D7F0D1C5EB0FD00443C7C /* Fireball.sks in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F0C1C5EB0FD00443C7C /* Fireball.sks */; };
+		763D7F111C5EBBDF00443C7C /* Frostbolt.sks in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F101C5EBBDF00443C7C /* Frostbolt.sks */; };
+		763D7F131C5EBDA700443C7C /* LightningBall.sks in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F121C5EBDA700443C7C /* LightningBall.sks */; };
+		763D7F151C5EC3AE00443C7C /* Aura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F141C5EC3AE00443C7C /* Aura.sks */; };
+		763D7F171C5EC6F100443C7C /* SkillBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763D7F161C5EC6F100443C7C /* SkillBar.swift */; };
+		763D7F191C5ECD0B00443C7C /* SkillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763D7F181C5ECD0B00443C7C /* SkillButton.swift */; };
+		763D7F251C5EE85300443C7C /* FlameSpell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F1A1C5EE85300443C7C /* FlameSpell.mp3 */; };
+		763D7F261C5EE85300443C7C /* FlameSpellCrackle1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F1B1C5EE85300443C7C /* FlameSpellCrackle1.mp3 */; };
+		763D7F271C5EE85300443C7C /* FlameSpellCrackle2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F1C1C5EE85300443C7C /* FlameSpellCrackle2.mp3 */; };
+		763D7F281C5EE85300443C7C /* IceSpell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F1D1C5EE85300443C7C /* IceSpell.mp3 */; };
+		763D7F291C5EE85300443C7C /* LightningSpell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F1E1C5EE85300443C7C /* LightningSpell.mp3 */; };
+		763D7F2A1C5EE85300443C7C /* DamageToPlayer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F1F1C5EE85300443C7C /* DamageToPlayer.mp3 */; };
+		763D7F2B1C5EE85300443C7C /* DamageToSkeleton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F201C5EE85300443C7C /* DamageToSkeleton.mp3 */; };
+		763D7F2C1C5EE85300443C7C /* DamageToZombie.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F211C5EE85300443C7C /* DamageToZombie.mp3 */; };
+		763D7F2D1C5EE85300443C7C /* SkeletonDeath.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F221C5EE85300443C7C /* SkeletonDeath.mp3 */; };
+		763D7F2E1C5EE85300443C7C /* SkeletonSpawn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F231C5EE85300443C7C /* SkeletonSpawn.mp3 */; };
+		763D7F2F1C5EE85300443C7C /* ZombieSpawn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F241C5EE85300443C7C /* ZombieSpawn.mp3 */; };
+		763D7F311C5EF10000443C7C /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F301C5EF10000443C7C /* music.mp3 */; };
 		7657F3371B643E5800AAFAA1 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7657F3361B643E5800AAFAA1 /* GameObject.swift */; };
 		7657F3391B643EDF00AAFAA1 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7657F3381B643EDF00AAFAA1 /* Character.swift */; };
 		7657F33B1B643F0800AAFAA1 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7657F33A1B643F0800AAFAA1 /* Player.swift */; };
@@ -60,6 +79,25 @@
 		7602E40D1B6ED2EB0009BFA9 /* ExperienceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperienceBar.swift; sourceTree = "<group>"; };
 		7602E40F1B6ED5DD0009BFA9 /* LevelBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelBar.swift; sourceTree = "<group>"; };
 		76225FA31B23CCDC00D36B3D /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		763D7F0A1C5EADA000443C7C /* Death.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Death.sks; sourceTree = "<group>"; };
+		763D7F0C1C5EB0FD00443C7C /* Fireball.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Fireball.sks; sourceTree = "<group>"; };
+		763D7F101C5EBBDF00443C7C /* Frostbolt.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Frostbolt.sks; sourceTree = "<group>"; };
+		763D7F121C5EBDA700443C7C /* LightningBall.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightningBall.sks; sourceTree = "<group>"; };
+		763D7F141C5EC3AE00443C7C /* Aura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Aura.sks; sourceTree = "<group>"; };
+		763D7F161C5EC6F100443C7C /* SkillBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillBar.swift; sourceTree = "<group>"; };
+		763D7F181C5ECD0B00443C7C /* SkillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillButton.swift; sourceTree = "<group>"; };
+		763D7F1A1C5EE85300443C7C /* FlameSpell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = FlameSpell.mp3; sourceTree = "<group>"; };
+		763D7F1B1C5EE85300443C7C /* FlameSpellCrackle1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = FlameSpellCrackle1.mp3; sourceTree = "<group>"; };
+		763D7F1C1C5EE85300443C7C /* FlameSpellCrackle2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = FlameSpellCrackle2.mp3; sourceTree = "<group>"; };
+		763D7F1D1C5EE85300443C7C /* IceSpell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = IceSpell.mp3; sourceTree = "<group>"; };
+		763D7F1E1C5EE85300443C7C /* LightningSpell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LightningSpell.mp3; sourceTree = "<group>"; };
+		763D7F1F1C5EE85300443C7C /* DamageToPlayer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = DamageToPlayer.mp3; sourceTree = "<group>"; };
+		763D7F201C5EE85300443C7C /* DamageToSkeleton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = DamageToSkeleton.mp3; sourceTree = "<group>"; };
+		763D7F211C5EE85300443C7C /* DamageToZombie.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = DamageToZombie.mp3; sourceTree = "<group>"; };
+		763D7F221C5EE85300443C7C /* SkeletonDeath.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SkeletonDeath.mp3; sourceTree = "<group>"; };
+		763D7F231C5EE85300443C7C /* SkeletonSpawn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SkeletonSpawn.mp3; sourceTree = "<group>"; };
+		763D7F241C5EE85300443C7C /* ZombieSpawn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ZombieSpawn.mp3; sourceTree = "<group>"; };
+		763D7F301C5EF10000443C7C /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = "<group>"; };
 		7657F3361B643E5800AAFAA1 /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		7657F3381B643EDF00AAFAA1 /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		7657F33A1B643F0800AAFAA1 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -118,6 +156,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		763D7F091C5E971E00443C7C /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+				76AEE0211B228EEC003A276A /* MainMenu.swift */,
+				76C867C51B38AACF0009A6E4 /* LevelOne.swift */,
+			);
+			name = scenes;
+			sourceTree = "<group>";
+		};
 		7657F3331B643DFE00AAFAA1 /* views */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,8 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				76AEE01D1B228EEC003A276A /* AppDelegate.swift */,
-				76AEE0211B228EEC003A276A /* MainMenu.swift */,
-				76C867C51B38AACF0009A6E4 /* LevelOne.swift */,
+				763D7F091C5E971E00443C7C /* scenes */,
 				7657F3331B643DFE00AAFAA1 /* views */,
 				76225FA31B23CCDC00D36B3D /* GameController.swift */,
 				76AEE0231B228EEC003A276A /* GameViewController.swift */,
@@ -235,6 +281,8 @@
 			isa = PBXGroup;
 			children = (
 				766FE1A51C5CF28C00D23F17 /* HUD.swift */,
+				763D7F161C5EC6F100443C7C /* SkillBar.swift */,
+				763D7F181C5ECD0B00443C7C /* SkillButton.swift */,
 				76AEE0411B22923D003A276A /* SKButton.swift */,
 				76AEE0461B229321003A276A /* SKButtonContents.swift */,
 				76B815021B6DB2BB007A0398 /* SKJoystick.swift */,
@@ -255,16 +303,33 @@
 		76B815051B6DB3C5007A0398 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				763D7F301C5EF10000443C7C /* music.mp3 */,
+				763D7F1A1C5EE85300443C7C /* FlameSpell.mp3 */,
+				763D7F1B1C5EE85300443C7C /* FlameSpellCrackle1.mp3 */,
+				763D7F1C1C5EE85300443C7C /* FlameSpellCrackle2.mp3 */,
+				763D7F1D1C5EE85300443C7C /* IceSpell.mp3 */,
+				763D7F1E1C5EE85300443C7C /* LightningSpell.mp3 */,
+				763D7F1F1C5EE85300443C7C /* DamageToPlayer.mp3 */,
+				763D7F201C5EE85300443C7C /* DamageToSkeleton.mp3 */,
+				763D7F211C5EE85300443C7C /* DamageToZombie.mp3 */,
+				763D7F221C5EE85300443C7C /* SkeletonDeath.mp3 */,
+				763D7F231C5EE85300443C7C /* SkeletonSpawn.mp3 */,
+				763D7F241C5EE85300443C7C /* ZombieSpawn.mp3 */,
 				766FDAC31C5CBB7500D23F17 /* ice@2x.jpg */,
 				765921BA1B79513F00673BC1 /* enemy@2x.png */,
 				765921B81B79512F00673BC1 /* hero@2x.png */,
 				765921B01B794F5700673BC1 /* Fire.sks */,
 				765921B41B794F7300673BC1 /* Rain.sks */,
+				763D7F141C5EC3AE00443C7C /* Aura.sks */,
 				766FE1AB1C5D55AA00D23F17 /* LevelUp.sks */,
 				766FE1AF1C5D732400D23F17 /* Lightning.sks */,
+				763D7F101C5EBBDF00443C7C /* Frostbolt.sks */,
+				763D7F121C5EBDA700443C7C /* LightningBall.sks */,
+				763D7F0C1C5EB0FD00443C7C /* Fireball.sks */,
 				766FE1B01C5D732400D23F17 /* spark.png */,
 				766FE1AC1C5D55AA00D23F17 /* bokeh.png */,
 				765921B11B794F5700673BC1 /* spark.png */,
+				763D7F0A1C5EADA000443C7C /* Death.sks */,
 			);
 			name = assets;
 			sourceTree = "<group>";
@@ -352,19 +417,36 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				763D7F281C5EE85300443C7C /* IceSpell.mp3 in Resources */,
+				763D7F0B1C5EADA000443C7C /* Death.sks in Resources */,
 				766FE1B11C5D732400D23F17 /* Lightning.sks in Resources */,
+				763D7F111C5EBBDF00443C7C /* Frostbolt.sks in Resources */,
+				763D7F2A1C5EE85300443C7C /* DamageToPlayer.mp3 in Resources */,
 				76AEE02C1B228EEC003A276A /* LaunchScreen.xib in Resources */,
+				763D7F2D1C5EE85300443C7C /* SkeletonDeath.mp3 in Resources */,
 				765921B61B794F7300673BC1 /* Rain.sks in Resources */,
+				763D7F2C1C5EE85300443C7C /* DamageToZombie.mp3 in Resources */,
+				763D7F251C5EE85300443C7C /* FlameSpell.mp3 in Resources */,
 				765921B31B794F5700673BC1 /* spark.png in Resources */,
 				766FE1AD1C5D55AA00D23F17 /* LevelUp.sks in Resources */,
+				763D7F261C5EE85300443C7C /* FlameSpellCrackle1.mp3 in Resources */,
 				766FE1B21C5D732400D23F17 /* spark.png in Resources */,
 				765921B21B794F5700673BC1 /* Fire.sks in Resources */,
+				763D7F291C5EE85300443C7C /* LightningSpell.mp3 in Resources */,
+				763D7F131C5EBDA700443C7C /* LightningBall.sks in Resources */,
+				763D7F2F1C5EE85300443C7C /* ZombieSpawn.mp3 in Resources */,
 				76AEE0291B228EEC003A276A /* Images.xcassets in Resources */,
 				76AEE0271B228EEC003A276A /* Main.storyboard in Resources */,
+				763D7F311C5EF10000443C7C /* music.mp3 in Resources */,
 				765921BB1B79513F00673BC1 /* enemy@2x.png in Resources */,
+				763D7F2E1C5EE85300443C7C /* SkeletonSpawn.mp3 in Resources */,
+				763D7F271C5EE85300443C7C /* FlameSpellCrackle2.mp3 in Resources */,
 				766FDAC41C5CBB7500D23F17 /* ice@2x.jpg in Resources */,
+				763D7F0D1C5EB0FD00443C7C /* Fireball.sks in Resources */,
 				765921B91B79512F00673BC1 /* hero@2x.png in Resources */,
+				763D7F2B1C5EE85300443C7C /* DamageToSkeleton.mp3 in Resources */,
 				766FE1AE1C5D55AA00D23F17 /* bokeh.png in Resources */,
+				763D7F151C5EC3AE00443C7C /* Aura.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +469,7 @@
 				766FE1AA1C5D0E5400D23F17 /* EnemyGenerator.swift in Sources */,
 				76AEE0471B229321003A276A /* SKButtonContents.swift in Sources */,
 				766FDAC71C5CD8FF00D23F17 /* SpellNode.swift in Sources */,
+				763D7F171C5EC6F100443C7C /* SkillBar.swift in Sources */,
 				7602E40E1B6ED2EB0009BFA9 /* ExperienceBar.swift in Sources */,
 				7602E4101B6ED5DD0009BFA9 /* LevelBar.swift in Sources */,
 				76AEE0221B228EEC003A276A /* MainMenu.swift in Sources */,
@@ -397,6 +480,7 @@
 				7657F3431B6443C200AAFAA1 /* MapObject.swift in Sources */,
 				76AEE0241B228EEC003A276A /* GameViewController.swift in Sources */,
 				76A3A76B1B72B006003F4F73 /* Spell.swift in Sources */,
+				763D7F191C5ECD0B00443C7C /* SkillButton.swift in Sources */,
 				76AEE01E1B228EEC003A276A /* AppDelegate.swift in Sources */,
 				76B815031B6DB2BB007A0398 /* SKJoystick.swift in Sources */,
 				76AEE0421B22923D003A276A /* SKButton.swift in Sources */,
