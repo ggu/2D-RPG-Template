@@ -71,9 +71,9 @@ class Player : Character {
     health = maxHealth
     mana = maxMana
     hpRegenRate += 0.01
-    manaRegenRate += 0.02
+    manaRegenRate += 0.008
     spellDamageModifier += 0.01
-    cooldownModifier *= 0.97
+    cooldownModifier *= 0.98
     // increase attack and spell damage
   }
   

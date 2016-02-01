@@ -42,7 +42,7 @@ struct MissileSpeeds
 struct SpellCosts {
   static let fireball = 8.0
   static let frostbolt = 8.0
-  static let lightning = 6.0
+  static let lightning = 12.0
 }
 
 struct ExpValues {

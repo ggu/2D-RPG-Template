@@ -29,6 +29,7 @@
 		763D7F2E1C5EE85300443C7C /* SkeletonSpawn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F231C5EE85300443C7C /* SkeletonSpawn.mp3 */; };
 		763D7F2F1C5EE85300443C7C /* ZombieSpawn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F241C5EE85300443C7C /* ZombieSpawn.mp3 */; };
 		763D7F311C5EF10000443C7C /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F301C5EF10000443C7C /* music.mp3 */; };
+		763D7F331C5FDC9000443C7C /* death.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F321C5FDC9000443C7C /* death.mp3 */; };
 		7657F3371B643E5800AAFAA1 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7657F3361B643E5800AAFAA1 /* GameObject.swift */; };
 		7657F3391B643EDF00AAFAA1 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7657F3381B643EDF00AAFAA1 /* Character.swift */; };
 		7657F33B1B643F0800AAFAA1 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7657F33A1B643F0800AAFAA1 /* Player.swift */; };
@@ -98,6 +99,7 @@
 		763D7F231C5EE85300443C7C /* SkeletonSpawn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SkeletonSpawn.mp3; sourceTree = "<group>"; };
 		763D7F241C5EE85300443C7C /* ZombieSpawn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ZombieSpawn.mp3; sourceTree = "<group>"; };
 		763D7F301C5EF10000443C7C /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = "<group>"; };
+		763D7F321C5FDC9000443C7C /* death.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = death.mp3; sourceTree = "<group>"; };
 		7657F3361B643E5800AAFAA1 /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		7657F3381B643EDF00AAFAA1 /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		7657F33A1B643F0800AAFAA1 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 		76B815051B6DB3C5007A0398 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				763D7F321C5FDC9000443C7C /* death.mp3 */,
 				763D7F301C5EF10000443C7C /* music.mp3 */,
 				763D7F1A1C5EE85300443C7C /* FlameSpell.mp3 */,
 				763D7F1B1C5EE85300443C7C /* FlameSpellCrackle1.mp3 */,
@@ -422,6 +425,7 @@
 				766FE1B11C5D732400D23F17 /* Lightning.sks in Resources */,
 				763D7F111C5EBBDF00443C7C /* Frostbolt.sks in Resources */,
 				763D7F2A1C5EE85300443C7C /* DamageToPlayer.mp3 in Resources */,
+				763D7F331C5FDC9000443C7C /* death.mp3 in Resources */,
 				76AEE02C1B228EEC003A276A /* LaunchScreen.xib in Resources */,
 				763D7F2D1C5EE85300443C7C /* SkeletonDeath.mp3 in Resources */,
 				765921B61B794F7300673BC1 /* Rain.sks in Resources */,
