@@ -40,19 +40,22 @@ class MapObject : GameObject {
   }
   
   func setupLightSource() {
-    let lightNode = SKLightNode()
-    lightNode.enabled = true
-    lightNode.lightColor = SKColor.whiteColor()
-    lightNode.ambientColor = UIColor.grayColor()
-    lightNode.position = CGPointMake(frame.width / 2, frame.height / 2)
-    //lightNode.shadowColor = SKColor.grayColor()
-    lightNode.alpha = 1
-    lightNode.categoryBitMask = 1
-    lightNode.falloff = 0.01
-    lightingBitMask = 1
-    lightNode.zPosition = zPositions.map
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.Pad) {
+      let lightNode = SKLightNode()
+      lightNode.enabled = true
+      lightNode.lightColor = SKColor.whiteColor()
+      lightNode.ambientColor = UIColor.grayColor()
+      lightNode.position = CGPointMake(frame.width / 2, frame.height / 2)
+      //lightNode.shadowColor = SKColor.grayColor()
+      lightNode.alpha = 1
+      lightNode.categoryBitMask = 1
+      lightNode.falloff = 0.01
+      lightingBitMask = 1
+      lightNode.zPosition = zPositions.map
+      
+      addChild(lightNode)
+    }
     
-    addChild(lightNode)
   }
   
   required init?(coder aDecoder: NSCoder) {
