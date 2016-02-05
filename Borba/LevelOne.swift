@@ -46,27 +46,17 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate
   func setup() {
     view?.multipleTouchEnabled = true
     print("round one - map one - wave one - start")
-    
     physicsWorld.contactDelegate = self
     
     setupProperties()
-    
     setupMap()
-    
     setupHUD()
-    
     setupPlayer()
-    
     runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed("music.mp3", waitForCompletion: true)))
-    
     setupCamera()
-    
     setupJoysticks()
-    
     setupKillCountLabel()
-    
     setupSkillBar()
-    
     loadEnemies(numEnemies)
   }
   
@@ -88,11 +78,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate
     if let myParticlePath = NSBundle.mainBundle().pathForResource("Rain", ofType: "sks") {
       let rainParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
       rainParticles.zPosition = zPositions.mapObjects
-      rainParticles.position = CGPointMake(width! / 2, height! / 2)
-      rainParticles.particlePositionRange = CGVectorMake(self.width!, self.height!)
-      addChild(rainParticles)
+      rainParticles.position = CGPointMake(map.frame.width / 2, map.frame.height / 2)
+      rainParticles.particlePositionRange = CGVectorMake(map.frame.width, map.frame.height)
+      map.addChild(rainParticles)
     }
-    
     if let myParticlePath = NSBundle.mainBundle().pathForResource("Fire", ofType: "sks") {
       let fireParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
       fireParticles.zPosition = zPositions.mapObjects
