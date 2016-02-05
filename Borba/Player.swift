@@ -106,10 +106,29 @@ class Player : Character {
     //physicsBody?.dynamic = false
     physicsBody?.categoryBitMask = CategoryBitMasks.Hero.rawValue
     physicsBody?.collisionBitMask = CategoryBitMasks.Map.rawValue | CategoryBitMasks.Enemy.rawValue
-    lightingBitMask = 1
-    shadowCastBitMask = 1
-    shadowedBitMask = 1
+//    shadowCastBitMask = 1
+//    shadowedBitMask = 1
     
+    setupLightSource()
+  }
+  
+  func setupLightSource() {
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.Pad) {
+      let lightNode = SKLightNode()
+      
+      lightNode.enabled = true
+      lightNode.lightColor = SKColor.whiteColor()
+      lightNode.ambientColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
+      lightNode.position = CGPointMake(0, 0)
+      lightNode.shadowColor = SKColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+      lightNode.alpha = 1
+      lightNode.categoryBitMask = 1
+      lightNode.falloff = 0.1
+      lightingBitMask = 1
+      lightNode.zPosition = zPositions.map
+      
+      addChild(lightNode)
+    }
   }
   
   func handleSpriteMovement(vX: CGFloat, vY: CGFloat, angle: CGFloat) {

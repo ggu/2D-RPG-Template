@@ -35,6 +35,9 @@ class Enemy : Character {
     physicsBody?.contactTestBitMask = CategoryBitMasks.Hero.rawValue
     physicsBody?.affectedByGravity = false
     physicsBody?.mass = 100
+    lightingBitMask = 1
+    shadowCastBitMask = 1
+    //shadowedBitMask = 1
     //physicsBody?.dynamic = false
     //physicsBody?.restitution = 1
   }
