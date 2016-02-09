@@ -11,8 +11,7 @@
 */
 
 import SpriteKit
-class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate
-{ // rename to .. ? Level? as LevelOne sounds hardcoded, should be procedural
+class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate { // rename to .. ? Level? as LevelOne sounds hardcoded, should be procedural
   
   // MARK: Properties
   var width: CGFloat?

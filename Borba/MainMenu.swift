@@ -13,27 +13,19 @@ class MainMenu: SKScene, SKButtonDelegate
   var width: CGFloat?
   var height: CGFloat?
   
-  override func didMoveToView(view: SKView)
-  {
+  override func didMoveToView(view: SKView) {
     setup()
   }
   
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
-  {
-//    for touch in (touches )
-//    {
-//      //let location = touch.locationInNode(self)
-//      
-//    }
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+
   }
   
-  override func update(currentTime: CFTimeInterval)
-  {
+  override func update(currentTime: CFTimeInterval) {
     
   }
   
-  func setup()
-  {
+  func setup() {
     setupProperties()
     
     setupBackgroud()
@@ -41,21 +33,18 @@ class MainMenu: SKScene, SKButtonDelegate
     setupButtons()
   }
   
-  func setupBackgroud()
-  {
+  func setupBackgroud() {
     backgroundColor = UIColor.blackColor()
   }
   
-  func setupButtons()
-  {
+  func setupButtons() {
     setupPlayButton()
     
     setupSettingsButton()
     //setupLeaderboardButton()
   }
   
-  func setupPlayButton()
-  {
+  func setupPlayButton() {
     let playButton = SKButton(color: UIColor.redColor(), text: "Play", type: ButtonType.MainMenuPlay)
     playButton.position = CGPointMake(width! / 2, height! * 2 / 3)
     playButton.delegate = self
@@ -63,8 +52,7 @@ class MainMenu: SKScene, SKButtonDelegate
     print(playButton)
   }
   
-  func setupSettingsButton()
-  {
+  func setupSettingsButton() {
     let settingsButton = SKButton(color: UIColor.redColor(), text: "Settings", type: ButtonType.MainMenuSettings)
     settingsButton.position = CGPointMake(width! / 2, height! / 3)
     settingsButton.delegate = self
@@ -72,8 +60,7 @@ class MainMenu: SKScene, SKButtonDelegate
     print(settingsButton)
   }
   
-  func setupLeaderboardButton()
-  {
+  func setupLeaderboardButton() {
     let sprite = SKSpriteNode(texture: nil, color: UIColor.redColor(), size: CGSizeMake(100, 100))
     sprite.position = CGPointMake(200, 100)
     sprite.zPosition = 2
@@ -81,15 +68,13 @@ class MainMenu: SKScene, SKButtonDelegate
     print(sprite)
   }
   
-  func setupProperties()
-  {
+  func setupProperties() {
     width = scene!.size.width
     height = scene!.size.height
     print("\(width) and \(height)")
   }
   
-  func buttonTapped(type: ButtonType)
-  {
+  func buttonTapped(type: ButtonType) {
     switch type
     {
     case ButtonType.MainMenuPlay:
@@ -105,7 +90,6 @@ class MainMenu: SKScene, SKButtonDelegate
       print("tapped settings button")
       // segue into settings page
     }
-    
   }
   
 }
