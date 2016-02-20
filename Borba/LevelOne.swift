@@ -27,7 +27,6 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   var numEnemies = 5
   var playerEnemyInContact = false
   var enemiesInContact: [Enemy] = []
-  let killCountLabel = SKLabelNode(text: "Kill Count: 0")
   var enemiesKilled = 0
   var skillBar : SkillBar
   
@@ -54,7 +53,6 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
     runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed("music.mp3", waitForCompletion: true)))
     setupCamera()
     setupJoysticks()
-    setupKillCountLabel()
     setupSkillBar()
     loadEnemies(numEnemies)
   }
@@ -146,9 +144,12 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   }
   
   func didEndContact(contact: SKPhysicsContact) {
+    print("end contact")
     if contact.bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
       if let enemy = contact.bodyB.node as? Enemy {
         enemy.inContactWithPlayer = false
+        removeEnemyFromEnemiesInContact(enemy)
+        
         if !enemiesAreInContact() {
           playerEnemyInContact = false
         }
@@ -166,6 +167,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   }
   
   func handleGameObjectContact(bodyA: SKPhysicsBody, bodyB: SKPhysicsBody) {
+    print("begin contact")
     if bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
       if let enemy = bodyB.node as? Enemy {
         handlePlayerAndEnemyContact(enemy)
@@ -268,16 +270,22 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   func spawnEnemies(var enemies: [Enemy]) {
     if enemies.count >= 1 {
       let spawnAction = SKAction.runBlock({
-        let xpos = getRandomNumber(self.map.size.width)
-        let ypos = getRandomNumber(self.map.size.height)
         if let enemy = enemies.popLast() {
+          let safeFrame = CGRectMake(self.player.position.x, self.player.position.y, 300, 300)
+          var xpos = getRandomNumber(self.map.size.width)
+          var ypos = getRandomNumber(self.map.size.height)
+          while (safeFrame.contains(CGPointMake(xpos, ypos))) {
+            xpos = getRandomNumber(self.map.size.width)
+            ypos = getRandomNumber(self.map.size.height)
+          }
           enemy.zPosition = zPositions.mapObjects
           enemy.position = CGPointMake(xpos, ypos)
           self.enemies.append(enemy)
           self.map.addChild(enemy)
+          
         }
       })
-      let waitAction = SKAction.waitForDuration(Double(getRandomNumber(100) / 50))
+      let waitAction = SKAction.waitForDuration(Double(getRandomNumber(10) / 50))
       let spawnMoreAction = SKAction.runBlock({
         self.spawnEnemies(enemies)
       })
@@ -346,7 +354,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
     runAction(SKAction.playSoundFileNamed(SoundFiles.zombieDeath, waitForCompletion: false))
 
     enemiesKilled += 1
-    killCountLabel.text = "Kill Count: " + String(enemiesKilled)
+    hud.updateKillCount(enemiesKilled)
     animateDeath(enemy.position)
     
     removeEnemyFromEnemiesInContact(enemy)
@@ -518,15 +526,6 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
     skillBar.zPosition = zPositions.UIObjects
     skillBar.delegate = self
     addChild(skillBar)
-  }
-  
-  func setupKillCountLabel() {
-    killCountLabel.fontSize = 16
-    killCountLabel.fontName = "Copperplate"
-    killCountLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-    killCountLabel.position = CGPointMake(width!/2, height! - 40)
-    killCountLabel.zPosition = zPositions.UIObjects
-    addChild(killCountLabel)
   }
   
   func colorizeDamagePlayer() {

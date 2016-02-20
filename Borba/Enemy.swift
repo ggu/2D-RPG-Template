@@ -49,7 +49,7 @@ class Enemy : Character {
       runAction(action)
     } else {
       removeAllActions()
-      runAction(SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5))
+      //runAction(SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5))
     }
     
     let radians = CGFloat(getRadiansBetweenTwoPoints(position, secondPoint: destinationPos))
