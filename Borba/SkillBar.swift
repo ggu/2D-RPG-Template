@@ -18,6 +18,7 @@ class SkillBar: SKSpriteNode, SkillButtonDelegate {
   var fireball: SkillButton
   var frostbolt: SkillButton
   var lightningbolt: SkillButton
+  var skills: [SkillButton]
   let boxHeight: CGFloat
   let boxMargin: CGFloat
   var delegate: SkillBarDelegate?
@@ -29,6 +30,7 @@ class SkillBar: SKSpriteNode, SkillButtonDelegate {
     fireball = SkillButton(spell: Spells.Fireball, color: UIColor.redColor(), size: CGSizeMake(size.width*0.9, boxHeight))
     frostbolt = SkillButton(spell: Spells.Frostbolt, color: UIColor.redColor(), size: CGSizeMake(size.width*0.9, boxHeight))
     lightningbolt = SkillButton(spell: Spells.Lightning, color: UIColor.redColor(), size: CGSizeMake(size.width*0.9, boxHeight))
+    skills = [fireball, frostbolt, lightningbolt]
     
     super.init(texture: texture, color: color, size: size)
     
@@ -68,23 +70,21 @@ class SkillBar: SKSpriteNode, SkillButtonDelegate {
   func skillButtonTouched(skillName: Spells) {
     
     // protocol call level
+    currentSkill = skillName
     
-    switch skillName {
-    case .Fireball:
-      makeSpellInActive(lightningbolt)
-      makeSpellInActive(frostbolt)
-      makeSpellActive(fireball)
-    case .Frostbolt:
-      makeSpellInActive(fireball)
-      makeSpellInActive(lightningbolt)
-      makeSpellActive(frostbolt)
-    case .Lightning:
-      makeSpellInActive(fireball)
-      makeSpellInActive(frostbolt)
-      makeSpellActive(lightningbolt)
-    }
+    setActiveSkill(currentSkill)
     
     delegate?.skillButtonTouched(skillName)
+  }
+  
+  func setActiveSkill(name: Spells) {
+    for skill in skills {
+      if skill.spell == name {
+        makeSpellActive(skill)
+      } else {
+        makeSpellInActive(skill)
+      }
+    }
   }
   
   func makeSpellActive(skill: SkillButton) {
