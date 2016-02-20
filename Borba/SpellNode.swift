@@ -11,8 +11,7 @@ import SpriteKit
 class SpellNode: GameObject {
   
   class func useSpell(spell: Spells, angle: CGFloat) -> SKSpriteNode {
-    switch spell
-    {
+    switch spell {
     case Spells.Fireball:
       return fireBallSpell(angle)
     case Spells.Frostbolt:
@@ -31,18 +30,6 @@ class SpellNode: GameObject {
       fireParticles.zPosition = zPositions.mapObjects
       fireParticles.position = CGPointMake(0, 0)
       sprite.addChild(fireParticles)
-      
-      // lightnode performance is really bad in iOS 9, disabled for now
-      //      let lightNode = SKLightNode()
-      //      lightNode.enabled = true
-      //      lightNode.lightColor = SKColor.whiteColor()
-      //      lightNode.position = CGPointMake(0,0)
-      //      lightNode.alpha = 0.9
-      //      lightNode.categoryBitMask = 1
-      //      lightNode.falloff = 0.4
-      //      lightNode.zPosition = zPositions.map
-      
-      //sprite.addChild(lightNode)
     }
     sprite.zRotation = angle + CGFloat(M_PI)
     sprite.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(sprite.size.width*2, sprite.size.height*2))
@@ -98,18 +85,6 @@ class SpellNode: GameObject {
       fireParticles.zPosition = zPositions.mapObjects
       fireParticles.position = CGPointMake(0, 0)
       sprite.addChild(fireParticles)
-      
-      // lightnode performance is really bad in iOS 9, disabled for now
-      //      let lightNode = SKLightNode()
-      //      lightNode.enabled = true
-      //      lightNode.lightColor = SKColor.whiteColor()
-      //      lightNode.position = CGPointMake(0,0)
-      //      lightNode.alpha = 0.9
-      //      lightNode.categoryBitMask = 1
-      //      lightNode.falloff = 0.4
-      //      lightNode.zPosition = zPositions.map
-      
-      //sprite.addChild(lightNode)
     }
     sprite.zRotation = angle + CGFloat(M_PI)
     sprite.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(sprite.size.width*2, sprite.size.height*2))

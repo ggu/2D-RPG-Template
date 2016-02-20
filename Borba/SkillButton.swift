@@ -43,10 +43,7 @@ class SkillButton: SKSpriteNode {
   
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     active = true
-    
-    if let theDelegate = delegate {
-      theDelegate.skillButtonTouched(spell)
-    }
+    delegate?.skillButtonTouched(spell)
   }
   
   required init?(coder aDecoder: NSCoder) {
