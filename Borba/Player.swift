@@ -123,7 +123,7 @@ class Player : Character {
       lightNode.shadowColor = SKColor(red: 0, green: 0, blue: 0, alpha: 0.2)
       lightNode.alpha = 1
       lightNode.categoryBitMask = 1
-      lightNode.falloff = 0.1
+      lightNode.falloff = 0.01
       lightingBitMask = 1
       lightNode.zPosition = zPositions.map
       

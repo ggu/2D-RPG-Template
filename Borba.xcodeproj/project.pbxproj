@@ -10,6 +10,7 @@
 		7602E40E1B6ED2EB0009BFA9 /* ExperienceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7602E40D1B6ED2EB0009BFA9 /* ExperienceBar.swift */; };
 		7602E4101B6ED5DD0009BFA9 /* LevelBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7602E40F1B6ED5DD0009BFA9 /* LevelBar.swift */; };
 		76225FA41B23CCDC00D36B3D /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76225FA31B23CCDC00D36B3D /* GameController.swift */; };
+		76391DB81C788A29001FFC0A /* Dissipate.sks in Resources */ = {isa = PBXBuildFile; fileRef = 76391DB71C788A29001FFC0A /* Dissipate.sks */; };
 		763D7F0B1C5EADA000443C7C /* Death.sks in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F0A1C5EADA000443C7C /* Death.sks */; };
 		763D7F0D1C5EB0FD00443C7C /* Fireball.sks in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F0C1C5EB0FD00443C7C /* Fireball.sks */; };
 		763D7F111C5EBBDF00443C7C /* Frostbolt.sks in Resources */ = {isa = PBXBuildFile; fileRef = 763D7F101C5EBBDF00443C7C /* Frostbolt.sks */; };
@@ -79,6 +80,7 @@
 		7602E40D1B6ED2EB0009BFA9 /* ExperienceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperienceBar.swift; sourceTree = "<group>"; };
 		7602E40F1B6ED5DD0009BFA9 /* LevelBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelBar.swift; sourceTree = "<group>"; };
 		76225FA31B23CCDC00D36B3D /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		76391DB71C788A29001FFC0A /* Dissipate.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Dissipate.sks; sourceTree = "<group>"; };
 		763D7F0A1C5EADA000443C7C /* Death.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Death.sks; sourceTree = "<group>"; };
 		763D7F0C1C5EB0FD00443C7C /* Fireball.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Fireball.sks; sourceTree = "<group>"; };
 		763D7F101C5EBBDF00443C7C /* Frostbolt.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Frostbolt.sks; sourceTree = "<group>"; };
@@ -242,8 +244,8 @@
 				76AEE0441B229299003A276A /* Constants.swift */,
 				766FDAC51C5CD8A600D23F17 /* data objects */,
 				7657F3351B643E4700AAFAA1 /* objects */,
-				76B815051B6DB3C5007A0398 /* assets */,
 				76AEE0431B229242003A276A /* UI */,
+				76B815051B6DB3C5007A0398 /* assets */,
 				76AEE0251B228EEC003A276A /* Main.storyboard */,
 				76AEE0281B228EEC003A276A /* Images.xcassets */,
 				76AEE02A1B228EEC003A276A /* LaunchScreen.xib */,
@@ -319,6 +321,7 @@
 				765921BA1B79513F00673BC1 /* enemy@2x.png */,
 				765921B81B79512F00673BC1 /* hero@2x.png */,
 				765921B01B794F5700673BC1 /* Fire.sks */,
+				76391DB71C788A29001FFC0A /* Dissipate.sks */,
 				765921B41B794F7300673BC1 /* Rain.sks */,
 				763D7F141C5EC3AE00443C7C /* Aura.sks */,
 				766FE1AB1C5D55AA00D23F17 /* LevelUp.sks */,
@@ -431,6 +434,7 @@
 				766FE1AD1C5D55AA00D23F17 /* LevelUp.sks in Resources */,
 				763D7F261C5EE85300443C7C /* FlameSpellCrackle1.mp3 in Resources */,
 				766FE1B21C5D732400D23F17 /* spark.png in Resources */,
+				76391DB81C788A29001FFC0A /* Dissipate.sks in Resources */,
 				765921B21B794F5700673BC1 /* Fire.sks in Resources */,
 				763D7F291C5EE85300443C7C /* LightningSpell.mp3 in Resources */,
 				763D7F131C5EBDA700443C7C /* LightningBall.sks in Resources */,

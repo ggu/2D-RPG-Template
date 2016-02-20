@@ -21,6 +21,7 @@ class SKJoystick: SKSpriteNode
   {
     backdrop = SKShapeNode(circleOfRadius: size.width / 2)
     backdrop.fillColor = UIColor.grayColor()
+    backdrop.strokeColor = UIColor.whiteColor()
     super.init(texture: nil, color: UIColor.clearColor(), size: size)
     addChild(backdrop)
     setup()

@@ -11,7 +11,7 @@
 */
 
 import SpriteKit
-class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate { // rename to .. ? Level? as LevelOne sounds hardcoded, should be procedural
+class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   
   // MARK: Properties
   var width: CGFloat?
@@ -387,49 +387,25 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate { // rename 
     
     switch player.activeSpell.spellName {
     case .Lightning:
-      useLightning(spellSprite)
+      useLinearSpell(spellSprite, missileSpeed: MissileSpeeds.lightning)
     case .Fireball:
-      useFireball(spellSprite)
+      useLinearSpell(spellSprite, missileSpeed: MissileSpeeds.fireball)
     case .Frostbolt:
-      useFrostbolt(spellSprite)
+      useLinearSpell(spellSprite, missileSpeed: MissileSpeeds.frostbolt)
     }
     map.addChild(spellSprite)
   }
   
-  func useLightning(lightning: SKSpriteNode) {
+  func useLinearSpell(spell: SKSpriteNode, missileSpeed: Double) {
     let dx = skillJoystick.thumbX * 100
     let dy = skillJoystick.thumbY * 100
-    let arbitraryPointFaraway = CGPointMake(lightning.position.x + skillJoystick.thumbX * 100, lightning.position.y + skillJoystick.thumbY * 100)
-    let duration = getDistance(lightning.position, point2: arbitraryPointFaraway) / MissileSpeeds.lightning
+    let arbitraryPointFaraway = CGPointMake(spell.position.x + skillJoystick.thumbX * 100, spell.position.y + skillJoystick.thumbY * 100)
+    let duration = getDistance(spell.position, point2: arbitraryPointFaraway) / missileSpeed
     
     let moveAction = SKAction.moveByX(dx, y: dy, duration: duration)
     let removeAction = SKAction.removeFromParent()
     let completeAction = SKAction.sequence([moveAction, removeAction])
-    lightning.runAction(completeAction)
-  }
-  
-  func useFrostbolt(frostbolt: SKSpriteNode) {
-    let dx = skillJoystick.thumbX * 100
-    let dy = skillJoystick.thumbY * 100
-    let arbitraryPointFaraway = CGPointMake(frostbolt.position.x + skillJoystick.thumbX * 100, frostbolt.position.y + skillJoystick.thumbY * 100)
-    let duration = getDistance(frostbolt.position, point2: arbitraryPointFaraway) / MissileSpeeds.frostbolt
-    
-    let moveAction = SKAction.moveByX(dx, y: dy, duration: duration)
-    let removeAction = SKAction.removeFromParent()
-    let completeAction = SKAction.sequence([moveAction, removeAction])
-    frostbolt.runAction(completeAction)
-  }
-  
-  func useFireball(fireball: SKSpriteNode) {
-    let dx = skillJoystick.thumbX * 100
-    let dy = skillJoystick.thumbY * 100
-    let arbitraryPointFaraway = CGPointMake(fireball.position.x + skillJoystick.thumbX * 100, fireball.position.y + skillJoystick.thumbY * 100)
-    let duration = getDistance(fireball.position, point2: arbitraryPointFaraway) / MissileSpeeds.fireball
-    
-    let moveAction = SKAction.moveByX(dx, y: dy, duration: duration)
-    let removeAction = SKAction.removeFromParent()
-    let completeAction = SKAction.sequence([moveAction, removeAction])
-    fireball.runAction(completeAction)
+    spell.runAction(completeAction)
   }
   
   // MARK: - Low level calculations/helpers

@@ -29,11 +29,8 @@ class HUD: SKSpriteNode {
   func setup() {
     // move this to a class that takes care of the nodes on the UI z index
     addChild(healthFrame)
-    
     addChild(energyFrame)
-    
     addChild(experienceFrame)
-    
     addChild(levelFrame)
   }
   

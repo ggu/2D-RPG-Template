@@ -14,4 +14,8 @@ class AssetManager {
   let heroTexture = SKTexture(imageNamed: "hero.png")
   let enemyTexture = SKTexture(imageNamed: "enemy.png")
   let mapTexture = SKTexture(imageNamed: "ice.jpg")
+  
+//  func getSKS(sks: ) {
+//    
+//  }
 }

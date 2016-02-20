@@ -40,6 +40,7 @@ class SkillBar: SKSpriteNode, SkillButtonDelegate {
     fireBallBox()
     frostBallBox()
     lightningBoltBox()
+    makeSpellActive(fireball)
   }
   
   func fireBallBox() {
@@ -70,23 +71,28 @@ class SkillBar: SKSpriteNode, SkillButtonDelegate {
     
     switch skillName {
     case .Fireball:
-      lightningbolt.color = UIColor.redColor()
-      frostbolt.color = UIColor.redColor()
-      fireball.color = UIColor.greenColor()
+      makeSpellInActive(lightningbolt)
+      makeSpellInActive(frostbolt)
+      makeSpellActive(fireball)
     case .Frostbolt:
-      lightningbolt.color = UIColor.redColor()
-      fireball.color = UIColor.redColor()
-      frostbolt.color = UIColor.greenColor()
+      makeSpellInActive(fireball)
+      makeSpellInActive(lightningbolt)
+      makeSpellActive(frostbolt)
     case .Lightning:
-      fireball.color = UIColor.redColor()
-      frostbolt.color = UIColor.redColor()
-      lightningbolt.color = UIColor.greenColor()
+      makeSpellInActive(fireball)
+      makeSpellInActive(frostbolt)
+      makeSpellActive(lightningbolt)
     }
     
-    if let theDelegate = delegate {
-      theDelegate.skillButtonTouched(skillName)
-    }
-    
+    delegate?.skillButtonTouched(skillName)
+  }
+  
+  func makeSpellActive(skill: SkillButton) {
+    skill.color = UIColor.greenColor()
+  }
+  
+  func makeSpellInActive(skill: SkillButton) {
+    skill.color = UIColor.redColor()
   }
 
   required init?(coder aDecoder: NSCoder) {
