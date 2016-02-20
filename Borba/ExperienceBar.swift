@@ -28,10 +28,15 @@ class ExperienceBar: SKSpriteNode
     addChild(experienceMeter)
   }
   
-  func setMeterScale(scale: Double)
-  {
-    // should add an animation to this
-    experienceMeter.xScale = CGFloat(scale)
+  func setMeterScale(scale: CGFloat) {
+    if experienceMeter.xScale > scale {
+      experienceMeter.xScale = 0
+    }
+    
+    let makeVisible = SKAction.sequence([SKAction.fadeAlphaTo(1.0, duration: 0.6), SKAction.fadeAlphaTo(0.5, duration: 0.6)])
+    let animateX = SKAction.scaleXTo(scale, duration: 0.6)
+    experienceMeter.runAction(SKAction.group([makeVisible, animateX]))
+    //experienceMeter.xScale = CGFloat(scale)
   }
   
   required init?(coder aDecoder: NSCoder)

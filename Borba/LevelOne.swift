@@ -177,21 +177,40 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
     } else if bodyA.categoryBitMask == CategoryBitMasks.Spell.rawValue {
       bodyA.node?.removeFromParent()
       if let enemy = bodyB.node as? Enemy {
-        handlePlayerAndSpellContact(enemy)
+        onSpellHitEffects(enemy.position)
+        handleSpellAndEnemyContact(enemy)
       }
     } else if bodyB.categoryBitMask == CategoryBitMasks.Spell.rawValue {
       bodyB.node?.removeFromParent()
       if let enemy = bodyA.node as? Enemy {
-        handlePlayerAndSpellContact(enemy)
+        onSpellHitEffects(enemy.position)
+        handleSpellAndEnemyContact(enemy)
       }
     } else if bodyA.categoryBitMask == CategoryBitMasks.PenetratingSpell.rawValue {
       if let enemy = bodyB.node as? Enemy {
-        handlePlayerAndSpellContact(enemy)
+        handleSpellAndEnemyContact(enemy)
       }
     } else if bodyB.categoryBitMask == CategoryBitMasks.PenetratingSpell.rawValue {
       if let enemy = bodyA.node as? Enemy {
-        handlePlayerAndSpellContact(enemy)
+        handleSpellAndEnemyContact(enemy)
       }
+    }
+  }
+  
+  func onSpellHitEffects(position: CGPoint) {
+    if let myParticlePath = NSBundle.mainBundle().pathForResource("Dissipate", ofType: "sks") {
+      let dissipateParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
+      dissipateParticles.zPosition = zPositions.mapObjects
+      dissipateParticles.position = position
+      map.addChild(dissipateParticles)
+      
+      let waitAction = SKAction.waitForDuration(0.1)
+      let stopAction = SKAction.runBlock({
+        dissipateParticles.particleBirthRate = 0
+      })
+      let wait2Action = SKAction.waitForDuration(3)
+      let removeAction = SKAction.removeFromParent()
+      dissipateParticles.runAction(SKAction.sequence([waitAction, stopAction, wait2Action, removeAction]))
     }
   }
   
@@ -239,8 +258,8 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   func updatePlayerEnemyConditions() {
     if playerEnemyInContact {
       for enemy in enemiesInContact {
-        colorizeDamagePlayer()
-        colorizeDamageEnemy(enemy)
+        //colorizeDamagePlayer()
+        //colorizeDamageEnemy(enemy)
         damagePlayerAndEnemy(enemy)
       }
     }
@@ -268,10 +287,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
     }
   }
   
-  func handlePlayerAndSpellContact(enemy: Enemy) {
+  func handleSpellAndEnemyContact(enemy: Enemy) {
     enemy.health -= player.activeSpell.damage * player.spellDamageModifier
     if (enemy.actionForKey(AnimationKeys.damage) == nil) {
-      colorizeDamageEnemy(enemy)
+      //colorizeDamageEnemy(enemy)
     }
     
     checkForEnemyDeath(enemy)
@@ -354,7 +373,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
         fireParticles.runAction(SKAction.sequence([waitAction, stopAction, wait2Action, removeAction]))
       }
       player.levelUp()
-      hud.updateHealthFrame(1)
+      hud.updateHealthFrame(1) // 1 represents full xscale
       hud.updateEnergyFrame(1)
       hud.updateLevelFrame(String(player.level))
     }

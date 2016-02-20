@@ -39,7 +39,7 @@ class HUD: SKSpriteNode {
   }
   
   func updateExperienceFrameFrame(expFraction: Double) {
-    experienceFrame.setMeterScale(expFraction)
+    experienceFrame.setMeterScale(CGFloat(expFraction))
   }
   
   func updateHealthFrame(healthFraction: Double) {
