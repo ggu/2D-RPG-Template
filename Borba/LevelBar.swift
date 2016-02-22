@@ -33,6 +33,9 @@ class LevelBar: SKSpriteNode
   {
     // should add an animation to this
     levelLabel.text = level
+    let goldenAction = SKAction.colorizeWithColor(UIColor.yellowColor(), colorBlendFactor: 1, duration: 0.3)
+    let returnAction = SKAction.colorizeWithColor(UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1), colorBlendFactor: 1, duration: 0.3)
+    runAction(SKAction.sequence([goldenAction, returnAction]))
     
   }
   

@@ -32,7 +32,7 @@ class Player : Character {
   
   var mana = 100.0
   var maxMana = 100.0
-  var manaRegenRate = 0.05
+  var manaRegenRate = 0.12
   var exp = 0.0
   var expToLevel = 100.0
   var level = 1
@@ -41,62 +41,62 @@ class Player : Character {
   var cooldownModifier = 1.0
   
   override init(texture: SKTexture?, color: UIColor, size: CGSize) {
-    let fireballSpell = Spell(spellDamage: 50, spell: Spells.Fireball, spellCost: SpellCosts.fireball)
-    let frostboltSpell = Spell(spellDamage: 45, spell: Spells.Frostbolt, spellCost: SpellCosts.frostbolt)
-    let lightningSpell = Spell(spellDamage: 30, spell: Spells.Lightning, spellCost: SpellCosts.lightning)
+    let fireballSpell = Spell(spellDamage: Spell.Damage.fireball, spell: Spell.Name.Fireball, spellCost: Spell.Costs.fireball, spellCooldown: Spell.Cooldowns.fireball)
+    let frostboltSpell = Spell(spellDamage: 45, spell: Spell.Name.Frostbolt, spellCost: Spell.Costs.frostbolt, spellCooldown: Spell.Cooldowns.frostbolt)
+    let lightningSpell = Spell(spellDamage: 20, spell: Spell.Name.Lightning, spellCost: Spell.Costs.lightning, spellCooldown: Spell.Cooldowns.lightning)
     
     activeSpell = lightningSpell
-    spellList[SpellStrings.Fireball] = fireballSpell
-    spellList[SpellStrings.Frostbolt] = frostboltSpell
-    spellList[SpellStrings.LightningBolt] = lightningSpell
+    spellList[Spell.String.Fireball] = fireballSpell
+    spellList[Spell.String.Frostbolt] = frostboltSpell
+    spellList[Spell.String.LightningBolt] = lightningSpell
     
     super.init(texture: texture, color: color, size: size)
     health = 100
     maxHealth = 100
-    attack = 0.4
+    attack = 0.3
     
     setup()
   }
 
   func levelUp() {
-    let whitenAction = SKAction.colorizeWithColor(UIColor.greenColor(), colorBlendFactor: 1, duration: 0.5)
+    let greenAction = SKAction.colorizeWithColor(UIColor.greenColor(), colorBlendFactor: 1, duration: 0.5)
     let returnAction = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-    runAction(SKAction.sequence([whitenAction, returnAction]))
+    runAction(SKAction.sequence([greenAction, returnAction]))
     level += 1
     exp -= expToLevel
     expToLevel *= 1.2
-    attack += 0.05
-    maxHealth += 5
-    maxMana += 5
+    attack += 0.02
+    maxHealth *= 1.05
+    maxMana *= 1.05
     health = maxHealth
     mana = maxMana
     hpRegenRate += 0.01
     manaRegenRate += 0.008
+    movementSpeed *= 1.02
     spellDamageModifier += 0.01
-    cooldownModifier *= 0.98
-    // increase attack and spell damage
+    cooldownModifier *= 0.96
   }
   
-  func setActiveSkill(spell: Spells) {
+  func setActiveSkill(spell: Spell.Name) {
     switch spell {
     case .Fireball:
-      if let spellVar = spellList[SpellStrings.Fireball] {
+      if let spellVar = spellList[Spell.String.Fireball] {
         activeSpell = spellVar
       }
     case .Frostbolt:
-      if let spellVar = spellList[SpellStrings.Frostbolt] {
+      if let spellVar = spellList[Spell.String.Frostbolt] {
         activeSpell = spellVar
       }
     case .Lightning:
-      if let spellVar = spellList[SpellStrings.LightningBolt] {
+      if let spellVar = spellList[Spell.String.LightningBolt] {
         activeSpell = spellVar
       }
     }
   }
 
   func setup() {
-    movementSpeed = 2
-    activeSpell = spellList[SpellStrings.Fireball]!
+    movementSpeed = 1.75
+    activeSpell = spellList[Spell.String.Fireball]!
     
     position = CGPointMake(300, 160)
     zPosition = zPositions.mapObjects;
@@ -179,7 +179,7 @@ class Player : Character {
     let spell = SpellNode.useSpell(activeSpell.spellName, angle: zRotation)
     activeSpellOnCooldown = true
     mana -= activeSpell.cost
-    let action = SKAction.sequence([SKAction.waitForDuration(cooldownModifier * 1.0), SKAction.runBlock({
+    let action = SKAction.sequence([SKAction.waitForDuration(cooldownModifier * activeSpell.cooldown), SKAction.runBlock({
       self.activeSpellOnCooldown = false
     })])
     runAction(action)

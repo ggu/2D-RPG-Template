@@ -10,13 +10,13 @@ import SpriteKit
 
 class SpellNode: GameObject {
   
-  class func useSpell(spell: Spells, angle: CGFloat) -> SKSpriteNode {
+  class func useSpell(spell: Spell.Name, angle: CGFloat) -> SKSpriteNode {
     switch spell {
-    case Spells.Fireball:
+    case .Fireball:
       return fireBallSpell(angle)
-    case Spells.Frostbolt:
+    case .Frostbolt:
       return frostBallSpell(angle)
-    case Spells.Lightning:
+    case .Lightning:
       return lightningSpell(angle)
     }
   }
@@ -26,7 +26,7 @@ class SpellNode: GameObject {
     
     if let myParticlePath = NSBundle.mainBundle().pathForResource("LightningBall", ofType: "sks") {
       let fireParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
-      fireParticles.particlePositionRange = CGVectorMake(20, 5)
+      //fireParticles.particlePositionRange = CGVectorMake(20, 5)
       fireParticles.zPosition = zPositions.mapObjects
       fireParticles.position = CGPointMake(0, 0)
       sprite.addChild(fireParticles)
@@ -39,7 +39,7 @@ class SpellNode: GameObject {
     sprite.physicsBody?.affectedByGravity = false
     sprite.physicsBody?.dynamic = false
     
-    sprite.runAction(SKAction.playSoundFileNamed(SoundFiles.lightning, waitForCompletion: false))
+    sprite.runAction(SKAction.playSoundFileNamed(SoundFile.lightning, waitForCompletion: false))
     return sprite
   }
   
@@ -48,7 +48,7 @@ class SpellNode: GameObject {
 
     if let myParticlePath = NSBundle.mainBundle().pathForResource("Fireball", ofType: "sks") {
       let fireParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
-      fireParticles.particlePositionRange = CGVectorMake(20, 5)
+      //fireParticles.particlePositionRange = CGVectorMake(20, 5)
       fireParticles.zPosition = zPositions.mapObjects
       fireParticles.position = CGPointMake(0, 0)
       sprite.addChild(fireParticles)
@@ -72,16 +72,16 @@ class SpellNode: GameObject {
     sprite.physicsBody?.contactTestBitMask = CategoryBitMasks.Enemy.rawValue
     sprite.physicsBody?.affectedByGravity = false
     sprite.physicsBody?.dynamic = false
-    sprite.runAction(SKAction.playSoundFileNamed(SoundFiles.fireball, waitForCompletion: false))
+    sprite.runAction(SKAction.playSoundFileNamed(SoundFile.fireball, waitForCompletion: false))
     return sprite
   }
   
   class func frostBallSpell(angle: CGFloat) -> SKSpriteNode {
     let sprite = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(10, 10))
     
-    if let myParticlePath = NSBundle.mainBundle().pathForResource("Frostbolt", ofType: "sks") {
+    if let myParticlePath = NSBundle.mainBundle().pathForResource("Slimebolt", ofType: "sks") {
       let fireParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
-      fireParticles.particlePositionRange = CGVectorMake(20, 5)
+      //fireParticles.particlePositionRange = CGVectorMake(0, 0)
       fireParticles.zPosition = zPositions.mapObjects
       fireParticles.position = CGPointMake(0, 0)
       sprite.addChild(fireParticles)
@@ -93,7 +93,7 @@ class SpellNode: GameObject {
     sprite.physicsBody?.contactTestBitMask = CategoryBitMasks.Enemy.rawValue
     sprite.physicsBody?.affectedByGravity = false
     sprite.physicsBody?.dynamic = false
-    sprite.runAction(SKAction.playSoundFileNamed(SoundFiles.frostbolt, waitForCompletion: false))
+    sprite.runAction(SKAction.playSoundFileNamed(SoundFile.frostbolt, waitForCompletion: false))
     return sprite
   }
   

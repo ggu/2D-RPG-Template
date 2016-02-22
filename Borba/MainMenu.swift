@@ -49,7 +49,7 @@ class MainMenu: SKScene, SKButtonDelegate
     playButton.position = CGPointMake(width! / 2, height! * 2 / 3)
     playButton.delegate = self
     addChild(playButton)
-    print(playButton)
+    //print(playButton)
   }
   
   func setupSettingsButton() {
@@ -57,7 +57,7 @@ class MainMenu: SKScene, SKButtonDelegate
     settingsButton.position = CGPointMake(width! / 2, height! / 3)
     settingsButton.delegate = self
     addChild(settingsButton)
-    print(settingsButton)
+    //print(settingsButton)
   }
   
   func setupLeaderboardButton() {
@@ -65,20 +65,20 @@ class MainMenu: SKScene, SKButtonDelegate
     sprite.position = CGPointMake(200, 100)
     sprite.zPosition = 2
     addChild(sprite)
-    print(sprite)
+    //print(sprite)
   }
   
   func setupProperties() {
     width = scene!.size.width
     height = scene!.size.height
-    print("\(width) and \(height)")
+    //print("\(width) and \(height)")
   }
   
   func buttonTapped(type: ButtonType) {
     switch type
     {
     case ButtonType.MainMenuPlay:
-      print("tapped play button")
+      //print("tapped play button")
       let scene = LevelOne(size: view!.bounds.size)
       
       scene.scaleMode = .ResizeFill

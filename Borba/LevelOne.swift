@@ -43,7 +43,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   
   func setup() {
     view?.multipleTouchEnabled = true
-    print("round one - map one - wave one - start")
+    //print("round one - map one - wave one - start")
     physicsWorld.contactDelegate = self
     
     setupProperties()
@@ -90,7 +90,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   func setupProperties() {
     width = scene!.size.width
     height = scene!.size.height
-    print("\(width) and \(height)")
+    //print("\(width) and \(height)")
   }
   
   func setupPlayer() {
@@ -140,11 +140,10 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
     handleGameObjectContact(bodyA, bodyB: bodyB)
     
     hud.updateHealthFrame(player.health / player.maxHealth)
-    print("damaged the enemy")
+    //print("damaged the enemy")
   }
   
   func didEndContact(contact: SKPhysicsContact) {
-    print("end contact")
     if contact.bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
       if let enemy = contact.bodyB.node as? Enemy {
         enemy.inContactWithPlayer = false
@@ -167,7 +166,6 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   }
   
   func handleGameObjectContact(bodyA: SKPhysicsBody, bodyB: SKPhysicsBody) {
-    print("begin contact")
     if bodyA.categoryBitMask == CategoryBitMasks.Hero.rawValue {
       if let enemy = bodyB.node as? Enemy {
         handlePlayerAndEnemyContact(enemy)
@@ -177,13 +175,23 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
         handlePlayerAndEnemyContact(enemy)
       }
     } else if bodyA.categoryBitMask == CategoryBitMasks.Spell.rawValue {
-      bodyA.node?.removeFromParent()
+      let spell = bodyA.node
+      spell?.removeAllActions()
+      let scaleTo = SKAction.scaleYTo(0.3, duration: 0.3)
+      let fadeOut = SKAction.fadeOutWithDuration(0.3)
+      spell?.physicsBody = nil
+      spell?.runAction(SKAction.group([fadeOut, scaleTo]))
       if let enemy = bodyB.node as? Enemy {
         onSpellHitEffects(enemy.position)
         handleSpellAndEnemyContact(enemy)
       }
     } else if bodyB.categoryBitMask == CategoryBitMasks.Spell.rawValue {
-      bodyB.node?.removeFromParent()
+      let spell = bodyB.node
+      spell?.removeAllActions()
+      let scaleTo = SKAction.scaleYTo(0.3, duration: 0.3)
+      let fadeOut = SKAction.fadeOutWithDuration(0.3)
+      spell?.physicsBody = nil
+      spell?.runAction(SKAction.group([fadeOut, scaleTo]))
       if let enemy = bodyA.node as? Enemy {
         onSpellHitEffects(enemy.position)
         handleSpellAndEnemyContact(enemy)
@@ -220,17 +228,17 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   func buttonTapped(type: ButtonType)
   {
     /* this should contain the first layer of buttons available on the screen (e.g. 'Menu', 'Attack'), which all lead to separate views that are managed independently of this function */
-    switch type
-    {
-    case ButtonType.MainMenuPlay:
-      print("tapped play button")
-      // segue into main level
-    case ButtonType.MainMenuSettings:
-      print("tapped settings button")
-      // segue into settings page
-      //    default:
-      //      print("tapped untagged button")
-    }
+//    switch type
+//    {
+//    case ButtonType.MainMenuPlay:
+//      print("tapped play button")
+//      // segue into main level
+//    case ButtonType.MainMenuSettings:
+//      print("tapped settings button")
+//      // segue into settings page
+//      //    default:
+//      //      print("tapped untagged button")
+//    }
   }
   
   // MARK: - Player and Enemy High Level Logic
@@ -285,7 +293,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
           
         }
       })
-      let waitAction = SKAction.waitForDuration(Double(getRandomNumber(10) / 50))
+      let waitAction = SKAction.waitForDuration(Double(getRandomNumber(30) / 50))
       let spawnMoreAction = SKAction.runBlock({
         self.spawnEnemies(enemies)
       })
@@ -326,8 +334,8 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
         enemiesInContact.removeAtIndex(index)
         if enemiesInContact.isEmpty {
           playerEnemyInContact = false
-          let colorize = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-          player.runAction(colorize)
+//          let colorize = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+//          player.runAction(colorize)
         }
       }
     }
@@ -340,18 +348,18 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
       fireParticles.position = position
       map.addChild(fireParticles)
       
-      let waitAction = SKAction.waitForDuration(1)
+      let waitAction = SKAction.waitForDuration(0.3)
       let stopAction = SKAction.runBlock({
         fireParticles.particleBirthRate = 0
       })
-      let wait2Action = SKAction.waitForDuration(3)
+      let wait2Action = SKAction.waitForDuration(2.0)
       let removeAction = SKAction.removeFromParent()
       fireParticles.runAction(SKAction.sequence([waitAction, stopAction, wait2Action, removeAction]))
     }
   }
   
   func enemyDeath(enemy: Enemy) {
-    runAction(SKAction.playSoundFileNamed(SoundFiles.zombieDeath, waitForCompletion: false))
+    runAction(SKAction.playSoundFileNamed(SoundFile.zombieDeath, waitForCompletion: false))
 
     enemiesKilled += 1
     hud.updateKillCount(enemiesKilled)
@@ -362,8 +370,8 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
     if let index = enemies.indexOf(enemy) {
       enemies.removeAtIndex(index)
     }
-    
-    enemy.removeFromParent()
+    enemy.physicsBody = nil
+    enemy.runAction(SKAction.fadeOutWithDuration(0.2))
     player.exp += enemy.expValue
     if player.exp >= player.expToLevel {
       if let myParticlePath = NSBundle.mainBundle().pathForResource("LevelUp", ofType: "sks") {
@@ -389,7 +397,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
     if enemies.isEmpty {
       let waitAction = SKAction.waitForDuration(4)
       let spawnAction = SKAction.runBlock({
-        self.numEnemies += 5
+        self.numEnemies = Int(ceil(Double(self.numEnemies) * 1.20))
         self.loadEnemies(self.numEnemies)
       })
       
@@ -414,22 +422,28 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
     
     switch player.activeSpell.spellName {
     case .Lightning:
-      useLinearSpell(spellSprite, missileSpeed: MissileSpeeds.lightning)
+      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.lightning)
     case .Fireball:
-      useLinearSpell(spellSprite, missileSpeed: MissileSpeeds.fireball)
+      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.fireball)
     case .Frostbolt:
-      useLinearSpell(spellSprite, missileSpeed: MissileSpeeds.frostbolt)
+      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.frostbolt)
     }
     map.addChild(spellSprite)
   }
   
   func useLinearSpell(spell: SKSpriteNode, missileSpeed: Double) {
-    let dx = skillJoystick.thumbX * 100
-    let dy = skillJoystick.thumbY * 100
-    let arbitraryPointFaraway = CGPointMake(spell.position.x + skillJoystick.thumbX * 100, spell.position.y + skillJoystick.thumbY * 100)
+
+    var sign = 1
+    if skillJoystick.thumbX < 0 {
+      sign = -1
+    }
+    let angle = getAngle(skillJoystick.thumbY, adjacent: skillJoystick.thumbX)
+    let (dx,dy) = getTriangleLegs(1000, angle: angle, sign: CGFloat(sign))
+    
+    let arbitraryPointFaraway = CGPointMake(spell.position.x + dx, spell.position.y + dy)
     let duration = getDistance(spell.position, point2: arbitraryPointFaraway) / missileSpeed
     
-    let moveAction = SKAction.moveByX(dx, y: dy, duration: duration)
+    let moveAction = SKAction.moveTo(arbitraryPointFaraway, duration: duration)
     let removeAction = SKAction.removeFromParent()
     let completeAction = SKAction.sequence([moveAction, removeAction])
     spell.runAction(completeAction)
@@ -513,7 +527,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
   
   // MARK: Delegate
   
-  func skillButtonTouched(skillName: Spells) {
+  func skillButtonTouched(skillName: Spell.Name) {
     player.setActiveSkill(skillName)
   }
   
@@ -558,8 +572,7 @@ class LevelOne: SKScene, SKPhysicsContactDelegate, SkillBarDelegate {
     centerOnNode(cameraNode)
   }
   
-  func centerOnNode(node: SKNode)
-  {
+  func centerOnNode(node: SKNode) {
     let cameraPositionInScene: CGPoint = node.scene!.convertPoint(node.position, fromNode: node.parent!)
     
     let xPos = node.parent!.position.x - cameraPositionInScene.x

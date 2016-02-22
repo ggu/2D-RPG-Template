@@ -24,14 +24,14 @@ class Enemy : Character {
     
     setup()
     movementSpeed = 55.0 + Float(difficultyCounter)
-    health = 80 + 4.0 * difficultyCounter
+    health = 50 + 4.0 * difficultyCounter
     attack = 0.05 + (difficultyCounter - 1.0) * 0.02
   }
   
   func setup() {
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.categoryBitMask = CategoryBitMasks.Enemy.rawValue
-    physicsBody?.collisionBitMask = CategoryBitMasks.Hero.rawValue | CategoryBitMasks.Enemy.rawValue
+    physicsBody?.collisionBitMask = CategoryBitMasks.Hero.rawValue
     physicsBody?.contactTestBitMask = CategoryBitMasks.Hero.rawValue
     physicsBody?.affectedByGravity = false
     physicsBody?.mass = 100

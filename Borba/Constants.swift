@@ -9,14 +9,7 @@
 import Foundation
 import CoreGraphics
 
-enum Spells
-{
-  case Fireball
-  case Frostbolt
-  case Lightning
-}
-
-enum SoundFiles {
+enum SoundFile {
   static let fireball = "FlameSpell.mp3"
   static let frostbolt = "IceSpell.mp3"
   static let lightning = "LightningSpell.mp3"
@@ -24,25 +17,6 @@ enum SoundFiles {
   static let zombieSpawn = "ZombieSpawn.mp3"
   static let zombieDeath = "DamageToZombie.mp3"
   
-}
-
-enum SpellStrings {
-  static let Fireball = "fireball"
-  static let Frostbolt = "frostbolt"
-  static let LightningBolt = "lightning"
-}
-
-struct MissileSpeeds
-{
-  static let fireball = 200.0
-  static let frostbolt = 150.0
-  static let lightning = 200.0
-}
-
-struct SpellCosts {
-  static let fireball = 8.0
-  static let frostbolt = 8.0
-  static let lightning = 12.0
 }
 
 struct ExpValues {
@@ -118,6 +92,16 @@ func getRandomNumber(upperLimit: CGFloat) -> CGFloat
 
 func getDistance(point1: CGPoint, point2: CGPoint) -> Double {
   return Double(sqrt(pow((point1.x - point2.x), 2) + pow((point1.y - point2.y), 2)))
+}
+
+func getAngle(opposite: CGFloat, adjacent: CGFloat) -> CGFloat {
+  return atan(opposite / adjacent)
+}
+
+func getTriangleLegs(hypotenuse: CGFloat, angle: CGFloat, sign: CGFloat) -> (CGFloat, CGFloat) {
+  let dy = sin(angle) * 1000 * sign
+  let dx = cos(angle) * 1000 * sign
+  return (dx, dy)
 }
 
 

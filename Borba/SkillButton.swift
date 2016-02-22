@@ -11,15 +11,15 @@ import Foundation
 import SpriteKit
 
 protocol SkillButtonDelegate {
-  func skillButtonTouched(skillName: Spells)
+  func skillButtonTouched(skillName: Spell.Name)
 }
 
 class SkillButton: SKSpriteNode {
   var active = false
   var delegate: SkillButtonDelegate?
-  var spell: Spells
+  var spell: Spell.Name
   
-  init(spell: Spells, color: UIColor, size: CGSize) {
+  init(spell: Spell.Name, color: UIColor, size: CGSize) {
     self.spell = spell
     super.init(texture: nil, color: color, size: size)
     self.userInteractionEnabled = true
