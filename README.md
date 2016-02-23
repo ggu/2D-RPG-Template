@@ -2,7 +2,7 @@
 Boilerplate code for a 2D top down game written in Swift with SpriteKit.
 
 ## Demo
-A recent playable version can be viewed here: https://www.youtube.com/watch?v=ewsjARG6cWE
+A recent playable version can be viewed here: https://www.youtube.com/watch?v=2uGMX0L7XMk
 
 ## Screenshot
 ![Image of Screenshot]
