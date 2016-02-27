@@ -9,84 +9,52 @@
 import Foundation
 import CoreGraphics
 
+typealias JoystickValues = (CGFloat, CGFloat, CGFloat)
+typealias SpellString = String
+typealias EnemyID = String
+
 enum SoundFile {
-  static let fireball = "FlameSpell.mp3"
-  static let frostbolt = "IceSpell.mp3"
-  static let lightning = "LightningSpell.mp3"
-  static let playerDamage = "DamageToPlayer.mp3"
-  static let zombieSpawn = "ZombieSpawn.mp3"
-  static let zombieDeath = "DamageToZombie.mp3"
-  
+  static let Fireball = "FlameSpell.mp3"
+  static let ArcaneBolt = "IceSpell.mp3"
+  static let LightningStorm = "LightningSpell.mp3"
+  static let PlayerDamage = "DamageToPlayer.mp3"
+  static let ZombieSpawn = "ZombieSpawn.mp3"
+  static let ZombieDeath = "DamageToZombie.mp3"
+  static let Music = "music.mp3"
 }
 
-struct ExpValues {
-  static let enemy = 10.0
+enum AnimationKeys {
+  static let Damage = "dmg"
+  static let Move = "move"
+  static let DamageEnemySound = "enemydamagesound"
+  static let DamagePlayerSound = "playerdamagesound"
 }
 
-struct AnimationKeys {
-  static let damage = "dmg"
-  static let move = "move"
-  static let damageEnemySound = "enemydamagesound"
-  static let damagePlayerSound = "playerdamagesound"
+enum CategoryBitMasks {
+  static let Hero: UInt32 = 1
+  static let Enemy: UInt32 = 2
+  static let Map: UInt32 = 4
+  static let Spell: UInt32 = 8
+  static let PenetratingSpell: UInt32 = 16
 }
 
-struct ImageNames
-{
-  static let mainMap = "ice"
-}
-
-enum CategoryBitMasks: UInt32
-{
-  case Hero = 1
-  case Enemy = 2
-  case Map = 4
-  case Spell = 8
-  case PenetratingSpell = 16
-}
-
-enum MapBitMasks: UInt32
-{
-  case Demo = 1
-  case Main = 2
-  case Last = 4
-}
-
-struct Button
-{
-  static let leftMargin: CGFloat = 20
-  static let rightMargin: CGFloat = 20
-  static let topMargin: CGFloat = 10
-  static let bottomMargin: CGFloat = 10
-}
-enum ButtonType: UInt32 // need to make MainMenu a type of ButtonType
-{
-  case MainMenuPlay = 1
-  case MainMenuSettings = 2
-}
-
-struct zPositions
-{
-  static let map: CGFloat = 1
-  static let mapObjects: CGFloat = 2
-  static let joystick: CGFloat = 3
-  static let thumbstick: CGFloat = 4
+enum zPositions {
+  static let Map: CGFloat = 1
+  static let MapObjects: CGFloat = 2
+  static let Joystick: CGFloat = 3
+  static let Thumbstick: CGFloat = 4
   static let UIObjects: CGFloat = 5
   static let UIMenus: CGFloat = 6
 }
 
-struct thumbstickValues {
-  static let maxAbsX: CGFloat = 70
-  static let maxAbsY: CGFloat = 70
-}
+let PlayerStartingPosition = CGPoint(x: 300, y: 160)
 
 // MARK: - Inline functions
-
 func getRadiansBetweenTwoPoints(firstPoint: CGPoint, secondPoint: CGPoint) -> Double {
   return Double(atan2(secondPoint.y - firstPoint.y, secondPoint.x - firstPoint.x)) + M_PI/2
 }
 
-func getRandomNumber(upperLimit: CGFloat) -> CGFloat
-{
+func getRandomNumber(upperLimit: CGFloat) -> CGFloat {
   return CGFloat(arc4random_uniform(UInt32(upperLimit + 1)))
 }
 
@@ -103,5 +71,3 @@ func getTriangleLegs(hypotenuse: CGFloat, angle: CGFloat, sign: CGFloat) -> (CGF
   let dx = cos(angle) * 1000 * sign
   return (dx, dy)
 }
-
-

@@ -8,39 +8,33 @@
 
 import SpriteKit
 
-class LevelBar: SKSpriteNode
-{
+class LevelBar: SKSpriteNode {
   var levelLabel = SKLabelNode(text: "1")
   init(width: CGFloat, height: CGFloat) {
-    super.init(texture: nil, color: UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1), size: CGSizeMake(40, 16))
+    super.init(texture: nil, color: UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1), size: CGSize(width: 40, height: 16))
     setup(width, height: height)
   }
   
-  func setup(width: CGFloat, height: CGFloat)
-  {
+  private func setup(width: CGFloat, height: CGFloat) {
     let yPos = height - size.height/2
-    position = CGPointMake(280, yPos)
+    position = CGPoint(x: 280, y: yPos)
     zPosition = 10
     
     levelLabel.fontSize = 12
     levelLabel.fontName = "AmericanTypewriter"
     levelLabel.fontColor = UIColor.blackColor()
-    levelLabel.position = CGPointMake(levelLabel.position.x, -4)
+    levelLabel.position = CGPoint(x: levelLabel.position.x, y: -4)
     addChild(levelLabel)
   }
   
-  func setLevel(level: String)
-  {
-    // should add an animation to this
+  func setLevel(level: String) {
     levelLabel.text = level
     let goldenAction = SKAction.colorizeWithColor(UIColor.yellowColor(), colorBlendFactor: 1, duration: 0.3)
     let returnAction = SKAction.colorizeWithColor(UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1), colorBlendFactor: 1, duration: 0.3)
     runAction(SKAction.sequence([goldenAction, returnAction]))
-    
   }
   
-  required init?(coder aDecoder: NSCoder)
-  {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
 }

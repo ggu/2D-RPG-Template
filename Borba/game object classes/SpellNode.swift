@@ -9,92 +9,82 @@
 import SpriteKit
 
 class SpellNode: GameObject {
-  
-  class func useSpell(spell: Spell.Name, angle: CGFloat) -> SKSpriteNode {
-    switch spell {
-    case .Fireball:
-      return fireBallSpell(angle)
-    case .Frostbolt:
-      return frostBallSpell(angle)
-    case .Lightning:
-      return lightningSpell(angle)
-    }
+  private enum Size {
+    static let fireball = CGSize(width: 30, height: 30)
+    static let arcaneBolt = CGSize(width: 20, height: 20)
+    static let lightningStorm = CGSize(width: 60, height: 60)
   }
-  
-  class func lightningSpell(angle: CGFloat) -> SKSpriteNode {
-    let sprite = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(30, 30))
-    
-    if let myParticlePath = NSBundle.mainBundle().pathForResource("LightningBall", ofType: "sks") {
-      let fireParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
-      //fireParticles.particlePositionRange = CGVectorMake(20, 5)
-      fireParticles.zPosition = zPositions.mapObjects
-      fireParticles.position = CGPointMake(0, 0)
-      sprite.addChild(fireParticles)
-    }
-    sprite.zRotation = angle + CGFloat(M_PI)
-    sprite.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(sprite.size.width*2, sprite.size.height*2))
-    sprite.physicsBody?.categoryBitMask = CategoryBitMasks.PenetratingSpell.rawValue
-    sprite.physicsBody?.collisionBitMask = 0
-    sprite.physicsBody?.contactTestBitMask = CategoryBitMasks.Enemy.rawValue
-    sprite.physicsBody?.affectedByGravity = false
-    sprite.physicsBody?.dynamic = false
-    
-    sprite.runAction(SKAction.playSoundFileNamed(SoundFile.lightning, waitForCompletion: false))
-    return sprite
-  }
-  
-  class func fireBallSpell(angle: CGFloat) -> SKSpriteNode {
-    let sprite = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(10, 10))
 
-    if let myParticlePath = NSBundle.mainBundle().pathForResource("Fireball", ofType: "sks") {
-      let fireParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
-      //fireParticles.particlePositionRange = CGVectorMake(20, 5)
-      fireParticles.zPosition = zPositions.mapObjects
-      fireParticles.position = CGPointMake(0, 0)
-      sprite.addChild(fireParticles)
-      
-      // lightnode performance is really bad in iOS 9, disabled for now
-//      let lightNode = SKLightNode()
-//      lightNode.enabled = true
-//      lightNode.lightColor = SKColor.whiteColor()
-//      lightNode.position = CGPointMake(0,0)
-//      lightNode.alpha = 0.9
-//      lightNode.categoryBitMask = 1
-//      lightNode.falloff = 0.4
-//      lightNode.zPosition = zPositions.map
-      
-      //sprite.addChild(lightNode)
+  private let spellName: Spell.Name
+  
+  init(spell: Spell.Name, angle: CGFloat) {
+    spellName = spell
+    
+    let spellSize: CGSize
+    let soundFileName: String
+    switch spellName {
+    case .Fireball:
+      spellSize = Size.fireball
+      soundFileName = SoundFile.Fireball
+    case .ArcaneBolt:
+      spellSize = Size.arcaneBolt
+      soundFileName = SoundFile.ArcaneBolt
+    case .Lightning:
+      spellSize = Size.lightningStorm
+      soundFileName = SoundFile.LightningStorm
     }
-    sprite.zRotation = angle + CGFloat(M_PI)
-    sprite.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(sprite.size.width*2, sprite.size.height*2))
-    sprite.physicsBody?.categoryBitMask = CategoryBitMasks.Spell.rawValue
-    sprite.physicsBody?.collisionBitMask = 0
-    sprite.physicsBody?.contactTestBitMask = CategoryBitMasks.Enemy.rawValue
-    sprite.physicsBody?.affectedByGravity = false
-    sprite.physicsBody?.dynamic = false
-    sprite.runAction(SKAction.playSoundFileNamed(SoundFile.fireball, waitForCompletion: false))
-    return sprite
+    
+    super.init(texture: nil, color: UIColor.clearColor(), size: spellSize)
+    
+    setup(angle)
+    playSound(soundFileName)
   }
   
-  class func frostBallSpell(angle: CGFloat) -> SKSpriteNode {
-    let sprite = SKSpriteNode(color: UIColor.clearColor(), size: CGSizeMake(10, 10))
+  func fizzleOut() {
+    removeAllActions()
+    let scaleTo = SKAction.scaleYTo(0.3, duration: 0.3)
+    let fadeOut = SKAction.fadeOutWithDuration(0.3)
+    physicsBody = nil
+    runAction(SKAction.group([fadeOut, scaleTo]))
+  }
+  
+  private func setup(angle: CGFloat) {
+    setupEmitter()
+    setupDefaultPhysics(angle)
     
-    if let myParticlePath = NSBundle.mainBundle().pathForResource("Slimebolt", ofType: "sks") {
-      let fireParticles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode
-      //fireParticles.particlePositionRange = CGVectorMake(0, 0)
-      fireParticles.zPosition = zPositions.mapObjects
-      fireParticles.position = CGPointMake(0, 0)
-      sprite.addChild(fireParticles)
+    switch spellName {
+    case .Lightning:
+      physicsBody?.categoryBitMask = CategoryBitMasks.PenetratingSpell
+      break
+    default:
+      break
     }
-    sprite.zRotation = angle + CGFloat(M_PI)
-    sprite.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(sprite.size.width*2, sprite.size.height*2))
-    sprite.physicsBody?.categoryBitMask = CategoryBitMasks.Spell.rawValue
-    sprite.physicsBody?.collisionBitMask = 0
-    sprite.physicsBody?.contactTestBitMask = CategoryBitMasks.Enemy.rawValue
-    sprite.physicsBody?.affectedByGravity = false
-    sprite.physicsBody?.dynamic = false
-    sprite.runAction(SKAction.playSoundFileNamed(SoundFile.frostbolt, waitForCompletion: false))
-    return sprite
+  }
+  
+  private func setupEmitter() {
+    if let emitter = AssetManager.sharedInstance.getSpellEmitter(spellName) {
+      emitter.zPosition = zPositions.MapObjects
+      emitter.position = CGPointZero
+      addChild(emitter)
+    }
+  }
+  
+  private func setupDefaultPhysics(angle: CGFloat) {
+    zRotation = angle + CGFloat(M_PI)
+    physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width, height: size.height))
+    physicsBody?.collisionBitMask = 0
+    physicsBody?.categoryBitMask = CategoryBitMasks.Spell
+    physicsBody?.contactTestBitMask = CategoryBitMasks.Enemy
+    physicsBody?.affectedByGravity = false
+    physicsBody?.dynamic = false
+  }
+  
+  private func playSound(soundFileName: String) {
+    runAction(SKAction.playSoundFileNamed(soundFileName, waitForCompletion: false))
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
 }

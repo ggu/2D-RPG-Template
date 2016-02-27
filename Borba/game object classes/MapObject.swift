@@ -6,23 +6,19 @@
 //  Copyright (c) 2015 Team Five Three. All rights reserved.
 //
 
-/*
-Any map object has:
-- 
-
--obstacles **
-** not to be included in playable demo
-
-*/
 import SpriteKit
 
-class MapObject : GameObject {
+class MapObject: GameObject {
   
-  init(map: MapBitMasks) {
+  enum Level {
+    case Demo
+    case Main
+    case Last
+  }
+  
+  init(map: Level) {
     let mapTexture: SKTexture
     switch map {
-//    case MapBitMasks.Main:
-//      println("main map configuration")
     default:
       mapTexture = AssetManager.sharedInstance.mapTexture
     }
@@ -30,16 +26,30 @@ class MapObject : GameObject {
     setup()
   }
   
-  func setup() {
+  private func setup() {
     anchorPoint = CGPointZero
-    zPosition = zPositions.map
-    physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
-    physicsBody?.categoryBitMask = CategoryBitMasks.Map.rawValue
     lightingBitMask = 1
-    //setupLightSource()
+    physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
+    physicsBody?.categoryBitMask = CategoryBitMasks.Map
+    zPosition = zPositions.Map
+    
+    setupEmitters()
   }
   
-  
+  private func setupEmitters() {
+    if let rainParticles = AssetManager.sharedInstance.getEmitter(Particle.Rain) {
+      rainParticles.zPosition = zPositions.MapObjects
+      rainParticles.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
+      rainParticles.particlePositionRange = CGVector(dx: frame.width, dy: frame.height)
+      addChild(rainParticles)
+    }
+    
+    if let fireParticles = AssetManager.sharedInstance.getEmitter(Particle.Fire) {
+      fireParticles.zPosition = zPositions.MapObjects
+      fireParticles.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
+      addChild(fireParticles)
+    }
+  }
   
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)

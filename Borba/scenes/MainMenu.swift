@@ -8,8 +8,7 @@
 
 import SpriteKit
 
-class MainMenu: SKScene, SKButtonDelegate
-{
+final class MainMenu: SKScene, SKButtonDelegate {
   var width: CGFloat?
   var height: CGFloat?
   
@@ -45,50 +44,40 @@ class MainMenu: SKScene, SKButtonDelegate
   }
   
   func setupPlayButton() {
-    let playButton = SKButton(color: UIColor.redColor(), text: "Play", type: ButtonType.MainMenuPlay)
-    playButton.position = CGPointMake(width! / 2, height! * 2 / 3)
+    let playButton = SKButton(color: UIColor.redColor(), text: "Play", tag: SKButton.Tag.MainMenuPlay)
+    playButton.position = CGPoint(x: width! / 2, y: height! * 2 / 3)
     playButton.delegate = self
     addChild(playButton)
-    //print(playButton)
   }
   
   func setupSettingsButton() {
-    let settingsButton = SKButton(color: UIColor.redColor(), text: "Settings", type: ButtonType.MainMenuSettings)
-    settingsButton.position = CGPointMake(width! / 2, height! / 3)
+    let settingsButton = SKButton(color: UIColor.redColor(), text: "Settings", tag: SKButton.Tag.MainMenuSettings)
+    settingsButton.position = CGPoint(x: width! / 2, y: height! / 3)
     settingsButton.delegate = self
     addChild(settingsButton)
-    //print(settingsButton)
   }
   
   func setupLeaderboardButton() {
-    let sprite = SKSpriteNode(texture: nil, color: UIColor.redColor(), size: CGSizeMake(100, 100))
-    sprite.position = CGPointMake(200, 100)
+    let sprite = SKSpriteNode(texture: nil, color: UIColor.redColor(), size: CGSize(width: 100, height: 100))
+    sprite.position = CGPoint(x: 200, y: 100)
     sprite.zPosition = 2
     addChild(sprite)
-    //print(sprite)
   }
   
   func setupProperties() {
     width = scene!.size.width
     height = scene!.size.height
-    //print("\(width) and \(height)")
   }
   
-  func buttonTapped(type: ButtonType) {
-    switch type
-    {
-    case ButtonType.MainMenuPlay:
-      //print("tapped play button")
+  func buttonTapped(tag: SKButton.Tag) {
+    switch tag {
+    case .MainMenuPlay:
       let scene = LevelOne(size: view!.bounds.size)
       
       scene.scaleMode = .ResizeFill
       view!.presentScene(scene, transition: SKTransition.crossFadeWithDuration(1.0))
-      //view!.presentScene(scene, transition: SKTransition.doorsOpenHorizontalWithDuration(1.0))
-      //view!.presentScene(scene, transition: SKTransition.fadeWithDuration(1.0))
-      // segue into main level
-    case ButtonType.MainMenuSettings:
+    case .MainMenuSettings:
       print("tapped settings button")
-      // segue into settings page
     }
   }
   
