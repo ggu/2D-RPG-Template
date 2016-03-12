@@ -8,53 +8,51 @@
 
 import SpriteKit
 
-protocol SKButtonDelegate
-{
-  func buttonTapped(type: ButtonType)
-  // button tapped function
-  // !!! to-do: add property that holds the button action on tap?
+protocol SKButtonDelegate {
+  func buttonTapped(type: SKButton.Tag)
 }
 
-class SKButton : SKSpriteNode
-{
-  var button: SKButtonContents?
-  var buttonType: ButtonType?
+class SKButton : SKSpriteNode {
+  enum Tag {// need to make MainMenu a type of ButtonType
+      case MainMenuPlay
+      case MainMenuSettings
+  }
+  
+  static let padding: CGFloat = 50
+  
+  private var button: SKButtonContents
+  var tag: Tag
   var delegate: SKButtonDelegate?
-  convenience init(color: UIColor, text: String, type: ButtonType)
-  {
-    let buttonNode = SKButtonContents(color: color, text: text)
-		let buttonWidth = buttonNode.frame.size.width + 50 // 50 is the invisible padding for tappable area
-		let buttonHeight = buttonNode.frame.size.height + 50
-    self.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(buttonWidth, buttonHeight))
-    setup(buttonNode, type: type)
+  
+  init(color: UIColor, text: String, tag: SKButton.Tag) {
+    self.tag = tag
+
+    self.button = SKButtonContents(color: color, text: text)
+		let buttonWidth = self.button.frame.size.width + SKButton.padding
+		let buttonHeight = self.button.frame.size.height + SKButton.padding
+    super.init(texture: nil, color: UIColor.clearColor(), size: CGSize(width: buttonWidth, height: buttonHeight))
+    
+    setup()
   }
   
-  func setup(buttonNode : SKButtonContents, type: ButtonType)
-  {
-    buttonType = type
+  private func setup() {
     userInteractionEnabled = true
-    // zPosition = zPositions.joystick
-    button = buttonNode
-    addChild(button!)
+    addChild(button)
   }
   
-  func setMargins(horizontal: Int, vertical: Int)
-  {
+  private func setMargins(horizontal: Int, vertical: Int) {
     
   }
   
-  func changeText(text: String)
-  {
+  func changeText(text: String) {
     
   }
   
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
-  {
-    if let theDelegate = delegate {
-      if let type = buttonType {
-        theDelegate.buttonTapped(type)
-      }
-    }
-    
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    delegate?.buttonTapped(tag)
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 }

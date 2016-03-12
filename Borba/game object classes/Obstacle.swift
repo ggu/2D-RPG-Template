@@ -7,14 +7,13 @@
 //
 
 /* 
-==== this class is not to be utilized in playable demo =====
 
 Any Obstacle has:
 - a physics body
 - hidden item
 - break level (how difficult it is to destroy this object to remove from map and potentially uncover hidden item i.e. potion)
 */
-class Obstacle : GameObject
-{
+
+class Obstacle: GameObject {
   
 }

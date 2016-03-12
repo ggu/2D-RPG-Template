@@ -8,40 +8,37 @@
 
 import SpriteKit
 
-class SKButtonContents : SKSpriteNode
-{
-  var label : SKLabelNode?
-  init(color: UIColor, text: String)
-  {
-    let labelNode : SKLabelNode = SKLabelNode(text: text);
-    labelNode.fontName = "Copperplate"
-    let labelFrame = labelNode.frame
-    let buttonWidth = labelFrame.width + Button.leftMargin + Button.rightMargin
-    let buttonHeight = labelFrame.height + Button.topMargin + Button.bottomMargin
-    let size = CGSizeMake(buttonWidth, buttonHeight)
+class SKButtonContents : SKSpriteNode {
+  private enum Margin {
+    static let Left: CGFloat = 20
+    static let Right: CGFloat = 20
+    static let Top: CGFloat = 10
+    static let Bottom: CGFloat = 10
+  }
+  
+  private var label: SKLabelNode
+  
+  init(color: UIColor, text: String) {
+    self.label = SKLabelNode(text: text);
+    self.label.fontName = "Copperplate"
+    let buttonWidth = self.label.frame.width + Margin.Left + Margin.Right
+    let buttonHeight = self.label.frame.height + Margin.Top + Margin.Bottom
+    let size = CGSize(width: buttonWidth, height: buttonHeight)
     super.init(texture: nil, color: color, size: size)
-    setup(labelNode)
+    setup()
   }
   
-  func setup(labelNode: SKLabelNode)
-  {
-    label = labelNode
-    label!.position = CGPointMake(0, -Button.topMargin)
-    addChild(label!)
-    
+  private func setup() {
+    label.position = CGPoint(x: 0, y: -Margin.Top)
+    addChild(label)
   }
   
-  func setMargins(horizontal: Int, vertical: Int)
-  {
-    
-  }
+  func setMargins(horizontal: Int, vertical: Int) {}
   
-  func changeText(text: String)
-  {
-  }
+  func changeText(text: String) {}
   
-  required init?(coder aDecoder: NSCoder)
-  {
+  required init?(coder aDecoder: NSCoder) {
+    self.label = SKLabelNode(text: "")
     super.init(coder: aDecoder)
   }
 }

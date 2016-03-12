@@ -1,5 +1,5 @@
-# 2D-RPG-Boilerplate
-Boilerplate code for a 2D top down game written in Swift with SpriteKit.
+# 2D-RPG-Template
+Template for a 2D top down RPG written in Swift with SpriteKit.
 
 ## Demo
 A recent playable version can be viewed here: https://www.youtube.com/watch?v=2uGMX0L7XMk

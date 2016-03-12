@@ -6,37 +6,41 @@
 //  Copyright © 2016 Team Five Three. All rights reserved.
 //
 
-import Foundation
-
 import SpriteKit
 
 protocol SkillButtonDelegate {
-  func skillButtonTouched(skillName: Spell.Name)
+  func skillButtonTouched(skillName: SpellString)
 }
 
 class SkillButton: SKSpriteNode {
   var active = false
   var delegate: SkillButtonDelegate?
-  var spell: Spell.Name
+  var spell: SpellString = Spell.String.Fireball
   
   init(spell: Spell.Name, color: UIColor, size: CGSize) {
-    self.spell = spell
     super.init(texture: nil, color: color, size: size)
+    setup(spell)
+  }
+  
+  private func setup(spellName: Spell.Name) {
     self.userInteractionEnabled = true
     let labelNode : SKLabelNode
     
-    switch spell {
+    switch spellName {
     case .Fireball:
       labelNode = SKLabelNode(text: "1")
-    case .Frostbolt:
+      spell = Spell.String.Fireball
+    case .ArcaneBolt:
       labelNode = SKLabelNode(text: "2")
+      spell = Spell.String.ArcaneBolt
     case .Lightning:
       labelNode = SKLabelNode(text: "3")
+      spell = Spell.String.LightningBolt
     }
     labelNode.fontName = "Copperplate"
     labelNode.fontSize = 16
     labelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-    labelNode.position = CGPointMake(labelNode.position.x, labelNode.position.y - 4)
+    labelNode.position = CGPoint(x: labelNode.position.x, y: labelNode.position.y - 4)
     
     addChild(labelNode)
   }
