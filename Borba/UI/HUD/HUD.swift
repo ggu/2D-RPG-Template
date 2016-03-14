@@ -31,7 +31,7 @@ class HUD: SKSpriteNode {
     energyFrame = ResourceBar(width: size.width, height: size.height, xPosition: 400, color: UIColor(red: 0.353, green: 0.659, blue: 0.812, alpha: 1))
     experienceFrame = ExperienceBar(width: size.width, height: size.height)
     levelFrame = LevelBar(width: size.width, height: size.height)
-    skillBar = SkillBar(color: UIColor.blueColor(), size: CGSize(width: 30, height: 100))
+    skillBar = SkillBar(color: UIColor.clearColor(), size: CGSize(width: 30, height: 100))
     
     super.init(texture: nil, color: UIColor.clearColor(), size: size)
     
@@ -45,6 +45,8 @@ class HUD: SKSpriteNode {
   }
   
   private func setup() {
+    zPosition = zPositions.UIObjects
+    
     addChild(healthFrame)
     addChild(energyFrame)
     addChild(experienceFrame)

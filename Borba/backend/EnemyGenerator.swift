@@ -8,6 +8,8 @@
 
 import SpriteKit
 
+typealias Block = ([Enemy]) -> Void
+
 final class EnemyGenerator {
   private var enemies: [Enemy] = []
   private var difficultyCounter = 1
@@ -19,16 +21,18 @@ final class EnemyGenerator {
     return EnemyGenerator()
   }
   
-  func generateEnemies() -> [Enemy] {
-    difficultyCounter += 1
-    enemies.removeAll()
-    
-    for _ in 0..<numEnemies {
-      enemies.append(Enemy())
-    }
-    incrementNumEnemiesForNextRound()
-    
-    return enemies
+  func generateEnemies(block: Block) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+      self.difficultyCounter += 1
+      self.enemies.removeAll()
+      
+      for _ in 0..<self.numEnemies {
+        self.enemies.append(Enemy())
+      }
+      self.incrementNumEnemiesForNextRound()
+      
+      block(self.enemies)
+    })
   }
   
   func incrementNumEnemiesForNextRound() {

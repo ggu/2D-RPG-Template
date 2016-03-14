@@ -32,8 +32,8 @@ class MapObject: GameObject {
     physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
     physicsBody?.categoryBitMask = CategoryBitMasks.Map
     zPosition = zPositions.Map
-    
-    setupEmitters()
+    blendMode = SKBlendMode.Replace
+    //setupEmitters()
   }
   
   private func setupEmitters() {

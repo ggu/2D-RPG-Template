@@ -22,7 +22,7 @@ enum Particle {
 
 final class AssetManager {
   private enum ImagePath {
-    static let MainMap = "ice.jpg"
+    static let MainMap = "ice.png"
     static let Enemy = "enemy.png"
     static let Hero = "hero.png"
   }

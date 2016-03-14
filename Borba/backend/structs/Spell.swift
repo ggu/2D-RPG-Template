@@ -28,7 +28,7 @@ struct Spell {
   enum Cooldowns {
     static let Fireball = 0.8
     static let ArcaneBolt = 0.2
-    static let LightningStorm = 1.0
+    static let LightningStorm = 1.3
   }
   
   enum Costs {

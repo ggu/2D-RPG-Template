@@ -19,15 +19,15 @@ class Player: Character {
     zRotation = CGFloat(Double(angle) + M_PI);
   }
   
-  private func setup() {
-    setupProperties()
-    setupLightSource()
-  }
-  
   func levelUp() {
     let greenAction = SKAction.colorizeWithColor(UIColor.greenColor(), colorBlendFactor: 1, duration: 0.5)
     let returnAction = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
     runAction(SKAction.sequence([greenAction, returnAction]))
+  }
+  
+  private func setup() {
+    setupProperties()
+    setupLightSource()
   }
   
   private func setupProperties() {

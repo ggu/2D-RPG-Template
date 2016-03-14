@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		761CA19A1C966A73003D2943 /* ice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 761CA1991C966A73003D2943 /* ice@2x.png */; };
 		76225FA41B23CCDC00D36B3D /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76225FA31B23CCDC00D36B3D /* GameController.swift */; };
 		7627D0C71C8D65630015C4FF /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627D0C61C8D65630015C4FF /* Model.swift */; };
 		7627D0CC1C8D65F20015C4FF /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627D0CB1C8D65F20015C4FF /* PlayerModel.swift */; };
@@ -17,7 +18,6 @@
 		769536321C90B012008B83AA /* EnemyStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769536311C90B012008B83AA /* EnemyStats.swift */; };
 		7699347B1C81573000F967A5 /* enemy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 769934411C81573000F967A5 /* enemy@2x.png */; };
 		7699347C1C81573000F967A5 /* hero@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 769934421C81573000F967A5 /* hero@2x.png */; };
-		7699347D1C81573000F967A5 /* ice@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 769934431C81573000F967A5 /* ice@2x.jpg */; };
 		7699347E1C81573000F967A5 /* Aura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 769934451C81573000F967A5 /* Aura.sks */; };
 		7699347F1C81573000F967A5 /* bokeh.png in Resources */ = {isa = PBXBuildFile; fileRef = 769934461C81573000F967A5 /* bokeh.png */; };
 		769934801C81573000F967A5 /* Death.sks in Resources */ = {isa = PBXBuildFile; fileRef = 769934471C81573000F967A5 /* Death.sks */; };
@@ -87,6 +87,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		761CA1991C966A73003D2943 /* ice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ice@2x.png"; sourceTree = "<group>"; };
 		76225FA31B23CCDC00D36B3D /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 		7627D0C61C8D65630015C4FF /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		7627D0CB1C8D65F20015C4FF /* PlayerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
@@ -97,7 +98,6 @@
 		769536311C90B012008B83AA /* EnemyStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyStats.swift; sourceTree = "<group>"; };
 		769934411C81573000F967A5 /* enemy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enemy@2x.png"; sourceTree = "<group>"; };
 		769934421C81573000F967A5 /* hero@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hero@2x.png"; sourceTree = "<group>"; };
-		769934431C81573000F967A5 /* ice@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ice@2x.jpg"; sourceTree = "<group>"; };
 		769934451C81573000F967A5 /* Aura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Aura.sks; sourceTree = "<group>"; };
 		769934461C81573000F967A5 /* bokeh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bokeh.png; sourceTree = "<group>"; };
 		769934471C81573000F967A5 /* Death.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Death.sks; sourceTree = "<group>"; };
@@ -215,7 +215,7 @@
 			children = (
 				769934411C81573000F967A5 /* enemy@2x.png */,
 				769934421C81573000F967A5 /* hero@2x.png */,
-				769934431C81573000F967A5 /* ice@2x.jpg */,
+				761CA1991C966A73003D2943 /* ice@2x.png */,
 			);
 			path = art;
 			sourceTree = "<group>";
@@ -499,13 +499,13 @@
 				769934931C81573000F967A5 /* music.mp3 in Resources */,
 				769934811C81573000F967A5 /* Dissipate.sks in Resources */,
 				76AEE02C1B228EEC003A276A /* LaunchScreen.xib in Resources */,
-				7699347D1C81573000F967A5 /* ice@2x.jpg in Resources */,
 				76AEE0291B228EEC003A276A /* Images.xcassets in Resources */,
 				769934961C81573000F967A5 /* ZombieSpawn.mp3 in Resources */,
 				769934851C81573000F967A5 /* LevelUp.sks in Resources */,
 				769934801C81573000F967A5 /* Death.sks in Resources */,
 				7699347F1C81573000F967A5 /* bokeh.png in Resources */,
 				76AEE0271B228EEC003A276A /* Main.storyboard in Resources */,
+				761CA19A1C966A73003D2943 /* ice@2x.png in Resources */,
 				769934901C81573000F967A5 /* FlameSpellCrackle2.mp3 in Resources */,
 				7699347B1C81573000F967A5 /* enemy@2x.png in Resources */,
 				769934881C81573000F967A5 /* Rain.sks in Resources */,
@@ -695,7 +695,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Borba/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.teamfivethree.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -711,7 +711,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Borba/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.teamfivethree.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

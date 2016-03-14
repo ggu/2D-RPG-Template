@@ -36,11 +36,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setup() {
-    playerModel.delegate = self
-    enemiesModel.delegate = self
-    view?.multipleTouchEnabled = true
-    physicsWorld.contactDelegate = self
-    
     setupProperties()
     setupMap()
     setupHUD()
@@ -51,12 +46,12 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func loadEnemies() {
-    let enemies = enemyGenerator.generateEnemies()
-    spawnEnemies(enemies)
+    enemyGenerator.generateEnemies({ (enemies: [Enemy]) in
+      self.spawnEnemies(enemies)
+    })
   }
   
   private func setupHUD() {
-    hud.zPosition = zPositions.UIObjects
     hud.delegate = self
     addChild(hud)
   }
@@ -66,8 +61,10 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupProperties() {
-    width = scene!.size.width
-    height = scene!.size.height
+    playerModel.delegate = self
+    enemiesModel.delegate = self
+    view?.multipleTouchEnabled = true
+    physicsWorld.contactDelegate = self
   }
   
   private func setupPlayer() {
@@ -75,7 +72,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupCamera() {
-    cameraNode.name = "camera"
     map.addChild(cameraNode)
   }
   
@@ -84,7 +80,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   override func update(currentTime: CFTimeInterval) {
     updatePlayerState()
     updateEnemies()
-    
     updatePlayerEnemyConditions()
   }
   
@@ -128,45 +123,27 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   private func handleGameObjectContact(bodyA: SKPhysicsBody, bodyB: SKPhysicsBody) {
     if bodyA.categoryBitMask == CategoryBitMasks.Hero {
-      if let enemy = bodyB.node as? Enemy {
-        handlePlayerAndEnemyContact(enemy)
-      }
+      handlePlayerAndEnemyContact(bodyB.node)
     } else if bodyB.categoryBitMask == CategoryBitMasks.Hero {
-      if let enemy = bodyA.node as? Enemy {
-        handlePlayerAndEnemyContact(enemy)
-      }
+      handlePlayerAndEnemyContact(bodyA.node)
     } else if bodyA.categoryBitMask == CategoryBitMasks.Spell {
-      let spell = bodyA.node as? SpellNode
-      spell?.fizzleOut()
-      if let enemy = bodyB.node as? Enemy {
-        onSpellHitEffects(enemy.position)
-        handleSpellAndEnemyContact(enemy)
-      }
+      handleSpellAndEnemyContact(bodyB.node, spellNode: bodyA.node, penetrates: false)
     } else if bodyB.categoryBitMask == CategoryBitMasks.Spell {
-      let spell = bodyB.node as? SpellNode
-      spell?.fizzleOut()
-      if let enemy = bodyA.node as? Enemy {
-        onSpellHitEffects(enemy.position)
-        handleSpellAndEnemyContact(enemy)
-      }
+      handleSpellAndEnemyContact(bodyA.node, spellNode: bodyB.node, penetrates: false)
     } else if bodyA.categoryBitMask == CategoryBitMasks.PenetratingSpell {
-      if let enemy = bodyB.node as? Enemy {
-        handleSpellAndEnemyContact(enemy)
-      }
+      handleSpellAndEnemyContact(bodyB.node, spellNode: nil, penetrates: true)
     } else if bodyB.categoryBitMask == CategoryBitMasks.PenetratingSpell {
-      if let enemy = bodyA.node as? Enemy {
-        handleSpellAndEnemyContact(enemy)
-      }
+      handleSpellAndEnemyContact(bodyA.node, spellNode: nil, penetrates: true)
     }
   }
   
   // MARK: - Player and Enemy High Level Logic
   
   private func updateEnemies() {
-    for enemy in enemies {
-      let distance = getDistance(enemy.position, point2: player.position)
-      enemy.handleSpriteMovement(player.position, duration: distance / Double(enemiesModel.getMovementSpeed(enemy.name!)))
-    }
+      for enemy in enemies {
+        let distance = getDistance(enemy.position, point2: player.position)
+        enemy.handleSpriteMovement(player.position, duration: distance / Double(enemiesModel.getMovementSpeed(enemy.name!)))
+      }
   }
   
   private func updatePlayerState() {
@@ -215,13 +192,22 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  private func handleSpellAndEnemyContact(enemy: Enemy) {
-    enemiesModel.takeDamage(enemy.name!, damage: playerModel.activeSpell.damage * playerModel.getSpellDamageModifier())
+  private func handleSpellAndEnemyContact(enemyNode: SKNode?, spellNode: SKNode?, penetrates: Bool) {
+    if let enemy = enemyNode as? Enemy {
+      if !penetrates {
+        let spell = spellNode as? SpellNode
+        spell?.fizzleOut()
+      }
+      onSpellHitEffects(enemy.position)
+      enemiesModel.takeDamage(enemy.name!, damage: playerModel.activeSpell.damage * playerModel.getSpellDamageModifier())
+    }
   }
   
-  private func handlePlayerAndEnemyContact(enemy: Enemy) {
-    damagePlayerAndEnemy(enemy)
-    putEnemyInContact(enemy)
+  private func handlePlayerAndEnemyContact(enemyNode: SKNode?) {
+    if let enemy = enemyNode as? Enemy {
+      damagePlayerAndEnemy(enemy)
+      putEnemyInContact(enemy)
+    }
   }
   
   private func putEnemyInContact(enemy: Enemy) {
