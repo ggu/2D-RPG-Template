@@ -13,7 +13,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   var height: CGFloat
   let player = Player()
   let cameraNode = SKNode()
-  let map = MapObject(map: MapObject.Level.Demo)
+  let map = MapObject(map: MapObject.Level.demo)
   let hud: HUD
   var enemies: [Enemy] = []
   var playerEnemyInContact = false
@@ -40,7 +40,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     setupMap()
     setupHUD()
     setupPlayer()
-    runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed(SoundFile.Music, waitForCompletion: true)))
+    runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed(SoundFile.music, waitForCompletion: true)))
     setupCamera()
     loadEnemies()
   }
@@ -101,11 +101,11 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     let bodyA = contact.bodyA
     let bodyB = contact.bodyB
     
-    if bodyA.categoryBitMask == CategoryBitMasks.Hero {
+    if bodyA.categoryBitMask == CategoryBitMasks.hero {
       if let enemy = bodyB.node as? Enemy {
         contactEnded(enemy)
       }
-    } else if bodyB.categoryBitMask == CategoryBitMasks.Hero {
+    } else if bodyB.categoryBitMask == CategoryBitMasks.hero {
       if let enemy = bodyA.node as? Enemy {
         contactEnded(enemy)
       }
@@ -122,17 +122,17 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func handleGameObjectContact(bodyA: SKPhysicsBody, bodyB: SKPhysicsBody) {
-    if bodyA.categoryBitMask == CategoryBitMasks.Hero {
+    if bodyA.categoryBitMask == CategoryBitMasks.hero {
       handlePlayerAndEnemyContact(bodyB.node)
-    } else if bodyB.categoryBitMask == CategoryBitMasks.Hero {
+    } else if bodyB.categoryBitMask == CategoryBitMasks.hero {
       handlePlayerAndEnemyContact(bodyA.node)
-    } else if bodyA.categoryBitMask == CategoryBitMasks.Spell {
+    } else if bodyA.categoryBitMask == CategoryBitMasks.spell {
       handleSpellAndEnemyContact(bodyB.node, spellNode: bodyA.node, penetrates: false)
-    } else if bodyB.categoryBitMask == CategoryBitMasks.Spell {
+    } else if bodyB.categoryBitMask == CategoryBitMasks.spell {
       handleSpellAndEnemyContact(bodyA.node, spellNode: bodyB.node, penetrates: false)
-    } else if bodyA.categoryBitMask == CategoryBitMasks.PenetratingSpell {
+    } else if bodyA.categoryBitMask == CategoryBitMasks.penetratingSpell {
       handleSpellAndEnemyContact(bodyB.node, spellNode: nil, penetrates: true)
-    } else if bodyB.categoryBitMask == CategoryBitMasks.PenetratingSpell {
+    } else if bodyB.categoryBitMask == CategoryBitMasks.penetratingSpell {
       handleSpellAndEnemyContact(bodyA.node, spellNode: nil, penetrates: true)
     }
   }
@@ -250,12 +250,12 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     player.runAction(action)
     
     switch playerModel.activeSpell.spellName {
-    case .Lightning:
-      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.LightningStorm)
-    case .Fireball:
-      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.Fireball)
-    case .ArcaneBolt:
-      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.ArcaneBolt)
+    case .lightning:
+      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.lightningStorm)
+    case .fireball:
+      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.fireball)
+    case .arcaneBolt:
+      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.arcaneBolt)
     }
     map.addChild(spellSprite)
   }
@@ -369,7 +369,7 @@ extension LevelOne: EnemiesModelDelegate {
   }
   
   private func enemyDeathSequence(enemy: Enemy) {
-    runAction(SKAction.playSoundFileNamed(SoundFile.ZombieDeath, waitForCompletion: false))
+    runAction(SKAction.playSoundFileNamed(SoundFile.zombieDeath, waitForCompletion: false))
     enemyDeath(enemy)
     updateGameStateAfterEnemyDeath()
   }

@@ -8,39 +8,39 @@
 
 struct Spell {
   enum String {
-    static let Fireball: SpellString = "fireball"
-    static let ArcaneBolt: SpellString = "arcanebolt"
-    static let LightningBolt: SpellString = "lightning"
+    static let fireball: SpellString = "fireball"
+    static let arcaneBolt: SpellString = "arcanebolt"
+    static let lightningBolt: SpellString = "lightning"
   }
   
   enum Name {
-    case Fireball
-    case ArcaneBolt
-    case Lightning
+    case fireball
+    case arcaneBolt
+    case lightning
   }
   
   enum Damage {
-    static let Fireball = 100.0
-    static let ArcaneBolt = 20.0
-    static let LightningStorm = 120.0
+    static let fireball = 100.0
+    static let arcaneBolt = 20.0
+    static let lightningStorm = 120.0
   }
   
   enum Cooldowns {
-    static let Fireball = 0.8
-    static let ArcaneBolt = 0.2
-    static let LightningStorm = 1.3
+    static let fireball = 0.8
+    static let arcaneBolt = 0.2
+    static let lightningStorm = 1.3
   }
   
   enum Costs {
-    static let Fireball = 10.0
-    static let ArcaneBolt = 5.0
-    static let LightningStorm = 50.0
+    static let fireball = 10.0
+    static let arcaneBolt = 5.0
+    static let lightningStorm = 50.0
   }
   
   enum MissileSpeeds {
-    static let Fireball = 150.0
-    static let ArcaneBolt = 200.0
-    static let LightningStorm = 80.0
+    static let fireball = 150.0
+    static let arcaneBolt = 200.0
+    static let lightningStorm = 80.0
   }
   
   var damage: Double

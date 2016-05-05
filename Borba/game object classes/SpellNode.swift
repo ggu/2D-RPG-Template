@@ -23,15 +23,15 @@ class SpellNode: GameObject {
     let spellSize: CGSize
     let soundFileName: String
     switch spellName {
-    case .Fireball:
+    case .fireball:
       spellSize = Size.fireball
-      soundFileName = SoundFile.Fireball
-    case .ArcaneBolt:
+      soundFileName = SoundFile.fireball
+    case .arcaneBolt:
       spellSize = Size.arcaneBolt
-      soundFileName = SoundFile.ArcaneBolt
-    case .Lightning:
+      soundFileName = SoundFile.arcaneBolt
+    case .lightning:
       spellSize = Size.lightningStorm
-      soundFileName = SoundFile.LightningStorm
+      soundFileName = SoundFile.lightningStorm
     }
     
     super.init(texture: nil, color: UIColor.clearColor(), size: spellSize)
@@ -53,8 +53,8 @@ class SpellNode: GameObject {
     setupDefaultPhysics(angle)
     
     switch spellName {
-    case .Lightning:
-      physicsBody?.categoryBitMask = CategoryBitMasks.PenetratingSpell
+    case .lightning:
+      physicsBody?.categoryBitMask = CategoryBitMasks.penetratingSpell
       break
     default:
       break
@@ -63,7 +63,7 @@ class SpellNode: GameObject {
   
   private func setupEmitter() {
     if let emitter = AssetManager.sharedInstance.getSpellEmitter(spellName) {
-      emitter.zPosition = zPositions.MapObjects
+      emitter.zPosition = zPositions.mapObjects
       emitter.position = CGPointZero
       addChild(emitter)
     }
@@ -73,8 +73,8 @@ class SpellNode: GameObject {
     zRotation = angle + CGFloat(M_PI)
     physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width, height: size.height))
     physicsBody?.collisionBitMask = 0
-    physicsBody?.categoryBitMask = CategoryBitMasks.Spell
-    physicsBody?.contactTestBitMask = CategoryBitMasks.Enemy
+    physicsBody?.categoryBitMask = CategoryBitMasks.spell
+    physicsBody?.contactTestBitMask = CategoryBitMasks.enemy
     physicsBody?.affectedByGravity = false
     physicsBody?.dynamic = false
   }

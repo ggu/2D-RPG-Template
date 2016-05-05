@@ -18,13 +18,13 @@ final class SpellManager {
   func getInitialPlayerSpells() -> (Spell, [String: Spell]) {
     var spellList =  [String: Spell]()
     
-    let fireballSpell = Spell(spellDamage: Spell.Damage.Fireball, spell: Spell.Name.Fireball, spellCost: Spell.Costs.Fireball, spellCooldown: Spell.Cooldowns.Fireball)
-    let arcaneBoltSpell = Spell(spellDamage: Spell.Damage.ArcaneBolt, spell: Spell.Name.ArcaneBolt, spellCost: Spell.Costs.ArcaneBolt, spellCooldown: Spell.Cooldowns.ArcaneBolt)
-    let lightningSpell = Spell(spellDamage: Spell.Damage.LightningStorm, spell: Spell.Name.Lightning, spellCost: Spell.Costs.LightningStorm, spellCooldown: Spell.Cooldowns.LightningStorm)
+    let fireballSpell = Spell(spellDamage: Spell.Damage.fireball, spell: Spell.Name.fireball, spellCost: Spell.Costs.fireball, spellCooldown: Spell.Cooldowns.fireball)
+    let arcaneBoltSpell = Spell(spellDamage: Spell.Damage.arcaneBolt, spell: Spell.Name.arcaneBolt, spellCost: Spell.Costs.arcaneBolt, spellCooldown: Spell.Cooldowns.arcaneBolt)
+    let lightningSpell = Spell(spellDamage: Spell.Damage.lightningStorm, spell: Spell.Name.lightning, spellCost: Spell.Costs.lightningStorm, spellCooldown: Spell.Cooldowns.lightningStorm)
     
-    spellList[Spell.String.Fireball] = fireballSpell
-    spellList[Spell.String.ArcaneBolt] = arcaneBoltSpell
-    spellList[Spell.String.LightningBolt] = lightningSpell
+    spellList[Spell.String.fireball] = fireballSpell
+    spellList[Spell.String.arcaneBolt] = arcaneBoltSpell
+    spellList[Spell.String.lightningBolt] = lightningSpell
     
     return (fireballSpell, spellList)
   }

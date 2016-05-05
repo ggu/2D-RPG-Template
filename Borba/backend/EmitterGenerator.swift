@@ -12,8 +12,8 @@ class EmitterGenerator {
   static let sharedInstance = EmitterGenerator()
   
   func getDissipationEmitter() -> SKEmitterNode? {
-    if let dissipateEmitter = AssetManager.sharedInstance.getEmitter(Particle.Dissipate) {
-      dissipateEmitter.zPosition = zPositions.MapObjects
+    if let dissipateEmitter = AssetManager.sharedInstance.getEmitter(Particle.dissipate) {
+      dissipateEmitter.zPosition = zPositions.mapObjects
       
       let waitAction = SKAction.waitForDuration(0.1)
       let stopAction = SKAction.runBlock({
@@ -30,8 +30,8 @@ class EmitterGenerator {
   }
   
   func getEnemyDeathEmitter() -> SKEmitterNode? {
-    if let deathEmitter = AssetManager.sharedInstance.getEmitter(Particle.EnemyDeath) {
-      deathEmitter.zPosition = zPositions.MapObjects
+    if let deathEmitter = AssetManager.sharedInstance.getEmitter(Particle.enemyDeath) {
+      deathEmitter.zPosition = zPositions.mapObjects
       
       let waitAction = SKAction.waitForDuration(0.3)
       let stopAction = SKAction.runBlock({
@@ -48,8 +48,8 @@ class EmitterGenerator {
   }
   
   func getLevelUpEmitter() -> SKEmitterNode? {
-    if let levelUpEmitter = AssetManager.sharedInstance.getEmitter(Particle.LevelUp) {
-      levelUpEmitter.zPosition = zPositions.MapObjects
+    if let levelUpEmitter = AssetManager.sharedInstance.getEmitter(Particle.levelUp) {
+      levelUpEmitter.zPosition = zPositions.mapObjects
       
       let waitAction = SKAction.waitForDuration(1)
       let stopAction = SKAction.runBlock({

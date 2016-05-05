@@ -10,10 +10,10 @@ import SpriteKit
 
 class SKButtonContents : SKSpriteNode {
   private enum Margin {
-    static let Left: CGFloat = 20
-    static let Right: CGFloat = 20
-    static let Top: CGFloat = 10
-    static let Bottom: CGFloat = 10
+    static let left: CGFloat = 20
+    static let right: CGFloat = 20
+    static let top: CGFloat = 10
+    static let bottom: CGFloat = 10
   }
   
   private var label: SKLabelNode
@@ -21,15 +21,15 @@ class SKButtonContents : SKSpriteNode {
   init(color: UIColor, text: String) {
     self.label = SKLabelNode(text: text);
     self.label.fontName = "Copperplate"
-    let buttonWidth = self.label.frame.width + Margin.Left + Margin.Right
-    let buttonHeight = self.label.frame.height + Margin.Top + Margin.Bottom
+    let buttonWidth = self.label.frame.width + Margin.left + Margin.right
+    let buttonHeight = self.label.frame.height + Margin.top + Margin.bottom
     let size = CGSize(width: buttonWidth, height: buttonHeight)
     super.init(texture: nil, color: color, size: size)
     setup()
   }
   
   private func setup() {
-    label.position = CGPoint(x: 0, y: -Margin.Top)
+    label.position = CGPoint(x: 0, y: -Margin.top)
     addChild(label)
   }
   

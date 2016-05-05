@@ -11,9 +11,9 @@ import SpriteKit
 class MapObject: GameObject {
   
   enum Level {
-    case Demo
-    case Main
-    case Last
+    case demo
+    case main
+    case last
   }
   
   init(map: Level) {
@@ -30,22 +30,22 @@ class MapObject: GameObject {
     anchorPoint = CGPointZero
     lightingBitMask = 1
     physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
-    physicsBody?.categoryBitMask = CategoryBitMasks.Map
-    zPosition = zPositions.Map
+    physicsBody?.categoryBitMask = CategoryBitMasks.map
+    zPosition = zPositions.map
     blendMode = SKBlendMode.Replace
     //setupEmitters()
   }
   
   private func setupEmitters() {
-    if let rainParticles = AssetManager.sharedInstance.getEmitter(Particle.Rain) {
-      rainParticles.zPosition = zPositions.MapObjects
+    if let rainParticles = AssetManager.sharedInstance.getEmitter(Particle.rain) {
+      rainParticles.zPosition = zPositions.mapObjects
       rainParticles.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
       rainParticles.particlePositionRange = CGVector(dx: frame.width, dy: frame.height)
       addChild(rainParticles)
     }
     
-    if let fireParticles = AssetManager.sharedInstance.getEmitter(Particle.Fire) {
-      fireParticles.zPosition = zPositions.MapObjects
+    if let fireParticles = AssetManager.sharedInstance.getEmitter(Particle.fire) {
+      fireParticles.zPosition = zPositions.mapObjects
       fireParticles.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
       addChild(fireParticles)
     }

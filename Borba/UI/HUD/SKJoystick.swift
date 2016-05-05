@@ -10,8 +10,8 @@ import SpriteKit
 
 class SKJoystick: SKSpriteNode {
   private enum MaxValue {
-    static let AbsX: CGFloat = 70
-    static let AbsY: CGFloat = 70
+    static let absX: CGFloat = 70
+    static let absY: CGFloat = 70
   }
   
   private var active = false
@@ -45,10 +45,10 @@ class SKJoystick: SKSpriteNode {
       var newX: CGFloat = thumbStick.position.x
       var newY: CGFloat = thumbStick.position.y
       
-      if fabs(location.x) < SKJoystick.MaxValue.AbsX {
+      if fabs(location.x) < SKJoystick.MaxValue.absX {
         newX = location.x;
       }
-      if fabs(location.y) < SKJoystick.MaxValue.AbsY {
+      if fabs(location.y) < SKJoystick.MaxValue.absY {
         newY = location.y;
       }
       thumbStick.position = CGPoint(x: newX, y: newY)
@@ -84,8 +84,8 @@ class SKJoystick: SKSpriteNode {
     thumbStick.fillColor = UIColor.grayColor()
     userInteractionEnabled = true
     alpha = 0.6
-    zPosition = zPositions.Joystick
-    thumbStick.zPosition = zPositions.Thumbstick
+    zPosition = zPositions.joystick
+    thumbStick.zPosition = zPositions.thumbstick
     self.addChild(thumbStick)
   }
   

@@ -14,8 +14,8 @@ protocol SKButtonDelegate {
 
 class SKButton : SKSpriteNode {
   enum Tag {// need to make MainMenu a type of ButtonType
-      case MainMenuPlay
-      case MainMenuSettings
+      case mainMenuPlay
+      case mainMenuSettings
   }
   
   static let padding: CGFloat = 50

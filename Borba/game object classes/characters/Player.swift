@@ -32,12 +32,12 @@ class Player: Character {
   
   private func setupProperties() {
     position = PlayerStartingPosition
-    zPosition = zPositions.MapObjects;
+    zPosition = zPositions.mapObjects;
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.affectedByGravity = false
     physicsBody?.mass = 1
-    physicsBody?.categoryBitMask = CategoryBitMasks.Hero
-    physicsBody?.collisionBitMask = CategoryBitMasks.Map | CategoryBitMasks.Enemy
+    physicsBody?.categoryBitMask = CategoryBitMasks.hero
+    physicsBody?.collisionBitMask = CategoryBitMasks.map | CategoryBitMasks.enemy
   }
   
   private func setupLightSource() {
@@ -53,7 +53,7 @@ class Player: Character {
       lightNode.categoryBitMask = 1
       lightNode.falloff = 0.01
       lightingBitMask = 1
-      lightNode.zPosition = zPositions.Map
+      lightNode.zPosition = zPositions.map
       
       addChild(lightNode)
     }

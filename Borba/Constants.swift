@@ -14,35 +14,35 @@ typealias SpellString = String
 typealias EnemyID = String
 
 enum SoundFile {
-  static let Fireball = "FlameSpell.mp3"
-  static let ArcaneBolt = "IceSpell.mp3"
-  static let LightningStorm = "LightningSpell.mp3"
-  static let PlayerDamage = "DamageToPlayer.mp3"
-  static let ZombieSpawn = "ZombieSpawn.mp3"
-  static let ZombieDeath = "DamageToZombie.mp3"
-  static let Music = "music.mp3"
+  static let fireball = "FlameSpell.mp3"
+  static let arcaneBolt = "IceSpell.mp3"
+  static let lightningStorm = "LightningSpell.mp3"
+  static let playerDamage = "DamageToPlayer.mp3"
+  static let zombieSpawn = "ZombieSpawn.mp3"
+  static let zombieDeath = "DamageToZombie.mp3"
+  static let music = "music.mp3"
 }
 
 enum AnimationKeys {
-  static let Damage = "dmg"
-  static let Move = "move"
-  static let DamageEnemySound = "enemydamagesound"
-  static let DamagePlayerSound = "playerdamagesound"
+  static let damage = "dmg"
+  static let move = "move"
+  static let damageEnemySound = "enemydamagesound"
+  static let damagePlayerSound = "playerdamagesound"
 }
 
 enum CategoryBitMasks {
-  static let Hero: UInt32 = 1
-  static let Enemy: UInt32 = 2
-  static let Map: UInt32 = 4
-  static let Spell: UInt32 = 8
-  static let PenetratingSpell: UInt32 = 16
+  static let hero: UInt32 = 1
+  static let enemy: UInt32 = 2
+  static let map: UInt32 = 4
+  static let spell: UInt32 = 8
+  static let penetratingSpell: UInt32 = 16
 }
 
 enum zPositions {
-  static let Map: CGFloat = 1
-  static let MapObjects: CGFloat = 2
-  static let Joystick: CGFloat = 3
-  static let Thumbstick: CGFloat = 4
+  static let map: CGFloat = 1
+  static let mapObjects: CGFloat = 2
+  static let joystick: CGFloat = 3
+  static let thumbstick: CGFloat = 4
   static let UIObjects: CGFloat = 5
   static let UIMenus: CGFloat = 6
 }

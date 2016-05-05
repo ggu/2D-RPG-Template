@@ -35,12 +35,12 @@ class Enemy: Character {
   }
   
   private func setupProperties() {
-    zPosition = zPositions.MapObjects
+    zPosition = zPositions.mapObjects
     
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
-    physicsBody?.categoryBitMask = CategoryBitMasks.Enemy
-    physicsBody?.collisionBitMask = CategoryBitMasks.Hero
-    physicsBody?.contactTestBitMask = CategoryBitMasks.Hero
+    physicsBody?.categoryBitMask = CategoryBitMasks.enemy
+    physicsBody?.collisionBitMask = CategoryBitMasks.hero
+    physicsBody?.contactTestBitMask = CategoryBitMasks.hero
     physicsBody?.affectedByGravity = false
     physicsBody?.mass = 100
     lightingBitMask = 1
