@@ -49,8 +49,8 @@ class HUD: SKSpriteNode {
     
     addChild(healthFrame)
     addChild(energyFrame)
-    addChild(experienceFrame)
-    addChild(levelFrame)
+    //addChild(experienceFrame)
+    //addChild(levelFrame)
     setupKillCountLabel()
     setupJoysticks()
     setupSkillBar()

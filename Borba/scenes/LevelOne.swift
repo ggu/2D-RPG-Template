@@ -377,7 +377,8 @@ extension LevelOne: EnemiesModelDelegate {
   private func updateGameStateAfterEnemyDeath() {
     enemiesKilled += 1
     
-    playerModel.checkIfLeveledUp()
+    // uncomment below to readd level up mechanics to game (remember to readd EXP UI too)
+    //playerModel.checkIfLeveledUp()
     checkIfBeginNextRound()
     
     hud.updateKillCount(enemiesKilled)

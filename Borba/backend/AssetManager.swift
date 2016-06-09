@@ -27,45 +27,37 @@ final class AssetManager {
     static let hero = "hero.png"
   }
   
-  static let sharedInstance = AssetManager()
+  static let heroTexture = SKTexture(imageNamed: ImagePath.hero)
+  static let enemyTexture = SKTexture(imageNamed: ImagePath.enemy)
+  static let mapTexture = SKTexture(imageNamed: ImagePath.mainMap)
   
-  let heroTexture = SKTexture(imageNamed: ImagePath.hero)
-  let enemyTexture = SKTexture(imageNamed: ImagePath.enemy)
-  let mapTexture = SKTexture(imageNamed: ImagePath.mainMap)
+  private static var arcaneBoltParticles = AssetManager.loadParticles(Particle.arcaneBolt)
+  private static var fireballParticles = AssetManager.loadParticles(Particle.fireball)
+  private static var lightningStormParticles = AssetManager.loadParticles(Particle.lightningStorm)
   
-  private var arcaneBoltParticles: SKEmitterNode? = nil
-  private var fireballParticles: SKEmitterNode? = nil
-  private var lightningStormParticles: SKEmitterNode? = nil
-  
-  private init() {
-    arcaneBoltParticles = loadParticles(Particle.arcaneBolt)
-    fireballParticles = loadParticles(Particle.fireball)
-    lightningStormParticles = loadParticles(Particle.lightningStorm)
-  }
-  
-  func getEmitter(particle: String) -> SKEmitterNode? {
-    return loadParticles(particle)
+  static func getEmitter(particle: String) -> SKEmitterNode? {
+    return AssetManager.loadParticles(particle)
   }
   
   // MARK: Spell Assets
   
-  func getSpellEmitter(spell: Spell.Name) -> SKEmitterNode? {
+  static func getSpellEmitter(spell: Spell.Name) -> SKEmitterNode? {
     var emitter: SKEmitterNode? = nil
     
     switch spell {
     case .fireball:
-      emitter = fireballParticles?.copy() as? SKEmitterNode
+      emitter = AssetManager.fireballParticles?.copy() as? SKEmitterNode
     case .arcaneBolt:
-      emitter = arcaneBoltParticles?.copy() as? SKEmitterNode
+      emitter = AssetManager.arcaneBoltParticles?.copy() as? SKEmitterNode
     case .lightning:
-      emitter = lightningStormParticles?.copy() as? SKEmitterNode
+      emitter = AssetManager.lightningStormParticles?.copy() as? SKEmitterNode
     }
     
     return emitter
   }
   
   // MARK: Utilities
-  private func loadParticles(resource: String) -> SKEmitterNode? {
+  private static func loadParticles(resource: String) -> SKEmitterNode? {
     var particles: SKEmitterNode? = nil
     if let myParticlePath = NSBundle.mainBundle().pathForResource(resource, ofType: "sks") {
       particles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode?

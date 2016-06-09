@@ -12,7 +12,7 @@ class Enemy: Character {
   var inContactWithPlayer = false
   
   init() {
-    let texture = AssetManager.sharedInstance.enemyTexture
+    let texture = AssetManager.enemyTexture
     super.init(texture: texture, color: UIColor.whiteColor(), size: texture.size())
     setup()
   }

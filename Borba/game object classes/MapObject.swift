@@ -20,7 +20,7 @@ class MapObject: GameObject {
     let mapTexture: SKTexture
     switch map {
     default:
-      mapTexture = AssetManager.sharedInstance.mapTexture
+      mapTexture = AssetManager.mapTexture
     }
     super.init(texture: mapTexture, color: UIColor.clearColor(), size: mapTexture.size())
     setup()
@@ -37,14 +37,14 @@ class MapObject: GameObject {
   }
   
   private func setupEmitters() {
-    if let rainParticles = AssetManager.sharedInstance.getEmitter(Particle.rain) {
+    if let rainParticles = AssetManager.getEmitter(Particle.rain) {
       rainParticles.zPosition = zPositions.mapObjects
       rainParticles.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
       rainParticles.particlePositionRange = CGVector(dx: frame.width, dy: frame.height)
       addChild(rainParticles)
     }
     
-    if let fireParticles = AssetManager.sharedInstance.getEmitter(Particle.fire) {
+    if let fireParticles = AssetManager.getEmitter(Particle.fire) {
       fireParticles.zPosition = zPositions.mapObjects
       fireParticles.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
       addChild(fireParticles)

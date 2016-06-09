@@ -10,7 +10,7 @@ import SpriteKit
 
 class Player: Character {
   init() {
-    let texture = AssetManager.sharedInstance.heroTexture
+    let texture = AssetManager.heroTexture
     super.init(texture: texture, color: UIColor.whiteColor(), size: texture.size())
     setup()
   }

@@ -11,58 +11,32 @@ import SpriteKit
 class EmitterGenerator {
   static let sharedInstance = EmitterGenerator()
   
-  func getDissipationEmitter() -> SKEmitterNode? {
-    if let dissipateEmitter = AssetManager.sharedInstance.getEmitter(Particle.dissipate) {
-      dissipateEmitter.zPosition = zPositions.mapObjects
+  func getEmitter(particle: String, wait1: Double, wait2: Double) -> SKEmitterNode? {
+    if let emitter = AssetManager.getEmitter(particle) {
+      emitter.zPosition = zPositions.mapObjects
       
-      let waitAction = SKAction.waitForDuration(0.1)
-      let stopAction = SKAction.runBlock({
-        dissipateEmitter.particleBirthRate = 0
-      })
-      let wait2Action = SKAction.waitForDuration(3)
+      let waitAction = SKAction.waitForDuration(wait1)
+      let stopAction = SKAction.runBlock({ emitter.particleBirthRate = 0 })
+      let wait2Action = SKAction.waitForDuration(wait2)
       let removeAction = SKAction.removeFromParent()
-      dissipateEmitter.runAction(SKAction.sequence([waitAction, stopAction, wait2Action, removeAction]))
+      emitter.runAction(SKAction.sequence([waitAction, stopAction, wait2Action, removeAction]))
       
-      return dissipateEmitter
+      return emitter
     }
-
+    
     return nil
+  }
+  
+  func getDissipationEmitter() -> SKEmitterNode? {
+    return getEmitter(Particle.dissipate, wait1: 0.1, wait2: 3)
   }
   
   func getEnemyDeathEmitter() -> SKEmitterNode? {
-    if let deathEmitter = AssetManager.sharedInstance.getEmitter(Particle.enemyDeath) {
-      deathEmitter.zPosition = zPositions.mapObjects
-      
-      let waitAction = SKAction.waitForDuration(0.3)
-      let stopAction = SKAction.runBlock({
-        deathEmitter.particleBirthRate = 0
-      })
-      let wait2Action = SKAction.waitForDuration(2.0)
-      let removeAction = SKAction.removeFromParent()
-      deathEmitter.runAction(SKAction.sequence([waitAction, stopAction, wait2Action, removeAction]))
-      
-      return deathEmitter
-    }
-    
-    return nil
+    return getEmitter(Particle.dissipate, wait1: 0.3, wait2: 2.0)
   }
   
   func getLevelUpEmitter() -> SKEmitterNode? {
-    if let levelUpEmitter = AssetManager.sharedInstance.getEmitter(Particle.levelUp) {
-      levelUpEmitter.zPosition = zPositions.mapObjects
-      
-      let waitAction = SKAction.waitForDuration(1)
-      let stopAction = SKAction.runBlock({
-        levelUpEmitter.particleBirthRate = 0
-      })
-      let wait2Action = SKAction.waitForDuration(3)
-      let removeAction = SKAction.removeFromParent()
-      levelUpEmitter.runAction(SKAction.sequence([waitAction, stopAction, wait2Action, removeAction]))
-      
-      return levelUpEmitter
-    }
-    
-    return nil
+    return getEmitter(Particle.dissipate, wait1: 1, wait2: 3)
   }
   
 }

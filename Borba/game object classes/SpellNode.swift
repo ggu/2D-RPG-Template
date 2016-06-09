@@ -62,7 +62,7 @@ class SpellNode: GameObject {
   }
   
   private func setupEmitter() {
-    if let emitter = AssetManager.sharedInstance.getSpellEmitter(spellName) {
+    if let emitter = AssetManager.getSpellEmitter(spellName) {
       emitter.zPosition = zPositions.mapObjects
       emitter.position = CGPointZero
       addChild(emitter)
