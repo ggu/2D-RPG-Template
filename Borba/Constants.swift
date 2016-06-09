@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreGraphics
+import SpriteKit
 
 typealias JoystickValues = (CGFloat, CGFloat, CGFloat)
 typealias SpellString = String
@@ -45,6 +46,12 @@ enum zPositions {
   static let thumbstick: CGFloat = 4
   static let UIObjects: CGFloat = 5
   static let UIMenus: CGFloat = 6
+}
+
+enum Color {
+  static let hpBar = UIColor(red: 0.164, green: 0.592, blue: 0.286, alpha: 1)
+  static let energyBar = UIColor(red: 0.353, green: 0.659, blue: 0.812, alpha: 1)
+  static let resourceFrame = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
 }
 
 let PlayerStartingPosition = CGPoint(x: 300, y: 160)

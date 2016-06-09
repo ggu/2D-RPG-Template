@@ -27,11 +27,11 @@ class HUD: SKSpriteNode {
   static let MaxResource = 1.0
   
   init(size: CGSize) {
-    healthFrame = ResourceBar(width: size.width, height: size.height, xPosition: 160, color: UIColor(red: 0.164, green: 0.592, blue: 0.286, alpha: 1))
-    energyFrame = ResourceBar(width: size.width, height: size.height, xPosition: 400, color: UIColor(red: 0.353, green: 0.659, blue: 0.812, alpha: 1))
+    healthFrame = ResourceBar(width: size.width, height: size.height, xPosition: 160, color: Color.hpBar)
+    energyFrame = ResourceBar(width: size.width, height: size.height, xPosition: 400, color: Color.energyBar)
     experienceFrame = ExperienceBar(width: size.width, height: size.height)
     levelFrame = LevelBar(width: size.width, height: size.height)
-    skillBar = SkillBar(color: UIColor.clearColor(), size: CGSize(width: 30, height: 100))
+    skillBar = SkillBar(color: UIColor.clearColor(), size: CGSize(width: 40, height: 120))
     
     super.init(texture: nil, color: UIColor.clearColor(), size: size)
     
@@ -89,7 +89,7 @@ class HUD: SKSpriteNode {
     killCountLabel.fontSize = 16
     killCountLabel.fontName = "Copperplate"
     killCountLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-    killCountLabel.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 40)
+    killCountLabel.position = CGPoint(x: frame.size.width / 2, y: frame.size.height - 40)
     killCountLabel.zPosition = zPositions.UIObjects
     killCountLabel.alpha = 0
     addChild(killCountLabel)

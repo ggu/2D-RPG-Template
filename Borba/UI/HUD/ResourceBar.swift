@@ -11,12 +11,12 @@ import SpriteKit
 class ResourceBar: SKSpriteNode {
   var resourceMeter: SKSpriteNode = SKSpriteNode(texture: nil, color: UIColor.greenColor(), size: CGSize(width: 192, height: 14))
   init(width: CGFloat, height: CGFloat, xPosition: CGFloat, color: UIColor) {
-    super.init(texture: nil, color: UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1), size: CGSize(width: 200, height: 16))
+    super.init(texture: nil, color: Color.resourceFrame, size: CGSize(width: 200, height: 16))
     setup(width, height: height, xPosition: xPosition, color: color)
   }
   
   private func setup(width: CGFloat, height: CGFloat, xPosition: CGFloat, color: UIColor) {
-    let yPos = height - size.height/2
+    let yPos = height - size.height / 2
     position = CGPoint(x: xPosition, y: yPos)
     zPosition = 10
     
