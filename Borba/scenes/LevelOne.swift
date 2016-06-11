@@ -172,7 +172,8 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  private func spawnEnemies(var enemies: [EnemySprite]) {
+  private func spawnEnemies(enemies: [EnemySprite]) {
+    var enemies = enemies
     if enemies.count >= 1 {
       let spawnAction = SKAction.runBlock({
         if let enemy = enemies.popLast() {
