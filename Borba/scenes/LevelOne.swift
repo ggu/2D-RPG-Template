@@ -11,13 +11,13 @@ import SpriteKit
 final class LevelOne: SKScene, SKPhysicsContactDelegate {
   var width: CGFloat
   var height: CGFloat
-  let player = Player()
+  let player = PlayerSprite()
   let cameraNode = CameraNode()
-  let map = MapObject(map: MapObject.Level.demo)
+  let map = MapSprite(map: MapSprite.Level.demo)
   let hud: HUD
-  var enemies: [Enemy] = []
+  var enemies: [EnemySprite] = []
   var playerEnemyInContact = false
-  var enemiesInContact: [Enemy] = []
+  var enemiesInContact: [EnemySprite] = []
   var enemiesKilled = 0
   var playerModel = PlayerModel.newGame()
   var enemiesModel = EnemiesModel.newGame()
@@ -46,7 +46,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func loadEnemies() {
-    enemyGenerator.generateEnemies({ (enemies: [Enemy]) in
+    enemyGenerator.generateEnemies({ (enemies: [EnemySprite]) in
       self.spawnEnemies(enemies)
     })
   }
@@ -102,17 +102,17 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     let bodyB = contact.bodyB
     
     if bodyA.categoryBitMask == CategoryBitMasks.hero {
-      if let enemy = bodyB.node as? Enemy {
+      if let enemy = bodyB.node as? EnemySprite {
         contactEnded(enemy)
       }
     } else if bodyB.categoryBitMask == CategoryBitMasks.hero {
-      if let enemy = bodyA.node as? Enemy {
+      if let enemy = bodyA.node as? EnemySprite {
         contactEnded(enemy)
       }
     }
   }
   
-  private func contactEnded(enemy: Enemy) {
+  private func contactEnded(enemy: EnemySprite) {
     enemy.inContactWithPlayer = false
     removeEnemyFromEnemiesInContact(enemy)
     
@@ -172,7 +172,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  private func spawnEnemies(var enemies: [Enemy]) {
+  private func spawnEnemies(var enemies: [EnemySprite]) {
     if enemies.count >= 1 {
       let spawnAction = SKAction.runBlock({
         if let enemy = enemies.popLast() {
@@ -193,7 +193,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func handleSpellAndEnemyContact(enemyNode: SKNode?, spellNode: SKNode?, penetrates: Bool) {
-    if let enemy = enemyNode as? Enemy {
+    if let enemy = enemyNode as? EnemySprite {
       if !penetrates {
         let spell = spellNode as? SpellNode
         spell?.fizzleOut()
@@ -204,13 +204,13 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func handlePlayerAndEnemyContact(enemyNode: SKNode?) {
-    if let enemy = enemyNode as? Enemy {
+    if let enemy = enemyNode as? EnemySprite {
       damagePlayerAndEnemy(enemy)
       putEnemyInContact(enemy)
     }
   }
   
-  private func putEnemyInContact(enemy: Enemy) {
+  private func putEnemyInContact(enemy: EnemySprite) {
     if !enemiesInContact.contains(enemy) {
       enemiesInContact.append(enemy)
     }
@@ -222,7 +222,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   // MARK: - Player and Enemy Death Helpers
   
-  private func removeEnemyFromEnemiesInContact(enemy: Enemy) {
+  private func removeEnemyFromEnemiesInContact(enemy: EnemySprite) {
     if enemiesInContact.contains(enemy) {
       if let index = enemiesInContact.indexOf(enemy) {
         enemiesInContact.removeAtIndex(index)
@@ -290,7 +290,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   // MARK: Player and Enemy damage
   
-  private func damagePlayerAndEnemy(enemy: Enemy) {
+  private func damagePlayerAndEnemy(enemy: EnemySprite) {
     playerModel.takeDamage(enemiesModel.getAttackValue(enemy.name!))
     enemiesModel.takeDamage(enemy.name!, damage: playerModel.getAttack())
 
@@ -359,7 +359,7 @@ extension LevelOne: EnemiesModelDelegate {
     }
   }
   
-  private func enemyDeathSequence(enemy: Enemy) {
+  private func enemyDeathSequence(enemy: EnemySprite) {
     runAction(SKAction.playSoundFileNamed(SoundFile.zombieDeath, waitForCompletion: false))
     enemyDeath(enemy)
     updateGameStateAfterEnemyDeath()
@@ -389,7 +389,7 @@ extension LevelOne: EnemiesModelDelegate {
     }
   }
   
-  private func enemyDeath(enemy: Enemy) {
+  private func enemyDeath(enemy: EnemySprite) {
     animateDeath(enemy.position)
     
     removeEnemyFromEnemiesInContact(enemy)

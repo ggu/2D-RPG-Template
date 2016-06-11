@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Enemy: Character {
+class EnemySprite: Sprite {
   var inContactWithPlayer = false
   
   init() {

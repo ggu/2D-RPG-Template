@@ -1,5 +1,5 @@
 //
-//  Character.swift
+//  File.swift
 //  Borba
 //
 //  Created by Gabriel Uribe on 7/25/15.
@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Character: GameObject {
+class Sprite: SKSpriteNode {
   override init(texture: SKTexture?, color: UIColor, size: CGSize) {
     super.init(texture: texture, color: color, size: size)
   }

@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Player: Character {
+class PlayerSprite: Sprite {
   init() {
     let texture = AssetManager.heroTexture
     super.init(texture: texture, color: UIColor.whiteColor(), size: texture.size())

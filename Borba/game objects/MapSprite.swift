@@ -8,8 +8,7 @@
 
 import SpriteKit
 
-class MapObject: GameObject {
-  
+class MapSprite: Sprite {
   enum Level {
     case demo
     case main

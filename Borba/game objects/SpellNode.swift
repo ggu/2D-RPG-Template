@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class SpellNode: GameObject {
+class SpellNode: Sprite {
   private enum Size {
     static let fireball = CGSize(width: 30, height: 30)
     static let arcaneBolt = CGSize(width: 20, height: 20)

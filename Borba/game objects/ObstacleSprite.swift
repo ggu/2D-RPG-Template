@@ -14,6 +14,6 @@ Any Obstacle has:
 - break level (how difficult it is to destroy this object to remove from map and potentially uncover hidden item i.e. potion)
 */
 
-class Obstacle: GameObject {
+class ObstacleSprite: Sprite {
   
 }

@@ -8,10 +8,10 @@
 
 import SpriteKit
 
-typealias Block = ([Enemy]) -> Void
+typealias Block = ([EnemySprite]) -> Void
 
 final class EnemyGenerator {
-  private var enemies: [Enemy] = []
+  private var enemies: [EnemySprite] = []
   private var difficultyCounter = 1
   private var numEnemies = 10
   
@@ -27,7 +27,7 @@ final class EnemyGenerator {
       self.enemies.removeAll()
       
       for _ in 0..<self.numEnemies {
-        self.enemies.append(Enemy())
+        self.enemies.append(EnemySprite())
       }
       self.incrementNumEnemiesForNextRound()
       
