@@ -9,7 +9,6 @@
 import SpriteKit
 
 final class LevelOne: SKScene, SKPhysicsContactDelegate {
-  let player = PlayerSprite()
   let cameraNode = CameraNode()
   let map = MapSprite(map: MapSprite.Level.demo)
   let hud: HUD
@@ -17,7 +16,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   var playerEnemyInContact = false
   var enemiesInContact: [EnemySprite] = []
   var enemiesKilled = 0
-  var playerModel = Player.newGame()
+  var player = Player.newGame()
   var enemiesModel = Enemies.newGame()
   var enemyGenerator = EnemyGenerator.newGame()
   
@@ -62,14 +61,14 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupProperties() {
-    playerModel.delegate = self
+    player.delegate = self
     enemiesModel.delegate = self
     view?.multipleTouchEnabled = true
     physicsWorld.contactDelegate = self
   }
   
   private func setupPlayer() {
-    map.addChild(player)
+    map.addChild(player.sprite)
   }
   
   private func setupCamera() {
@@ -94,7 +93,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     let bodyB = contact.bodyB
     
     handleGameObjectContact(bodyA, bodyB: bodyB)
-    hud.updateHealthFrame(playerModel.getRemainingHealthFraction())
+    hud.updateHealthFrame(player.getRemainingHealthFraction())
   }
   
   func didEndContact(contact: SKPhysicsContact) {
@@ -141,8 +140,8 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   private func updateEnemies() {
       for enemy in enemies {
-        let distance = getDistance(enemy.position, point2: player.position)
-        enemy.handleSpriteMovement(player.position, duration: distance / Double(enemiesModel.getMovementSpeed(enemy.name!)))
+        let distance = getDistance(enemy.position, point2: player.sprite.position)
+        enemy.handleSpriteMovement(player.sprite.position, duration: distance / Double(enemiesModel.getMovementSpeed(enemy.name!)))
       }
   }
   
@@ -154,20 +153,20 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   private func playerJoysticsUpdate() {
     let (moveJoystickValues, skillJoystickValues) = hud.getJoystickValues()
-    player.position = playerModel.getNewPlayerPosition(moveJoystickValues.0, vY: moveJoystickValues.1, angle: moveJoystickValues.2, pos: player.position)
+    player.sprite.position = player.getNewPlayerPosition(moveJoystickValues.0, vY: moveJoystickValues.1, angle: moveJoystickValues.2, pos: player.sprite.position)
     if (skillJoystickValues.0 == 0 && skillJoystickValues.1 == 0) {
-      player.updateDirection(moveJoystickValues.2)
+      player.sprite.updateDirection(moveJoystickValues.2)
     } else {
-      player.updateDirection(skillJoystickValues.2)
-      if playerModel.canUseSpell() {
+      player.sprite.updateDirection(skillJoystickValues.2)
+      if player.canUseSpell() {
         useSpell()
       }
     }
   }
   
   private func updateHUD() {
-    hud.updateEnergyFrame(playerModel.getRemainingManaFraction())
-    hud.updateHealthFrame(playerModel.getRemainingHealthFraction())
+    hud.updateEnergyFrame(player.getRemainingManaFraction())
+    hud.updateHealthFrame(player.getRemainingHealthFraction())
   }
   
   private func updatePlayerEnemyConditions() {
@@ -184,7 +183,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
       let spawnAction = SKAction.runBlock({
         if let enemy = enemies.popLast() {
           self.enemiesModel.addEnemy(enemy.name!)
-          enemy.position = self.enemiesModel.getEnemySpawnPosition(self.player.position, mapSize: self.map.size)
+          enemy.position = self.enemiesModel.getEnemySpawnPosition(self.player.sprite.position, mapSize: self.map.size)
           self.enemies.append(enemy)
           self.map.addChild(enemy)
         }
@@ -206,7 +205,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
         spell?.fizzleOut()
       }
       onSpellHitEffects(enemy.position)
-      enemiesModel.takeDamage(enemy.name!, damage: playerModel.activeSpell.damage * playerModel.getSpellDamageModifier())
+      enemiesModel.takeDamage(enemy.name!, damage: player.activeSpell.damage * player.getSpellDamageModifier())
     }
   }
   
@@ -250,11 +249,11 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   private func useSpell() {
     let spellSprite: SKSpriteNode
     let action: SKAction
-    (spellSprite, action) = playerModel.handleSpellCast(player.zRotation)
-    spellSprite.position = player.position
-    player.runAction(action)
+    (spellSprite, action) = player.handleSpellCast(player.sprite.zRotation)
+    spellSprite.position = player.sprite.position
+    player.sprite.runAction(action)
     
-    switch playerModel.activeSpell.spellName {
+    switch player.activeSpell.spellName {
     case .lightning:
       useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.lightningStorm)
     case .fireball:
@@ -284,8 +283,8 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   // MARK: - Low level calculations/helpers
   private func regenPlayerResources() {
-    playerModel.regenMana()
-    playerModel.regenHealth()
+    player.regenMana()
+    player.regenHealth()
   }
   
   private func enemiesAreInContact() -> Bool {
@@ -294,7 +293,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   // MARK: Player damage
   private func damagePlayer(enemy: EnemySprite) {
-    playerModel.takeDamage(enemiesModel.getAttackValue(enemy.name!))
+    player.takeDamage(enemiesModel.getAttackValue(enemy.name!))
   }
   
   // MARK: - Player and Enemy Visuals
@@ -306,11 +305,11 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   // MARK: - Camera
   private func updateCamera() {
-    if (player.position.x > size.width / 2 && player.position.x < (map.size.width - size.width / 2)) {
-      self.cameraNode.position = CGPoint(x: player.position.x - frame.size.width/2, y: cameraNode.position.y);
+    if (player.sprite.position.x > size.width / 2 && player.sprite.position.x < (map.size.width - size.width / 2)) {
+      self.cameraNode.position = CGPoint(x: player.sprite.position.x - frame.size.width/2, y: cameraNode.position.y);
     }
-    if (player.position.y > frame.size.height / 2 && player.position.y < (map.size.height - size.height / 2)) {
-      self.cameraNode.position = CGPoint(x: cameraNode.position.x, y: player.position.y - size.height / 2);
+    if (player.sprite.position.y > frame.size.height / 2 && player.sprite.position.y < (map.size.height - size.height / 2)) {
+      self.cameraNode.position = CGPoint(x: cameraNode.position.x, y: player.sprite.position.y - size.height / 2);
     }
     
     cameraNode.center()
@@ -324,7 +323,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
 // MARK: - Extensions
 extension LevelOne: HUDDelegate {
   func skillButtonTouched(skillName: SpellString) {
-    playerModel.setActiveSkill(skillName)
+    player.setActiveSkill(skillName)
   }
 }
 

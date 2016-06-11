@@ -19,6 +19,7 @@ class Player {
   var activeSpellOnCooldown = false
   var delegate: PlayerDelegate?
   var spellList: [String: Spell]
+  let sprite = PlayerSprite()
   
   private init() {
     (activeSpell, spellList) = spellManager.getInitialPlayerSpells()

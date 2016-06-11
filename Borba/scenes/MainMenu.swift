@@ -16,19 +16,11 @@ final class MainMenu: SKScene, SKButtonDelegate {
     setup()
   }
   
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-
-  }
-  
-  override func update(currentTime: CFTimeInterval) {
-    
-  }
+  override func update(currentTime: CFTimeInterval) {}
   
   func setup() {
     setupProperties()
-    
     setupBackgroud()
-    
     setupButtons()
   }
   
@@ -55,13 +47,6 @@ final class MainMenu: SKScene, SKButtonDelegate {
     settingsButton.position = CGPoint(x: width! / 2, y: height! / 3)
     settingsButton.delegate = self
     addChild(settingsButton)
-  }
-  
-  func setupLeaderboardButton() {
-    let sprite = SKSpriteNode(texture: nil, color: UIColor.redColor(), size: CGSize(width: 100, height: 100))
-    sprite.position = CGPoint(x: 200, y: 100)
-    sprite.zPosition = 2
-    addChild(sprite)
   }
   
   func setupProperties() {
