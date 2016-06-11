@@ -20,17 +20,17 @@ class PlayerSprite: Sprite {
   }
   
   private func setup() {
-    properties()
-    physics()
-    lightSource()
+    setupProperties()
+    setupPhysics()
+    setupLightSource()
   }
   
-  private func properties() {
+  private func setupProperties() {
     position = PlayerStartingPosition
     zPosition = zPositions.mapObjects
   }
   
-  private func physics() {
+  private func setupPhysics() {
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.affectedByGravity = false
     physicsBody?.mass = 1
@@ -38,7 +38,7 @@ class PlayerSprite: Sprite {
     physicsBody?.collisionBitMask = CategoryBitMasks.map | CategoryBitMasks.enemy
   }
   
-  private func lightSource() {
+  private func setupLightSource() {
     let lightNode = SKLightNode()
     
     lightNode.enabled = true

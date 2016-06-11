@@ -113,15 +113,7 @@ class Player {
     return stats.getRemainingHealthFraction()
   }
   
-  func getRemainingExpFraction() -> Double {
-    return stats.getRemainingExpFraction()
-  }
-  
   func getSpellDamageModifier() -> Double {
     return stats.spellDamageModifier
-  }
-  
-  func gainExp(exp: Double) {
-    stats.gainExp(exp)
   }
 }

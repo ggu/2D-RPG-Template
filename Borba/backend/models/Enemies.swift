@@ -29,7 +29,7 @@ class Enemies {
   }
   
   func addEnemy(id: EnemyID) {
-    enemies[id] = Enemy(expValue: ExpValue.enemy, difficultyCounter: difficultyCounter)
+    enemies[id] = Enemy(difficultyCounter: difficultyCounter)
   }
   
   func removeEnemy(id: EnemyID) {
@@ -63,17 +63,6 @@ class Enemies {
     }
     
     return attackValue
-  }
-  
-  func getExpValue(id: EnemyID) -> Double {
-    let expValue: Double
-    if let enemy = enemies[id] {
-      expValue = enemy.getExpValue()
-    } else {
-      expValue = ExpValue.enemy
-    }
-    
-    return expValue
   }
   
   func newRound(enemies: [EnemyID]) {

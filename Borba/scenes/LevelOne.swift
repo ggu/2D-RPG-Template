@@ -9,8 +9,6 @@
 import SpriteKit
 
 final class LevelOne: SKScene, SKPhysicsContactDelegate {
-  var width: CGFloat
-  var height: CGFloat
   let player = PlayerSprite()
   let cameraNode = CameraNode()
   let map = MapSprite(map: MapSprite.Level.demo)
@@ -25,24 +23,27 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   override init(size: CGSize) {
     hud = HUD(size: size)
-    width = size.width
-    height = size.height
+    
     super.init(size: size)
   }
   
   // MARK: Setup functions
   override func didMoveToView(view: SKView) {
-    setup()
+    newGame()
   }
   
-  private func setup() {
+  private func newGame() {
     setupProperties()
     setupMap()
     setupHUD()
     setupPlayer()
-    runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed(SoundFile.music, waitForCompletion: true)))
+    setupBackgroundMusic()
     setupCamera()
     loadEnemies()
+  }
+  
+  private func setupBackgroundMusic() {
+    runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed(SoundFile.music, waitForCompletion: true)))
   }
   
   private func loadEnemies() {
@@ -76,7 +77,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   // MARK: - Update
-  
   override func update(currentTime: CFTimeInterval) {
     updatePlayerState()
     updateEnemies()
@@ -148,7 +148,11 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   private func updatePlayerState() {
     regenPlayerResources()
-    
+    playerJoysticsUpdate()
+    updateHUD()
+  }
+  
+  private func playerJoysticsUpdate() {
     let (moveJoystickValues, skillJoystickValues) = hud.getJoystickValues()
     player.position = playerModel.getNewPlayerPosition(moveJoystickValues.0, vY: moveJoystickValues.1, angle: moveJoystickValues.2, pos: player.position)
     if (skillJoystickValues.0 == 0 && skillJoystickValues.1 == 0) {
@@ -159,7 +163,9 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
         useSpell()
       }
     }
-    
+  }
+  
+  private func updateHUD() {
     hud.updateEnergyFrame(playerModel.getRemainingManaFraction())
     hud.updateHealthFrame(playerModel.getRemainingHealthFraction())
   }
@@ -167,7 +173,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   private func updatePlayerEnemyConditions() {
     if playerEnemyInContact {
       for enemy in enemiesInContact {
-        damagePlayerAndEnemy(enemy)
+        damagePlayer(enemy)
       }
     }
   }
@@ -206,7 +212,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   private func handlePlayerAndEnemyContact(enemyNode: SKNode?) {
     if let enemy = enemyNode as? EnemySprite {
-      damagePlayerAndEnemy(enemy)
+      damagePlayer(enemy)
       putEnemyInContact(enemy)
     }
   }
@@ -222,7 +228,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   
   // MARK: - Player and Enemy Death Helpers
-  
   private func removeEnemyFromEnemiesInContact(enemy: EnemySprite) {
     if enemiesInContact.contains(enemy) {
       if let index = enemiesInContact.indexOf(enemy) {
@@ -242,7 +247,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   // MARK: - Spells
-  
   private func useSpell() {
     let spellSprite: SKSpriteNode
     let action: SKAction
@@ -279,7 +283,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   // MARK: - Low level calculations/helpers
-  
   private func regenPlayerResources() {
     playerModel.regenMana()
     playerModel.regenHealth()
@@ -289,16 +292,12 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     return !enemiesInContact.isEmpty
   }
   
-  // MARK: Player and Enemy damage
-  
-  private func damagePlayerAndEnemy(enemy: EnemySprite) {
+  // MARK: Player damage
+  private func damagePlayer(enemy: EnemySprite) {
     playerModel.takeDamage(enemiesModel.getAttackValue(enemy.name!))
-    enemiesModel.takeDamage(enemy.name!, damage: playerModel.getAttack())
-
   }
   
   // MARK: - Player and Enemy Visuals
-  
   private func onSpellHitEffects(position: CGPoint) {
     if let dissipateEmitter = EmitterGenerator.getDissipationEmitter() {
       map.addChild(dissipateEmitter, position: position)
@@ -307,11 +306,11 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   // MARK: - Camera
   private func updateCamera() {
-    if (player.position.x > frame.size.width/2 && player.position.x < (map.size.width - frame.size.width/2)) {
+    if (player.position.x > size.width / 2 && player.position.x < (map.size.width - size.width / 2)) {
       self.cameraNode.position = CGPoint(x: player.position.x - frame.size.width/2, y: cameraNode.position.y);
     }
-    if (player.position.y > frame.size.height/2 && player.position.y < (map.size.height - frame.size.height/2)) {
-      self.cameraNode.position = CGPoint(x: cameraNode.position.x, y: player.position.y - frame.size.height/2);
+    if (player.position.y > frame.size.height / 2 && player.position.y < (map.size.height - size.height / 2)) {
+      self.cameraNode.position = CGPoint(x: cameraNode.position.x, y: player.position.y - size.height / 2);
     }
     
     cameraNode.center()
@@ -323,7 +322,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
 }
 
 // MARK: - Extensions
-
 extension LevelOne: HUDDelegate {
   func skillButtonTouched(skillName: SpellString) {
     playerModel.setActiveSkill(skillName)
@@ -385,6 +383,5 @@ extension LevelOne: EnemiesDelegate {
     
     enemy.physicsBody = nil
     enemy.runAction(SKAction.fadeOutWithDuration(0.2))
-    playerModel.gainExp(enemiesModel.getExpValue(enemy.name!))
   }
 }

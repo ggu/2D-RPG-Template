@@ -11,8 +11,8 @@ import CoreGraphics
 class Enemy {
   private var stats: EnemyStats
 
-  init(expValue: Double, difficultyCounter: Int) {
-    stats = EnemyStats(expValue: expValue, difficultyCounter: Double(difficultyCounter))
+  init(difficultyCounter: Int) {
+    stats = EnemyStats(difficultyCounter: Double(difficultyCounter))
   }
   
   func isEnemyDead() -> Bool {
@@ -25,10 +25,6 @@ class Enemy {
   
   func takeDamage(damage: Double) {
     stats.health -= damage
-  }
-  
-  func getExpValue() -> Double {
-    return stats.expValue
   }
   
   func getAttackValue() -> Double {

@@ -36,13 +36,6 @@ class MapSprite: Sprite {
   }
   
   private func setupEmitters() {
-    if let rainParticles = AssetManager.getEmitter(Particle.rain) {
-      rainParticles.zPosition = zPositions.mapObjects
-      rainParticles.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
-      rainParticles.particlePositionRange = CGVector(dx: frame.width, dy: frame.height)
-      addChild(rainParticles)
-    }
-    
     if let fireParticles = AssetManager.getEmitter(Particle.fire) {
       fireParticles.zPosition = zPositions.mapObjects
       fireParticles.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
