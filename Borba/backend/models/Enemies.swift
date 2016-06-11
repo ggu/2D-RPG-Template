@@ -8,28 +8,28 @@
 
 import CoreGraphics
 
-protocol EnemiesModelDelegate {
+protocol EnemiesDelegate {
   func enemyDeathSequence(id: EnemyID)
 }
 
-class EnemiesModel {
+class Enemies {
   private enum ExpValue {
     static let enemy = 10.0
   }
   
-  var delegate: EnemiesModelDelegate?
+  var delegate: EnemiesDelegate?
   
-  private var enemies = [EnemyID: EnemyModel]()
+  private var enemies = [EnemyID: Enemy]()
   private var difficultyCounter = 1
   
   private init() {}
   
-  class func newGame() -> EnemiesModel {
-    return EnemiesModel()
+  class func newGame() -> Enemies {
+    return Enemies()
   }
   
   func addEnemy(id: EnemyID) {
-    enemies[id] = EnemyModel(expValue: ExpValue.enemy, difficultyCounter: difficultyCounter)
+    enemies[id] = Enemy(expValue: ExpValue.enemy, difficultyCounter: difficultyCounter)
   }
   
   func removeEnemy(id: EnemyID) {
@@ -47,7 +47,7 @@ class EnemiesModel {
     difficultyCounter += 1
   }
   
-  func checkForDeath(enemy: EnemyModel, id: EnemyID) {
+  func checkForDeath(enemy: Enemy, id: EnemyID) {
     if enemy.isEnemyDead() {
       removeEnemy(id)
       delegate?.enemyDeathSequence(id)

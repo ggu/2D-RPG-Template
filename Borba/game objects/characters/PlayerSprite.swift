@@ -15,7 +15,7 @@ class PlayerSprite: Sprite {
     setup()
   }
   
-  func changeDirection(angle: CGFloat) {
+  func updateDirection(angle: CGFloat) {
     zRotation = angle + CGFloat(M_PI)
   }
   
@@ -55,7 +55,7 @@ class PlayerSprite: Sprite {
     addChild(lightNode)
   }
   
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  required convenience init?(coder aDecoder: NSCoder) {
+    self.init()
   }
 }

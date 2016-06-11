@@ -19,8 +19,8 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   var playerEnemyInContact = false
   var enemiesInContact: [EnemySprite] = []
   var enemiesKilled = 0
-  var playerModel = PlayerModel.newGame()
-  var enemiesModel = EnemiesModel.newGame()
+  var playerModel = Player.newGame()
+  var enemiesModel = Enemies.newGame()
   var enemyGenerator = EnemyGenerator.newGame()
   
   override init(size: CGSize) {
@@ -152,9 +152,9 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     let (moveJoystickValues, skillJoystickValues) = hud.getJoystickValues()
     player.position = playerModel.getNewPlayerPosition(moveJoystickValues.0, vY: moveJoystickValues.1, angle: moveJoystickValues.2, pos: player.position)
     if (skillJoystickValues.0 == 0 && skillJoystickValues.1 == 0) {
-      player.changeDirection(moveJoystickValues.2)
+      player.updateDirection(moveJoystickValues.2)
     } else {
-      player.changeDirection(skillJoystickValues.2)
+      player.updateDirection(skillJoystickValues.2)
       if playerModel.canUseSpell() {
         useSpell()
       }
@@ -337,7 +337,7 @@ extension LevelOne: HUDDelegate {
 }
 
 
-extension LevelOne: PlayerModelDelegate {
+extension LevelOne: PlayerDelegate {
   func playerDeath() {
     let scene = MainMenu(size: view!.bounds.size)
     
@@ -351,7 +351,7 @@ extension LevelOne: PlayerModelDelegate {
   }
 }
 
-extension LevelOne: EnemiesModelDelegate {
+extension LevelOne: EnemiesDelegate {
   func enemyDeathSequence(id: EnemyID) {
     for enemy in enemies {
       if enemy.name! == id {

@@ -25,8 +25,7 @@ class EnemySprite: Sprite {
       removeAllActions()
     }
     
-    let radians = CGFloat(getRadiansBetweenTwoPoints(position, secondPoint: destinationPos))
-    zRotation = radians
+    zRotation = CGFloat(getRadiansBetweenTwoPoints(position, secondPoint: destinationPos))
   }
   
   private func setup() {
@@ -36,18 +35,21 @@ class EnemySprite: Sprite {
   
   private func setupProperties() {
     zPosition = zPositions.mapObjects
-    
+    physics()
+    lightingBitMask = 1
+    shadowCastBitMask = 1
+  }
+  
+  private func physics() {
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.categoryBitMask = CategoryBitMasks.enemy
     physicsBody?.collisionBitMask = CategoryBitMasks.hero
     physicsBody?.contactTestBitMask = CategoryBitMasks.hero
     physicsBody?.affectedByGravity = false
     physicsBody?.mass = 100
-    lightingBitMask = 1
-    shadowCastBitMask = 1
   }
   
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  required convenience init?(coder aDecoder: NSCoder) {
+    self.init()
   }
 }

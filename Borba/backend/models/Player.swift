@@ -8,25 +8,25 @@
 
 import SpriteKit
 
-protocol PlayerModelDelegate {
+protocol PlayerDelegate {
   func playerDeath()
   func playerLeveledUp()
 }
 
-class PlayerModel {
+class Player {
   private var spellManager = SpellManager.newGame()
   private var stats = PlayerStats()
   var activeSpell: Spell
   var activeSpellOnCooldown = false
-  var delegate: PlayerModelDelegate?
+  var delegate: PlayerDelegate?
   var spellList: [String: Spell]
   
   private init() {
     (activeSpell, spellList) = spellManager.getInitialPlayerSpells()
   }
   
-  class func newGame() -> PlayerModel {
-    return PlayerModel()
+  class func newGame() -> Player {
+    return Player()
   }
   
   func getNewPlayerPosition(vX: CGFloat, vY: CGFloat, angle: CGFloat, pos: CGPoint) -> CGPoint {

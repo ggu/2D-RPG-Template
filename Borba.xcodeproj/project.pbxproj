@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		761CA19A1C966A73003D2943 /* ice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 761CA1991C966A73003D2943 /* ice@2x.png */; };
 		76225FA41B23CCDC00D36B3D /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76225FA31B23CCDC00D36B3D /* GameController.swift */; };
-		7627D0CC1C8D65F20015C4FF /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627D0CB1C8D65F20015C4FF /* PlayerModel.swift */; };
-		7627D0CE1C8D6A580015C4FF /* EnemiesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627D0CD1C8D6A580015C4FF /* EnemiesModel.swift */; };
+		7627D0CC1C8D65F20015C4FF /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627D0CB1C8D65F20015C4FF /* Player.swift */; };
+		7627D0CE1C8D6A580015C4FF /* Enemies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627D0CD1C8D6A580015C4FF /* Enemies.swift */; };
 		7627D0D01C8D72E90015C4FF /* EmitterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627D0CF1C8D72E90015C4FF /* EmitterGenerator.swift */; };
 		764495371D08FEBA00FAF38B /* CameraNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764495361D08FEBA00FAF38B /* CameraNode.swift */; };
 		768C3C6D1C8AB14000FD74EE /* SpellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768C3C6C1C8AB14000FD74EE /* SpellManager.swift */; };
-		769536301C90AF9C008B83AA /* EnemyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7695362F1C90AF9C008B83AA /* EnemyModel.swift */; };
+		769536301C90AF9C008B83AA /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7695362F1C90AF9C008B83AA /* Enemy.swift */; };
 		769536321C90B012008B83AA /* EnemyStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769536311C90B012008B83AA /* EnemyStats.swift */; };
 		7699347B1C81573000F967A5 /* enemy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 769934411C81573000F967A5 /* enemy@2x.png */; };
 		7699347C1C81573000F967A5 /* hero@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 769934421C81573000F967A5 /* hero@2x.png */; };
@@ -88,12 +88,12 @@
 /* Begin PBXFileReference section */
 		761CA1991C966A73003D2943 /* ice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ice@2x.png"; sourceTree = "<group>"; };
 		76225FA31B23CCDC00D36B3D /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
-		7627D0CB1C8D65F20015C4FF /* PlayerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
-		7627D0CD1C8D6A580015C4FF /* EnemiesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemiesModel.swift; sourceTree = "<group>"; };
+		7627D0CB1C8D65F20015C4FF /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		7627D0CD1C8D6A580015C4FF /* Enemies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemies.swift; sourceTree = "<group>"; };
 		7627D0CF1C8D72E90015C4FF /* EmitterGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmitterGenerator.swift; sourceTree = "<group>"; };
 		764495361D08FEBA00FAF38B /* CameraNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraNode.swift; sourceTree = "<group>"; };
 		768C3C6C1C8AB14000FD74EE /* SpellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpellManager.swift; sourceTree = "<group>"; };
-		7695362F1C90AF9C008B83AA /* EnemyModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyModel.swift; sourceTree = "<group>"; };
+		7695362F1C90AF9C008B83AA /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		769536311C90B012008B83AA /* EnemyStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyStats.swift; sourceTree = "<group>"; };
 		769934411C81573000F967A5 /* enemy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enemy@2x.png"; sourceTree = "<group>"; };
 		769934421C81573000F967A5 /* hero@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hero@2x.png"; sourceTree = "<group>"; };
@@ -176,15 +176,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7627D0C81C8D659B0015C4FF /* model */ = {
+		7627D0C81C8D659B0015C4FF /* models */ = {
 			isa = PBXGroup;
 			children = (
 				769536331C90B02D008B83AA /* stats */,
-				7627D0CB1C8D65F20015C4FF /* PlayerModel.swift */,
-				7627D0CD1C8D6A580015C4FF /* EnemiesModel.swift */,
-				7695362F1C90AF9C008B83AA /* EnemyModel.swift */,
+				7627D0CB1C8D65F20015C4FF /* Player.swift */,
+				7627D0CD1C8D6A580015C4FF /* Enemies.swift */,
+				7695362F1C90AF9C008B83AA /* Enemy.swift */,
 			);
-			path = model;
+			path = models;
 			sourceTree = "<group>";
 		};
 		769536331C90B02D008B83AA /* stats */ = {
@@ -292,7 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				7699346E1C81573000F967A5 /* structs */,
-				7627D0C81C8D659B0015C4FF /* model */,
+				7627D0C81C8D659B0015C4FF /* models */,
 				7699346C1C81573000F967A5 /* AssetManager.swift */,
 				7627D0CF1C8D72E90015C4FF /* EmitterGenerator.swift */,
 				7699346D1C81573000F967A5 /* EnemyGenerator.swift */,
@@ -527,7 +527,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7627D0CC1C8D65F20015C4FF /* PlayerModel.swift in Sources */,
+				7627D0CC1C8D65F20015C4FF /* Player.swift in Sources */,
 				76C3C61E1C907A2F00B6D7E5 /* Stats.swift in Sources */,
 				768C3C6D1C8AB14000FD74EE /* SpellManager.swift in Sources */,
 				7699349F1C81573000F967A5 /* MainMenu.swift in Sources */,
@@ -536,7 +536,7 @@
 				769934A11C81573000F967A5 /* EnemyGenerator.swift in Sources */,
 				769934A31C81573000F967A5 /* ExperienceBar.swift in Sources */,
 				76C3C61C1C90756200B6D7E5 /* PlayerStats.swift in Sources */,
-				769536301C90AF9C008B83AA /* EnemyModel.swift in Sources */,
+				769536301C90AF9C008B83AA /* Enemy.swift in Sources */,
 				769934A91C81573000F967A5 /* SKJoystick.swift in Sources */,
 				76AEE0451B229299003A276A /* Constants.swift in Sources */,
 				769934A71C81573000F967A5 /* SkillBar.swift in Sources */,
@@ -560,7 +560,7 @@
 				769536321C90B012008B83AA /* EnemyStats.swift in Sources */,
 				76C3C61A1C90735300B6D7E5 /* SKNodeExtension.swift in Sources */,
 				7699349E1C81573000F967A5 /* LevelOne.swift in Sources */,
-				7627D0CE1C8D6A580015C4FF /* EnemiesModel.swift in Sources */,
+				7627D0CE1C8D6A580015C4FF /* Enemies.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
