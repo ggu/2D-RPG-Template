@@ -9,55 +9,47 @@
 import SpriteKit
 
 enum Particle {
-  static let Fireball = "Fireball"
-  static let ArcaneBolt = "Slimebolt"
-  static let LightningStorm = "LightningBall"
+  static let fireball = "Fireball"
+  static let arcaneBolt = "Slimebolt"
+  static let lightningStorm = "LightningBall"
   
-  static let Rain = "Rain"
-  static let Fire = "Fire"
-  static let Dissipate = "Dissipate"
-  static let LevelUp = "LevelUp"
-  static let EnemyDeath = "Death"
+  static let rain = "Rain"
+  static let fire = "Fire"
+  static let dissipate = "Dissipate"
+  static let levelUp = "LevelUp"
+  static let enemyDeath = "Death"
 }
 
 final class AssetManager {
   private enum ImagePath {
-    static let MainMap = "ice.jpg"
-    static let Enemy = "enemy.png"
-    static let Hero = "hero.png"
+    static let mainMap = "ice.png"
+    static let enemy = "enemy.png"
+    static let hero = "hero.png"
   }
   
-  static let sharedInstance = AssetManager()
+  static let heroTexture = SKTexture(imageNamed: ImagePath.hero)
+  static let enemyTexture = SKTexture(imageNamed: ImagePath.enemy)
+  static let mapTexture = SKTexture(imageNamed: ImagePath.mainMap)
   
-  let heroTexture = SKTexture(imageNamed: ImagePath.Hero)
-  let enemyTexture = SKTexture(imageNamed: ImagePath.Enemy)
-  let mapTexture = SKTexture(imageNamed: ImagePath.MainMap)
+  private static var arcaneBoltParticles = AssetManager.loadParticles(Particle.arcaneBolt)
+  private static var fireballParticles = AssetManager.loadParticles(Particle.fireball)
+  private static var lightningStormParticles = AssetManager.loadParticles(Particle.lightningStorm)
   
-  private var arcaneBoltParticles: SKEmitterNode? = nil
-  private var fireballParticles: SKEmitterNode? = nil
-  private var lightningStormParticles: SKEmitterNode? = nil
-  
-  private init() {
-    arcaneBoltParticles = loadParticles(Particle.ArcaneBolt)
-    fireballParticles = loadParticles(Particle.Fireball)
-    lightningStormParticles = loadParticles(Particle.LightningStorm)
-  }
-  
-  func getEmitter(particle: String) -> SKEmitterNode? {
+  static func getEmitter(particle: String) -> SKEmitterNode? {
     return loadParticles(particle)
   }
   
   // MARK: Spell Assets
   
-  func getSpellEmitter(spell: Spell.Name) -> SKEmitterNode? {
+  static func getSpellEmitter(spell: Spell.Name) -> SKEmitterNode? {
     var emitter: SKEmitterNode? = nil
     
     switch spell {
-    case .Fireball:
+    case .fireball:
       emitter = fireballParticles?.copy() as? SKEmitterNode
-    case .ArcaneBolt:
+    case .arcaneBolt:
       emitter = arcaneBoltParticles?.copy() as? SKEmitterNode
-    case .Lightning:
+    case .lightning:
       emitter = lightningStormParticles?.copy() as? SKEmitterNode
     }
     
@@ -65,7 +57,7 @@ final class AssetManager {
   }
   
   // MARK: Utilities
-  private func loadParticles(resource: String) -> SKEmitterNode? {
+  private static func loadParticles(resource: String) -> SKEmitterNode? {
     var particles: SKEmitterNode? = nil
     if let myParticlePath = NSBundle.mainBundle().pathForResource(resource, ofType: "sks") {
       particles = NSKeyedUnarchiver.unarchiveObjectWithFile(myParticlePath) as! SKEmitterNode?

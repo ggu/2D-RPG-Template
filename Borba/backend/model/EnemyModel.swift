@@ -9,7 +9,6 @@
 import CoreGraphics
 
 class EnemyModel {
-
   private var stats: EnemyStats
 
   init(expValue: Double, difficultyCounter: Int) {

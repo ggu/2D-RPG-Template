@@ -15,7 +15,7 @@ protocol SkillButtonDelegate {
 class SkillButton: SKSpriteNode {
   var active = false
   var delegate: SkillButtonDelegate?
-  var spell: SpellString = Spell.String.Fireball
+  var spell: SpellString = Spell.String.fireball
   
   init(spell: Spell.Name, color: UIColor, size: CGSize) {
     super.init(texture: nil, color: color, size: size)
@@ -27,15 +27,15 @@ class SkillButton: SKSpriteNode {
     let labelNode : SKLabelNode
     
     switch spellName {
-    case .Fireball:
+    case .fireball:
       labelNode = SKLabelNode(text: "1")
-      spell = Spell.String.Fireball
-    case .ArcaneBolt:
+      spell = Spell.String.fireball
+    case .arcaneBolt:
       labelNode = SKLabelNode(text: "2")
-      spell = Spell.String.ArcaneBolt
-    case .Lightning:
+      spell = Spell.String.arcaneBolt
+    case .lightning:
       labelNode = SKLabelNode(text: "3")
-      spell = Spell.String.LightningBolt
+      spell = Spell.String.lightningBolt
     }
     labelNode.fontName = "Copperplate"
     labelNode.fontSize = 16

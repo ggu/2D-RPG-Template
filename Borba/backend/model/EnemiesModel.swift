@@ -14,7 +14,7 @@ protocol EnemiesModelDelegate {
 
 class EnemiesModel {
   private enum ExpValue {
-    static let Enemy = 10.0
+    static let enemy = 10.0
   }
   
   var delegate: EnemiesModelDelegate?
@@ -29,7 +29,7 @@ class EnemiesModel {
   }
   
   func addEnemy(id: EnemyID) {
-    enemies[id] = EnemyModel(expValue: ExpValue.Enemy, difficultyCounter: difficultyCounter)
+    enemies[id] = EnemyModel(expValue: ExpValue.enemy, difficultyCounter: difficultyCounter)
   }
   
   func removeEnemy(id: EnemyID) {
@@ -70,7 +70,7 @@ class EnemiesModel {
     if let enemy = enemies[id] {
       expValue = enemy.getExpValue()
     } else {
-      expValue = ExpValue.Enemy
+      expValue = ExpValue.enemy
     }
     
     return expValue

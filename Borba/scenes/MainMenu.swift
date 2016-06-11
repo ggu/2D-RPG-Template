@@ -44,14 +44,14 @@ final class MainMenu: SKScene, SKButtonDelegate {
   }
   
   func setupPlayButton() {
-    let playButton = SKButton(color: UIColor.redColor(), text: "Play", tag: SKButton.Tag.MainMenuPlay)
+    let playButton = SKButton(color: UIColor.redColor(), text: "Play", tag: SKButton.Tag.mainMenuPlay)
     playButton.position = CGPoint(x: width! / 2, y: height! * 2 / 3)
     playButton.delegate = self
     addChild(playButton)
   }
   
   func setupSettingsButton() {
-    let settingsButton = SKButton(color: UIColor.redColor(), text: "Settings", tag: SKButton.Tag.MainMenuSettings)
+    let settingsButton = SKButton(color: UIColor.redColor(), text: "Settings", tag: SKButton.Tag.mainMenuSettings)
     settingsButton.position = CGPoint(x: width! / 2, y: height! / 3)
     settingsButton.delegate = self
     addChild(settingsButton)
@@ -71,12 +71,12 @@ final class MainMenu: SKScene, SKButtonDelegate {
   
   func buttonTapped(tag: SKButton.Tag) {
     switch tag {
-    case .MainMenuPlay:
+    case .mainMenuPlay:
       let scene = LevelOne(size: view!.bounds.size)
       
       scene.scaleMode = .ResizeFill
       view!.presentScene(scene, transition: SKTransition.crossFadeWithDuration(1.0))
-    case .MainMenuSettings:
+    case .mainMenuSettings:
       print("tapped settings button")
     }
   }

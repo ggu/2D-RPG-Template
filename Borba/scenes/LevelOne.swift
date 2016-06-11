@@ -11,13 +11,13 @@ import SpriteKit
 final class LevelOne: SKScene, SKPhysicsContactDelegate {
   var width: CGFloat
   var height: CGFloat
-  let player = Player()
-  let cameraNode = SKNode()
-  let map = MapObject(map: MapObject.Level.Demo)
+  let player = PlayerSprite()
+  let cameraNode = CameraNode()
+  let map = MapSprite(map: MapSprite.Level.demo)
   let hud: HUD
-  var enemies: [Enemy] = []
+  var enemies: [EnemySprite] = []
   var playerEnemyInContact = false
-  var enemiesInContact: [Enemy] = []
+  var enemiesInContact: [EnemySprite] = []
   var enemiesKilled = 0
   var playerModel = PlayerModel.newGame()
   var enemiesModel = EnemiesModel.newGame()
@@ -36,27 +36,22 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setup() {
-    playerModel.delegate = self
-    enemiesModel.delegate = self
-    view?.multipleTouchEnabled = true
-    physicsWorld.contactDelegate = self
-    
     setupProperties()
     setupMap()
     setupHUD()
     setupPlayer()
-    runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed(SoundFile.Music, waitForCompletion: true)))
+    runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed(SoundFile.music, waitForCompletion: true)))
     setupCamera()
     loadEnemies()
   }
   
   private func loadEnemies() {
-    let enemies = enemyGenerator.generateEnemies()
-    spawnEnemies(enemies)
+    enemyGenerator.generateEnemies({ (enemies: [EnemySprite]) in
+      self.spawnEnemies(enemies)
+    })
   }
   
   private func setupHUD() {
-    hud.zPosition = zPositions.UIObjects
     hud.delegate = self
     addChild(hud)
   }
@@ -66,8 +61,10 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupProperties() {
-    width = scene!.size.width
-    height = scene!.size.height
+    playerModel.delegate = self
+    enemiesModel.delegate = self
+    view?.multipleTouchEnabled = true
+    physicsWorld.contactDelegate = self
   }
   
   private func setupPlayer() {
@@ -75,7 +72,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupCamera() {
-    cameraNode.name = "camera"
     map.addChild(cameraNode)
   }
   
@@ -84,7 +80,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   override func update(currentTime: CFTimeInterval) {
     updatePlayerState()
     updateEnemies()
-    
     updatePlayerEnemyConditions()
   }
   
@@ -106,18 +101,18 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     let bodyA = contact.bodyA
     let bodyB = contact.bodyB
     
-    if bodyA.categoryBitMask == CategoryBitMasks.Hero {
-      if let enemy = bodyB.node as? Enemy {
+    if bodyA.categoryBitMask == CategoryBitMasks.hero {
+      if let enemy = bodyB.node as? EnemySprite {
         contactEnded(enemy)
       }
-    } else if bodyB.categoryBitMask == CategoryBitMasks.Hero {
-      if let enemy = bodyA.node as? Enemy {
+    } else if bodyB.categoryBitMask == CategoryBitMasks.hero {
+      if let enemy = bodyA.node as? EnemySprite {
         contactEnded(enemy)
       }
     }
   }
   
-  private func contactEnded(enemy: Enemy) {
+  private func contactEnded(enemy: EnemySprite) {
     enemy.inContactWithPlayer = false
     removeEnemyFromEnemiesInContact(enemy)
     
@@ -127,46 +122,28 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func handleGameObjectContact(bodyA: SKPhysicsBody, bodyB: SKPhysicsBody) {
-    if bodyA.categoryBitMask == CategoryBitMasks.Hero {
-      if let enemy = bodyB.node as? Enemy {
-        handlePlayerAndEnemyContact(enemy)
-      }
-    } else if bodyB.categoryBitMask == CategoryBitMasks.Hero {
-      if let enemy = bodyA.node as? Enemy {
-        handlePlayerAndEnemyContact(enemy)
-      }
-    } else if bodyA.categoryBitMask == CategoryBitMasks.Spell {
-      let spell = bodyA.node as? SpellNode
-      spell?.fizzleOut()
-      if let enemy = bodyB.node as? Enemy {
-        onSpellHitEffects(enemy.position)
-        handleSpellAndEnemyContact(enemy)
-      }
-    } else if bodyB.categoryBitMask == CategoryBitMasks.Spell {
-      let spell = bodyB.node as? SpellNode
-      spell?.fizzleOut()
-      if let enemy = bodyA.node as? Enemy {
-        onSpellHitEffects(enemy.position)
-        handleSpellAndEnemyContact(enemy)
-      }
-    } else if bodyA.categoryBitMask == CategoryBitMasks.PenetratingSpell {
-      if let enemy = bodyB.node as? Enemy {
-        handleSpellAndEnemyContact(enemy)
-      }
-    } else if bodyB.categoryBitMask == CategoryBitMasks.PenetratingSpell {
-      if let enemy = bodyA.node as? Enemy {
-        handleSpellAndEnemyContact(enemy)
-      }
+    if bodyA.categoryBitMask == CategoryBitMasks.hero {
+      handlePlayerAndEnemyContact(bodyB.node)
+    } else if bodyB.categoryBitMask == CategoryBitMasks.hero {
+      handlePlayerAndEnemyContact(bodyA.node)
+    } else if bodyA.categoryBitMask == CategoryBitMasks.spell {
+      handleSpellAndEnemyContact(bodyB.node, spellNode: bodyA.node, penetrates: false)
+    } else if bodyB.categoryBitMask == CategoryBitMasks.spell {
+      handleSpellAndEnemyContact(bodyA.node, spellNode: bodyB.node, penetrates: false)
+    } else if bodyA.categoryBitMask == CategoryBitMasks.penetratingSpell {
+      handleSpellAndEnemyContact(bodyB.node, spellNode: nil, penetrates: true)
+    } else if bodyB.categoryBitMask == CategoryBitMasks.penetratingSpell {
+      handleSpellAndEnemyContact(bodyA.node, spellNode: nil, penetrates: true)
     }
   }
   
   // MARK: - Player and Enemy High Level Logic
   
   private func updateEnemies() {
-    for enemy in enemies {
-      let distance = getDistance(enemy.position, point2: player.position)
-      enemy.handleSpriteMovement(player.position, duration: distance / Double(enemiesModel.getMovementSpeed(enemy.name!)))
-    }
+      for enemy in enemies {
+        let distance = getDistance(enemy.position, point2: player.position)
+        enemy.handleSpriteMovement(player.position, duration: distance / Double(enemiesModel.getMovementSpeed(enemy.name!)))
+      }
   }
   
   private func updatePlayerState() {
@@ -195,7 +172,8 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  private func spawnEnemies(var enemies: [Enemy]) {
+  private func spawnEnemies(enemies: [EnemySprite]) {
+    var enemies = enemies
     if enemies.count >= 1 {
       let spawnAction = SKAction.runBlock({
         if let enemy = enemies.popLast() {
@@ -215,16 +193,25 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  private func handleSpellAndEnemyContact(enemy: Enemy) {
-    enemiesModel.takeDamage(enemy.name!, damage: playerModel.activeSpell.damage * playerModel.getSpellDamageModifier())
+  private func handleSpellAndEnemyContact(enemyNode: SKNode?, spellNode: SKNode?, penetrates: Bool) {
+    if let enemy = enemyNode as? EnemySprite {
+      if !penetrates {
+        let spell = spellNode as? SpellNode
+        spell?.fizzleOut()
+      }
+      onSpellHitEffects(enemy.position)
+      enemiesModel.takeDamage(enemy.name!, damage: playerModel.activeSpell.damage * playerModel.getSpellDamageModifier())
+    }
   }
   
-  private func handlePlayerAndEnemyContact(enemy: Enemy) {
-    damagePlayerAndEnemy(enemy)
-    putEnemyInContact(enemy)
+  private func handlePlayerAndEnemyContact(enemyNode: SKNode?) {
+    if let enemy = enemyNode as? EnemySprite {
+      damagePlayerAndEnemy(enemy)
+      putEnemyInContact(enemy)
+    }
   }
   
-  private func putEnemyInContact(enemy: Enemy) {
+  private func putEnemyInContact(enemy: EnemySprite) {
     if !enemiesInContact.contains(enemy) {
       enemiesInContact.append(enemy)
     }
@@ -236,7 +223,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   // MARK: - Player and Enemy Death Helpers
   
-  private func removeEnemyFromEnemiesInContact(enemy: Enemy) {
+  private func removeEnemyFromEnemiesInContact(enemy: EnemySprite) {
     if enemiesInContact.contains(enemy) {
       if let index = enemiesInContact.indexOf(enemy) {
         enemiesInContact.removeAtIndex(index)
@@ -248,7 +235,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func animateDeath(position: CGPoint) {
-    if let deathEmitter = EmitterGenerator.sharedInstance.getEnemyDeathEmitter() {
+    if let deathEmitter = EmitterGenerator.getEnemyDeathEmitter() {
       deathEmitter.position = position
       map.addChild(deathEmitter)
     }
@@ -264,12 +251,12 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     player.runAction(action)
     
     switch playerModel.activeSpell.spellName {
-    case .Lightning:
-      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.LightningStorm)
-    case .Fireball:
-      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.Fireball)
-    case .ArcaneBolt:
-      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.ArcaneBolt)
+    case .lightning:
+      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.lightningStorm)
+    case .fireball:
+      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.fireball)
+    case .arcaneBolt:
+      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.arcaneBolt)
     }
     map.addChild(spellSprite)
   }
@@ -304,7 +291,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   // MARK: Player and Enemy damage
   
-  private func damagePlayerAndEnemy(enemy: Enemy) {
+  private func damagePlayerAndEnemy(enemy: EnemySprite) {
     playerModel.takeDamage(enemiesModel.getAttackValue(enemy.name!))
     enemiesModel.takeDamage(enemy.name!, damage: playerModel.getAttack())
 
@@ -313,13 +300,13 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   // MARK: - Player and Enemy Visuals
   
   private func onSpellHitEffects(position: CGPoint) {
-    if let dissipateEmitter = EmitterGenerator.sharedInstance.getDissipationEmitter() {
+    if let dissipateEmitter = EmitterGenerator.getDissipationEmitter() {
       map.addChild(dissipateEmitter, position: position)
     }
   }
   
   private func levelUpEffects() {
-    if let levelUpEmitter = EmitterGenerator.sharedInstance.getLevelUpEmitter() {
+    if let levelUpEmitter = EmitterGenerator.getLevelUpEmitter() {
       map.addChild(levelUpEmitter, position: player.position)
     }
   }
@@ -333,16 +320,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
       self.cameraNode.position = CGPoint(x: cameraNode.position.x, y: player.position.y - frame.size.height/2);
     }
     
-    centerOnNode(cameraNode)
-  }
-  
-  private func centerOnNode(node: SKNode) {
-    let cameraPositionInScene: CGPoint = node.scene!.convertPoint(node.position, fromNode: node.parent!)
-    
-    let xPos = node.parent!.position.x - cameraPositionInScene.x
-    let yPos = node.parent!.position.y - cameraPositionInScene.y
-    
-    node.parent?.position = CGPoint(x: xPos, y: yPos);
+    cameraNode.center()
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -369,7 +347,7 @@ extension LevelOne: PlayerModelDelegate {
   
   func playerLeveledUp() {
       levelUpEffects()
-      hud.levelUp(String(playerModel.getLevel()))
+      //hud.levelUp(String(playerModel.getLevel()))
   }
 }
 
@@ -382,8 +360,8 @@ extension LevelOne: EnemiesModelDelegate {
     }
   }
   
-  private func enemyDeathSequence(enemy: Enemy) {
-    runAction(SKAction.playSoundFileNamed(SoundFile.ZombieDeath, waitForCompletion: false))
+  private func enemyDeathSequence(enemy: EnemySprite) {
+    runAction(SKAction.playSoundFileNamed(SoundFile.zombieDeath, waitForCompletion: false))
     enemyDeath(enemy)
     updateGameStateAfterEnemyDeath()
   }
@@ -391,11 +369,12 @@ extension LevelOne: EnemiesModelDelegate {
   private func updateGameStateAfterEnemyDeath() {
     enemiesKilled += 1
     
-    playerModel.checkIfLeveledUp()
+    // uncomment below to readd level up mechanics to game (remember to readd EXP UI too)
+    //playerModel.checkIfLeveledUp()
     checkIfBeginNextRound()
     
     hud.updateKillCount(enemiesKilled)
-    hud.updateExperienceFrameFrame(playerModel.getRemainingExpFraction())
+    //hud.updateExperienceFrameFrame(playerModel.getRemainingExpFraction())
   }
   
   private func checkIfBeginNextRound() {
@@ -411,7 +390,7 @@ extension LevelOne: EnemiesModelDelegate {
     }
   }
   
-  private func enemyDeath(enemy: Enemy) {
+  private func enemyDeath(enemy: EnemySprite) {
     animateDeath(enemy.position)
     
     removeEnemyFromEnemiesInContact(enemy)

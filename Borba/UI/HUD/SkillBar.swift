@@ -16,7 +16,7 @@ class SkillBar: SKSpriteNode, SkillButtonDelegate {
   private let boxHeight: CGFloat
   private let boxMargin: CGFloat
   private var arcaneBolt: SkillButton
-  private var currentSkill = Spell.String.Fireball
+  private var currentSkill = Spell.String.fireball
   private var fireball: SkillButton
   private var lightningbolt: SkillButton
   private var skills: [SkillButton]
@@ -26,9 +26,9 @@ class SkillBar: SKSpriteNode, SkillButtonDelegate {
     boxHeight = size.height / 3 * 0.8
     boxMargin = size.height - (size.height / 3 * 0.8)*3
     
-    fireball = SkillButton(spell: Spell.Name.Fireball, color: UIColor.redColor(), size: CGSize(width: size.width * 0.9, height: boxHeight))
-    arcaneBolt = SkillButton(spell: Spell.Name.ArcaneBolt, color: UIColor.redColor(), size: CGSize(width: size.width * 0.9, height: boxHeight))
-    lightningbolt = SkillButton(spell: Spell.Name.Lightning, color: UIColor.redColor(), size: CGSize(width: size.width * 0.9, height: boxHeight))
+    fireball = SkillButton(spell: Spell.Name.fireball, color: UIColor.redColor(), size: CGSize(width: size.width * 0.9, height: boxHeight))
+    arcaneBolt = SkillButton(spell: Spell.Name.arcaneBolt, color: UIColor.redColor(), size: CGSize(width: size.width * 0.9, height: boxHeight))
+    lightningbolt = SkillButton(spell: Spell.Name.lightning, color: UIColor.redColor(), size: CGSize(width: size.width * 0.9, height: boxHeight))
     skills = [fireball, arcaneBolt, lightningbolt]
     
     super.init(texture: texture, color: color, size: size)
