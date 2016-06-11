@@ -13,6 +13,7 @@
 		7627D0CC1C8D65F20015C4FF /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627D0CB1C8D65F20015C4FF /* PlayerModel.swift */; };
 		7627D0CE1C8D6A580015C4FF /* EnemiesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627D0CD1C8D6A580015C4FF /* EnemiesModel.swift */; };
 		7627D0D01C8D72E90015C4FF /* EmitterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7627D0CF1C8D72E90015C4FF /* EmitterGenerator.swift */; };
+		764495371D08FEBA00FAF38B /* CameraNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764495361D08FEBA00FAF38B /* CameraNode.swift */; };
 		768C3C6D1C8AB14000FD74EE /* SpellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768C3C6C1C8AB14000FD74EE /* SpellManager.swift */; };
 		769536301C90AF9C008B83AA /* EnemyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7695362F1C90AF9C008B83AA /* EnemyModel.swift */; };
 		769536321C90B012008B83AA /* EnemyStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769536311C90B012008B83AA /* EnemyStats.swift */; };
@@ -93,6 +94,7 @@
 		7627D0CB1C8D65F20015C4FF /* PlayerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
 		7627D0CD1C8D6A580015C4FF /* EnemiesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemiesModel.swift; sourceTree = "<group>"; };
 		7627D0CF1C8D72E90015C4FF /* EmitterGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmitterGenerator.swift; sourceTree = "<group>"; };
+		764495361D08FEBA00FAF38B /* CameraNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraNode.swift; sourceTree = "<group>"; };
 		768C3C6C1C8AB14000FD74EE /* SpellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpellManager.swift; sourceTree = "<group>"; };
 		7695362F1C90AF9C008B83AA /* EnemyModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyModel.swift; sourceTree = "<group>"; };
 		769536311C90B012008B83AA /* EnemyStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyStats.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				769934651C81573000F967A5 /* MapObject.swift */,
 				769934661C81573000F967A5 /* Obstacle.swift */,
 				769934671C81573000F967A5 /* SpellNode.swift */,
+				764495361D08FEBA00FAF38B /* CameraNode.swift */,
 				76C3C6191C90735300B6D7E5 /* SKNodeExtension.swift */,
 			);
 			path = "game object classes";
@@ -560,6 +563,7 @@
 				769934AA1C81573000F967A5 /* SKButton.swift in Sources */,
 				76AEE01E1B228EEC003A276A /* AppDelegate.swift in Sources */,
 				769934A41C81573000F967A5 /* HUD.swift in Sources */,
+				764495371D08FEBA00FAF38B /* CameraNode.swift in Sources */,
 				76225FA41B23CCDC00D36B3D /* GameController.swift in Sources */,
 				769536321C90B012008B83AA /* EnemyStats.swift in Sources */,
 				76C3C61A1C90735300B6D7E5 /* SKNodeExtension.swift in Sources */,

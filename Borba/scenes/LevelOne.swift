@@ -12,7 +12,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   var width: CGFloat
   var height: CGFloat
   let player = Player()
-  let cameraNode = SKNode()
+  let cameraNode = CameraNode()
   let map = MapObject(map: MapObject.Level.demo)
   let hud: HUD
   var enemies: [Enemy] = []
@@ -234,7 +234,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func animateDeath(position: CGPoint) {
-    if let deathEmitter = EmitterGenerator.sharedInstance.getEnemyDeathEmitter() {
+    if let deathEmitter = EmitterGenerator.getEnemyDeathEmitter() {
       deathEmitter.position = position
       map.addChild(deathEmitter)
     }
@@ -299,13 +299,13 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   // MARK: - Player and Enemy Visuals
   
   private func onSpellHitEffects(position: CGPoint) {
-    if let dissipateEmitter = EmitterGenerator.sharedInstance.getDissipationEmitter() {
+    if let dissipateEmitter = EmitterGenerator.getDissipationEmitter() {
       map.addChild(dissipateEmitter, position: position)
     }
   }
   
   private func levelUpEffects() {
-    if let levelUpEmitter = EmitterGenerator.sharedInstance.getLevelUpEmitter() {
+    if let levelUpEmitter = EmitterGenerator.getLevelUpEmitter() {
       map.addChild(levelUpEmitter, position: player.position)
     }
   }
@@ -319,16 +319,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
       self.cameraNode.position = CGPoint(x: cameraNode.position.x, y: player.position.y - frame.size.height/2);
     }
     
-    centerOnNode(cameraNode)
-  }
-  
-  private func centerOnNode(node: SKNode) {
-    let cameraPositionInScene: CGPoint = node.scene!.convertPoint(node.position, fromNode: node.parent!)
-    
-    let xPos = node.parent!.position.x - cameraPositionInScene.x
-    let yPos = node.parent!.position.y - cameraPositionInScene.y
-    
-    node.parent?.position = CGPoint(x: xPos, y: yPos);
+    cameraNode.center()
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -355,7 +346,7 @@ extension LevelOne: PlayerModelDelegate {
   
   func playerLeveledUp() {
       levelUpEffects()
-      hud.levelUp(String(playerModel.getLevel()))
+      //hud.levelUp(String(playerModel.getLevel()))
   }
 }
 
@@ -382,7 +373,7 @@ extension LevelOne: EnemiesModelDelegate {
     checkIfBeginNextRound()
     
     hud.updateKillCount(enemiesKilled)
-    hud.updateExperienceFrameFrame(playerModel.getRemainingExpFraction())
+    //hud.updateExperienceFrameFrame(playerModel.getRemainingExpFraction())
   }
   
   private func checkIfBeginNextRound() {

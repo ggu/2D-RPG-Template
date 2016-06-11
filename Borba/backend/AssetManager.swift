@@ -36,7 +36,7 @@ final class AssetManager {
   private static var lightningStormParticles = AssetManager.loadParticles(Particle.lightningStorm)
   
   static func getEmitter(particle: String) -> SKEmitterNode? {
-    return AssetManager.loadParticles(particle)
+    return loadParticles(particle)
   }
   
   // MARK: Spell Assets
@@ -46,11 +46,11 @@ final class AssetManager {
     
     switch spell {
     case .fireball:
-      emitter = AssetManager.fireballParticles?.copy() as? SKEmitterNode
+      emitter = fireballParticles?.copy() as? SKEmitterNode
     case .arcaneBolt:
-      emitter = AssetManager.arcaneBoltParticles?.copy() as? SKEmitterNode
+      emitter = arcaneBoltParticles?.copy() as? SKEmitterNode
     case .lightning:
-      emitter = AssetManager.lightningStormParticles?.copy() as? SKEmitterNode
+      emitter = lightningStormParticles?.copy() as? SKEmitterNode
     }
     
     return emitter

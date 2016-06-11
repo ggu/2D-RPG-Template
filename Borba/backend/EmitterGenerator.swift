@@ -9,9 +9,7 @@
 import SpriteKit
 
 class EmitterGenerator {
-  static let sharedInstance = EmitterGenerator()
-  
-  func getEmitter(particle: String, wait1: Double, wait2: Double) -> SKEmitterNode? {
+  static func getEmitter(particle: String, wait1: Double, wait2: Double) -> SKEmitterNode? {
     if let emitter = AssetManager.getEmitter(particle) {
       emitter.zPosition = zPositions.mapObjects
       
@@ -27,15 +25,15 @@ class EmitterGenerator {
     return nil
   }
   
-  func getDissipationEmitter() -> SKEmitterNode? {
+  static func getDissipationEmitter() -> SKEmitterNode? {
     return getEmitter(Particle.dissipate, wait1: 0.1, wait2: 3)
   }
   
-  func getEnemyDeathEmitter() -> SKEmitterNode? {
+  static func getEnemyDeathEmitter() -> SKEmitterNode? {
     return getEmitter(Particle.dissipate, wait1: 0.3, wait2: 2.0)
   }
   
-  func getLevelUpEmitter() -> SKEmitterNode? {
+  static func getLevelUpEmitter() -> SKEmitterNode? {
     return getEmitter(Particle.dissipate, wait1: 1, wait2: 3)
   }
   
