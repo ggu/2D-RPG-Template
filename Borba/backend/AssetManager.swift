@@ -16,7 +16,6 @@ enum Particle {
   static let rain = "Rain"
   static let fire = "Fire"
   static let dissipate = "Dissipate"
-  static let levelUp = "LevelUp"
   static let enemyDeath = "Death"
 }
 

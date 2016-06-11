@@ -32,9 +32,4 @@ class EmitterGenerator {
   static func getEnemyDeathEmitter() -> SKEmitterNode? {
     return getEmitter(Particle.dissipate, wait1: 0.3, wait2: 2.0)
   }
-  
-  static func getLevelUpEmitter() -> SKEmitterNode? {
-    return getEmitter(Particle.dissipate, wait1: 1, wait2: 3)
-  }
-  
 }

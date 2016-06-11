@@ -305,12 +305,6 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  private func levelUpEffects() {
-    if let levelUpEmitter = EmitterGenerator.getLevelUpEmitter() {
-      map.addChild(levelUpEmitter, position: player.position)
-    }
-  }
-  
   // MARK: - Camera
   private func updateCamera() {
     if (player.position.x > frame.size.width/2 && player.position.x < (map.size.width - frame.size.width/2)) {
@@ -344,11 +338,6 @@ extension LevelOne: PlayerDelegate {
     scene.scaleMode = .ResizeFill
     view!.presentScene(scene, transition: SKTransition.crossFadeWithDuration(1.0))
   }
-  
-  func playerLeveledUp() {
-      levelUpEffects()
-      //hud.levelUp(String(playerModel.getLevel()))
-  }
 }
 
 extension LevelOne: EnemiesDelegate {
@@ -368,13 +357,8 @@ extension LevelOne: EnemiesDelegate {
   
   private func updateGameStateAfterEnemyDeath() {
     enemiesKilled += 1
-    
-    // uncomment below to readd level up mechanics to game (remember to readd EXP UI too)
-    //playerModel.checkIfLeveledUp()
     checkIfBeginNextRound()
-    
     hud.updateKillCount(enemiesKilled)
-    //hud.updateExperienceFrameFrame(playerModel.getRemainingExpFraction())
   }
   
   private func checkIfBeginNextRound() {

@@ -10,7 +10,6 @@ import SpriteKit
 
 protocol PlayerDelegate {
   func playerDeath()
-  func playerLeveledUp()
 }
 
 class Player {
@@ -75,13 +74,6 @@ class Player {
     }
   }
   
-  func checkIfLeveledUp() {
-    if didLevelUp() {
-      stats.levelUp()
-      delegate?.playerLeveledUp()
-    }
-  }
-  
   func getAttack() -> Double {
     return stats.attack
   }
@@ -127,14 +119,6 @@ class Player {
   
   func getSpellDamageModifier() -> Double {
     return stats.spellDamageModifier
-  }
-  
-  func didLevelUp() -> Bool {
-    return stats.exp >= stats.expToLevel
-  }
-  
-  func getLevel() -> Int {
-    return stats.level
   }
   
   func gainExp(exp: Double) {

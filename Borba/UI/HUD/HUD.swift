@@ -17,10 +17,8 @@ class HUD: SKSpriteNode {
   let movementJoystick = SKJoystick(color: UIColor.redColor(), size: CGSize(width: 100, height: 100))
   let skillJoystick = SKJoystick(color: UIColor.redColor(), size: CGSize(width: 100, height: 100))
   private let energyFrame: ResourceBar
-  private let experienceFrame: ExperienceBar
   private let healthFrame: ResourceBar
   private let killCountLabel = SKLabelNode(text: "Kill Count: 0")
-  private let levelFrame: LevelBar
   private let skillBar : SkillBar
   var delegate: HUDDelegate?
 
@@ -29,19 +27,11 @@ class HUD: SKSpriteNode {
   init(size: CGSize) {
     healthFrame = ResourceBar(width: size.width, height: size.height, xPosition: 160, color: Color.hpBar)
     energyFrame = ResourceBar(width: size.width, height: size.height, xPosition: 400, color: Color.energyBar)
-    experienceFrame = ExperienceBar(width: size.width, height: size.height)
-    levelFrame = LevelBar(width: size.width, height: size.height)
     skillBar = SkillBar(color: UIColor.clearColor(), size: CGSize(width: 40, height: 120))
     
     super.init(texture: nil, color: UIColor.clearColor(), size: size)
     
     setup()
-  }
-  
-  func levelUp(playerLevel: String) {
-    updateHealthFrame(HUD.MaxResource)
-    updateEnergyFrame(HUD.MaxResource)
-    updateLevelFrame(playerLevel)
   }
   
   private func setup() {
@@ -99,16 +89,8 @@ class HUD: SKSpriteNode {
     energyFrame.setMeterScaleAnimated(CGFloat(manaFraction))
   }
   
-  func updateExperienceFrameFrame(expFraction: Double) {
-    experienceFrame.setMeterScale(CGFloat(expFraction))
-  }
-  
   func updateHealthFrame(healthFraction: Double) {
     healthFrame.setMeterScale(healthFraction)
-  }
-  
-  func updateLevelFrame(level: String) {
-    levelFrame.setLevel(level)
   }
 
   required init?(coder aDecoder: NSCoder) {
