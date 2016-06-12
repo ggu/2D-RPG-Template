@@ -13,10 +13,6 @@ protocol EnemiesDelegate {
 }
 
 class Enemies {
-  private enum ExpValue {
-    static let enemy = 10.0
-  }
-  
   var delegate: EnemiesDelegate?
   
   private var enemies = [EnemyID: Enemy]()

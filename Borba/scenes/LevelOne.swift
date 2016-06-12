@@ -16,7 +16,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   var playerEnemyInContact = false
   var enemiesInContact: [EnemySprite] = []
   var enemiesKilled = 0
-  var player = Player.newGame()
+  let unitManager = UnitManager.newGame()
   var enemiesModel = Enemies.newGame()
   var enemyGenerator = EnemyGenerator.newGame()
   
@@ -61,14 +61,14 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupProperties() {
-    player.delegate = self
+    unitManager.delegate = self
     enemiesModel.delegate = self
     view?.multipleTouchEnabled = true
     physicsWorld.contactDelegate = self
   }
   
   private func setupPlayer() {
-    map.addChild(player.sprite)
+    map.addChild(unitManager.player.sprite)
   }
   
   private func setupCamera() {
@@ -93,7 +93,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     let bodyB = contact.bodyB
     
     handleGameObjectContact(bodyA, bodyB: bodyB)
-    hud.updateHealthFrame(player.getRemainingHealthFraction())
+    hud.updateHealthFrame(unitManager.player.getRemainingHealthFraction())
   }
   
   func didEndContact(contact: SKPhysicsContact) {
@@ -140,33 +140,26 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   private func updateEnemies() {
       for enemy in enemies {
-        let distance = getDistance(enemy.position, point2: player.sprite.position)
-        enemy.handleSpriteMovement(player.sprite.position, duration: distance / Double(enemiesModel.getMovementSpeed(enemy.name!)))
+        let distance = getDistance(enemy.position, point2: unitManager.player.sprite.position)
+        enemy.handleSpriteMovement(unitManager.player.sprite.position, duration: distance / Double(enemiesModel.getMovementSpeed(enemy.name!)))
       }
   }
   
   private func updatePlayerState() {
-    regenPlayerResources()
-    playerJoysticsUpdate()
+    unitManager.regenPlayerResources()
+    playerJoystickUpdate()
     updateHUD()
   }
   
-  private func playerJoysticsUpdate() {
+  private func playerJoystickUpdate() {
     let (moveJoystickValues, skillJoystickValues) = hud.getJoystickValues()
-    player.sprite.position = player.getNewPlayerPosition(moveJoystickValues.0, vY: moveJoystickValues.1, angle: moveJoystickValues.2, pos: player.sprite.position)
-    if (skillJoystickValues.0 == 0 && skillJoystickValues.1 == 0) {
-      player.sprite.updateDirection(moveJoystickValues.2)
-    } else {
-      player.sprite.updateDirection(skillJoystickValues.2)
-      if player.canUseSpell() {
-        useSpell()
-      }
-    }
+    unitManager.playerJoysticsUpdate(moveJoystickValues, skillJoystickValues: skillJoystickValues)
+
   }
   
   private func updateHUD() {
-    hud.updateEnergyFrame(player.getRemainingManaFraction())
-    hud.updateHealthFrame(player.getRemainingHealthFraction())
+    hud.updateEnergyFrame(unitManager.player.getRemainingManaFraction())
+    hud.updateHealthFrame(unitManager.player.getRemainingHealthFraction())
   }
   
   private func updatePlayerEnemyConditions() {
@@ -183,7 +176,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
       let spawnAction = SKAction.runBlock({
         if let enemy = enemies.popLast() {
           self.enemiesModel.addEnemy(enemy.name!)
-          enemy.position = self.enemiesModel.getEnemySpawnPosition(self.player.sprite.position, mapSize: self.map.size)
+          enemy.position = self.enemiesModel.getEnemySpawnPosition(self.unitManager.player.sprite.position, mapSize: self.map.size)
           self.enemies.append(enemy)
           self.map.addChild(enemy)
         }
@@ -205,7 +198,7 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
         spell?.fizzleOut()
       }
       onSpellHitEffects(enemy.position)
-      enemiesModel.takeDamage(enemy.name!, damage: player.activeSpell.damage * player.getSpellDamageModifier())
+      enemiesModel.takeDamage(enemy.name!, damage: unitManager.player.activeSpell.damage * unitManager.player.getSpellDamageModifier())
     }
   }
   
@@ -245,55 +238,15 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  // MARK: - Spells
-  private func useSpell() {
-    let spellSprite: SKSpriteNode
-    let action: SKAction
-    (spellSprite, action) = player.handleSpellCast(player.sprite.zRotation)
-    spellSprite.position = player.sprite.position
-    player.sprite.runAction(action)
-    
-    switch player.activeSpell.spellName {
-    case .lightning:
-      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.lightningStorm)
-    case .fireball:
-      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.fireball)
-    case .arcaneBolt:
-      useLinearSpell(spellSprite, missileSpeed: Spell.MissileSpeeds.arcaneBolt)
-    }
-    map.addChild(spellSprite)
-  }
-  
-  private func useLinearSpell(spell: SKSpriteNode, missileSpeed: Double) {
-    var sign = 1
-    if hud.skillJoystick.thumbX < 0 {
-      sign = -1
-    }
-    let angle = getAngle(hud.skillJoystick.thumbY, adjacent: hud.skillJoystick.thumbX)
-    let (dx,dy) = getTriangleLegs(1000, angle: angle, sign: CGFloat(sign))
-    
-    let arbitraryPointFaraway = CGPoint(x: spell.position.x + dx, y: spell.position.y + dy)
-    let duration = getDistance(spell.position, point2: arbitraryPointFaraway) / missileSpeed
-    
-    let moveAction = SKAction.moveTo(arbitraryPointFaraway, duration: duration)
-    let removeAction = SKAction.removeFromParent()
-    let completeAction = SKAction.sequence([moveAction, removeAction])
-    spell.runAction(completeAction)
-  }
-  
   // MARK: - Low level calculations/helpers
-  private func regenPlayerResources() {
-    player.regenMana()
-    player.regenHealth()
-  }
-  
+
   private func enemiesAreInContact() -> Bool {
     return !enemiesInContact.isEmpty
   }
   
   // MARK: Player damage
   private func damagePlayer(enemy: EnemySprite) {
-    player.takeDamage(enemiesModel.getAttackValue(enemy.name!))
+    unitManager.player.takeDamage(enemiesModel.getAttackValue(enemy.name!))
   }
   
   // MARK: - Player and Enemy Visuals
@@ -305,11 +258,14 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
   
   // MARK: - Camera
   private func updateCamera() {
-    if (player.sprite.position.x > size.width / 2 && player.sprite.position.x < (map.size.width - size.width / 2)) {
-      self.cameraNode.position = CGPoint(x: player.sprite.position.x - frame.size.width/2, y: cameraNode.position.y);
+    let playerX = unitManager.player.sprite.position.x
+    let playerY = unitManager.player.sprite.position.y
+    
+    if (playerX > size.width / 2 && playerX < (map.size.width - size.width / 2)) {
+      self.cameraNode.position = CGPoint(x: playerX - frame.size.width / 2, y: cameraNode.position.y);
     }
-    if (player.sprite.position.y > frame.size.height / 2 && player.sprite.position.y < (map.size.height - size.height / 2)) {
-      self.cameraNode.position = CGPoint(x: cameraNode.position.x, y: player.sprite.position.y - size.height / 2);
+    if (playerY > frame.size.height / 2 && playerY < (map.size.height - size.height / 2)) {
+      self.cameraNode.position = CGPoint(x: cameraNode.position.x, y: playerY - size.height / 2);
     }
     
     cameraNode.center()
@@ -323,12 +279,15 @@ final class LevelOne: SKScene, SKPhysicsContactDelegate {
 // MARK: - Extensions
 extension LevelOne: HUDDelegate {
   func skillButtonTouched(skillName: SpellString) {
-    player.setActiveSkill(skillName)
+    unitManager.player.setActiveSkill(skillName)
   }
 }
 
-
-extension LevelOne: PlayerDelegate {
+extension LevelOne: UnitManagerDelegate {
+  func playerCastSpell(spell: SKSpriteNode) {
+    map.addChild(spell)
+  }
+  
   func playerDeath() {
     let scene = MainMenu(size: view!.bounds.size)
     
