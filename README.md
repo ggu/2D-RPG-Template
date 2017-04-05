@@ -5,8 +5,7 @@ Template for a 2D top down RPG written in Swift with SpriteKit.
 A recent playable version can be viewed here: https://www.youtube.com/watch?v=2uGMX0L7XMk
 
 ## Screenshot
-![Image of Screenshot]
-(https://github.com/ggu/2D-RPG-Boilerplate/blob/master/screenshot.jpg)
+<img src="https://github.com/ggu/2D-RPG-Template/blob/master/screenshot.jpg"/>
 
 ## Credits
 Map background: Jattenalle @ http://opengameart.org/node/10509
